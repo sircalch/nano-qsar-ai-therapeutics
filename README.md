@@ -1,5 +1,6 @@
 # Explainable AI and Quantum-Guided QSAR/QSPR Modeling of Triple-Negative Breast Cancer Therapeutics Loading on 2D Nanomaterials
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22187873.svg)](https://doi.org/10.5281/zenodo.22187873)
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![AutoDock Vina](https://img.shields.io/badge/Docking-AutoDock%20Vina-orange.svg)](https://github.com/ccsb-scripps/AutoDock-Vina)
@@ -74,6 +75,7 @@ python run_entire_study.py
   author={Monreal Hern{\'a}ndez, Andr{\'e}s and Franco Amaya, Sara Lizbeth and Mart{\'i}nez Osorio, Carlos Ivanhoe},
   journal={Beilstein Journal of Nanotechnology / Submitted},
   year={2026},
+  doi={10.5281/zenodo.22187873},
   url={https://github.com/sircalch/nano-qsar-ai-therapeutics}
 }
 ```
