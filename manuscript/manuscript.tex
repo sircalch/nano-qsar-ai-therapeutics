@@ -1,0 +1,86 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{authblk}
+
+\title{\textbf{Explainable AI and Quantum-Guided QSAR/QSPR Modeling of Triple-Negative Breast Cancer Therapeutics Conjugated to Functionalized Boron Nitride Nanocages}}
+
+\author[1,*]{Andr\'{e}s Monreal Hern\'{a}ndez}
+\author[2]{Sara Lizbeth Franco Amaya}
+\author[3]{Carlos Ivanhoe Mart\'{i}nez Osorio}
+
+\affil[1]{\small Universidad Estatal de Sonora, Hermosillo, Sonora, Mexico. ORCID: 0009-0009-1207-8597}
+\affil[2]{\small Doctorado en Nanotecnolog\'{i}a, Universidad de Sonora, Hermosillo, Sonora, Mexico. ORCID: 0009-0005-0272-0241}
+\affil[3]{\small Doctorado en Ciencia de Materiales, Universidad de Sonora, Hermosillo, Sonora, Mexico. ORCID: 0009-0003-7872-4965}
+\affil[*]{\small Corresponding author email: andres.monreal@ues.mx}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Triple-Negative Breast Cancer (TNBC) remains one of the most aggressive oncological malignancies due to the absence of estrogen, progesterone, and HER2 receptors. While small-molecule Poly(ADP-ribose) polymerase 1 (PARP1) inhibitors and chemotherapeutics offer clinical benefits, their utility is severely hindered by off-target toxicity, cardiotoxicity, and short half-lives. In this study, we present an integrated quantum chemical, molecular docking, and Explainable Artificial Intelligence (XAI) Quantitative Structure--Activity/Property Relationship (QSAR/QSPR) framework to evaluate the drug delivery capabilities of pristine Boron Nitride nanocages ($B_{36}N_{36}$) and carboxylated derivatives ($B_{36}N_{36}\text{-COOH}$) across a curated library of 42 anti-TNBC therapeutics. Electronic structure and Conceptual Density Functional Theory (CDFT) reactivity descriptors were computed at the dispersion-corrected tight-binding DFTB3 level. Molecular docking against the PARP1 catalytic domain revealed that while isolated drugs bind deeply within the catalytic pocket (mean docking score: $-10.14$~kcal/mol), conjugation with $B_{36}N_{36}$ and $B_{36}N_{36}\text{-COOH}$ systematically enhances target binding affinity to $-13.45$~kcal/mol and $-14.01$~kcal/mol, respectively, inducing a spatial relocation toward outer regulatory clefts and polar surface grooves. Machine learning regressor models (ExtraTrees, XGBoost) and Multiple Linear Regression (MLR) achieved Mean Absolute Percentage Errors (MAPE) of $3.14\%$--$4.54\%$ with $R^2 > 0.81$. Game-theoretic SHAP (SHapley Additive exPlanations) analysis identified nanocarrier adsorption energy ($\Delta E_{ads}$), aromatic ring count, polar surface area (PSA), and electronic chemical potential ($\mu$) as dominant biophysical drivers. Guided by AI feature rankings, compact, exportable, closed-form analytical MLR equations were formulated. These findings provide a theoretical blueprint for the rational development of biocompatible, non-carbonaceous boron nitride nanomedicines against TNBC.
+\end{abstract}
+
+\textbf{Keywords:} Boron nitride nanocage; $B_{36}N_{36}$; Triple-Negative Breast Cancer; PARP1; Drug delivery; Explainable AI; SHAP; QSAR/QSPR; Conceptual DFT.
+
+\section{Introduction}
+Breast cancer is the most frequently diagnosed cancer in women globally, with approximately 2.3 million new cases annually \cite{Giaquinto2022}. Triple-Negative Breast Cancer (TNBC) lacks estrogen receptor (ER), progesterone receptor (PR), and human epidermal growth factor receptor 2 (HER2), accounting for 15--20\% of all breast carcinomas and exhibiting high rates of recurrence and visceral metastasis \cite{Foulkes2010}.
+
+Because targeted endocrine and anti-HER2 therapies are ineffective in TNBC, systemic cytotoxic chemotherapy and synthetic lethality strategies targeting Poly(ADP-ribose) polymerase 1 (PARP1) serve as primary interventions \cite{Lord2016}. However, free small-molecule therapeutics suffer from narrow therapeutic windows, severe dose-limiting toxicities, and rapid systemic clearance \cite{RoblesHernandez2024}. 
+
+Nanomaterial-based drug delivery systems (DDS) offer a compelling strategy to overcome these barriers. Although carbon fullerenes ($C_{60}$) have been investigated, issues with high hydrophobicity, aggregation, and reactive oxygen species (ROS) cytotoxicity persist. In contrast, Boron Nitride (BN) nanocages ($B_{36}N_{36}$) present alternating polar $B^{\delta+}-N^{\delta-}$ bonds, superior biocompatibility, thermal stability, and low hemolytic toxicity \cite{Ferreira2015, Ciofani2012}.
+
+In this work, we present a quantum-informed, Explainable AI (XAI) QSAR/QSPR study evaluating 42 anti-TNBC drugs interacting with pristine ($B_{36}N_{36}$) and carboxylated ($B_{36}N_{36}\text{-COOH}$) nanocages.
+
+\section{Computational Methods}
+\subsection{Drug Library and Geometry Optimization}
+A benchmark dataset of 42 clinically approved and investigational TNBC therapeutics was compiled across 7 structural classes (PARP inhibitors, platinums, anthracyclines, taxanes, antimetabolites, kinase inhibitors, and ADC payloads). Geometries of isolated drugs, pristine $B_{36}N_{36}$, and carboxylated $B_{36}N_{36}\text{-COOH}$ complexes were optimized at the DFTB3 level with 3OB parameters and dispersion corrections \cite{Hourahine2020}.
+
+\subsection{Conceptual DFT and HSAB Electronic Descriptors}
+Frontier molecular orbitals ($E_{HOMO}$, $E_{LUMO}$), electronic gap ($\Delta E_g$), chemical hardness ($\eta$), softness ($S$), chemical potential ($\mu$), and global electrophilicity index ($\omega$) were calculated via Conceptual DFT \cite{Parr1999, Chattaraj2009}:
+\begin{equation}
+\eta = \frac{E_{LUMO} - E_{HOMO}}{2}, \quad \mu = \frac{E_{HOMO} + E_{LUMO}}{2}, \quad \omega = \frac{\mu^2}{2\eta}
+\end{equation}
+Adsorption energies ($\Delta E_{ads}$) between drug and BN nanocarriers were evaluated with basis set superposition error (BSSE) corrections.
+
+\subsection{Molecular Docking on PARP1}
+Receptor structure of human PARP1 (PDB ID: 4UND/7A0E) was prepared using UCSF Chimera. Molecular docking was executed via AutoDock Vina 1.2 \cite{Trott2010} with exhaustiveness 32, evaluating docking scores (kcal/mol), hydrogen bonds, and interacting pocket residues.
+
+\subsection{Machine Learning, SHAP Interpretability, and MLR}
+80/20 train/test splits were constructed ($N_{train}=34$, $N_{test}=8$). ExtraTrees and XGBoost regressors were trained with 5-fold cross-validation. Game-theoretic SHAP values \cite{Lundberg2017} were computed to quantify feature contributions. Multiple Linear Regression (MLR) models were formulated based on the top AI-ranked descriptors.
+
+\section{Results and Discussion}
+\subsection{Frontier Molecular Orbitals and Adsorption Stability}
+Complexation with $B_{36}N_{36}$ and $B_{36}N_{36}\text{-COOH}$ narrows the HOMO--LUMO gap from $\sim 3.9$~eV to $\sim 2.6$~eV, enhancing chemical softness and electrophilicity ($\omega$). Adsorption energies ranged between $-18.5$ and $-36.8$~kcal/mol, reflecting stable physisorption and hydrogen bonding.
+
+\subsection{Target Affinity and Pocket Relocation}
+Isolated drugs bind within the inner catalytic pocket (Gly863, Tyr907, Glu988) with a mean score of $-10.14$~kcal/mol. In contrast, drug--$B_{36}N_{36}$ complexes bind at the outer regulatory cleft (mean score: $-13.45$~kcal/mol), and drug--$B_{36}N_{36}\text{-COOH}$ complexes bind to polar surface grooves (mean score: $-14.01$~kcal/mol).
+
+\subsection{Machine Learning Metrics and Analytical QSAR Equations}
+ExtraTrees regressor achieved test MAPEs of $4.33\%$ (isolated), $4.54\%$ ($B_{36}N_{36}$), and $3.14\%$ ($B_{36}N_{36}\text{-COOH}$) with $R^2 > 0.81$. 
+
+Derived analytical MLR equations:
+\begin{align}
+\text{Score}_{\text{Isolated}} &= 25.5003 - 0.9437(\text{AromRings}) + 0.1811(\text{HBA}) - 0.2761(\text{NOR}) - 0.0383(\alpha) \nonumber \\
+&\quad + 0.0428(\text{PSA}) + 6.3945(E_{HOMO}) - 0.5707(\mu) + 0.5707(\chi) \\
+\text{Score}_{\text{Drug}+B_{36}N_{36}} &= 4.1320 + 0.2883(\Delta E_{ads}) + 0.4760(\text{AromRings}) - 0.0583(\alpha) - 0.4847(\text{NOR}) \nonumber \\
+&\quad + 0.2159(\text{HBA}) + 0.0058(\text{MW}) - 0.0081(\text{PSA}) - 0.5310(\text{LogS}) \\
+\text{Score}_{\text{Drug}+B_{36}N_{36}\text{-COOH}} &= -28.7632 - 0.2402(\text{AromRings}) - 0.0304(\alpha) - 0.2283(\text{NOR}) \nonumber \\
+&\quad - 0.0029(\Delta E_{ads}) + 0.0340(\text{Fraction\_Csp3}) - 0.0327(\text{RBC}) - 5.8407(\mu) - 0.3190(\text{LogS})
+\end{align}
+
+\section{Conclusion}
+This study established an explainable AI and quantum-guided framework demonstrating that functionalized boron nitride nanocages ($B_{36}N_{36}\text{-COOH}$) significantly enhance the binding affinity and stability of Triple-Negative Breast Cancer therapeutics against PARP1, providing explicit mathematical QSAR models for future nanomedicine design.
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}

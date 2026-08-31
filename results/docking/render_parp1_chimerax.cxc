@@ -1,0 +1,39 @@
+# UCSF ChimeraX Publication Render Script
+# Open ChimeraX: File -> Open -> select this .cxc file
+
+open c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\results\docking\4UND_Olaparib_real_complex.pdb
+set bgColor white
+lighting soft
+graphics silhouettes true
+
+# Cartoon and pocket surface
+hide atoms
+show cartoon
+color cartoon #26A69A
+color cartoon/helices #00897B
+color cartoon/sheets #5E35B1
+
+# Show ligand and active site
+show :LIG
+style :LIG stick
+color :LIG #E91E63
+color :LIG & element O red
+color :LIG & element N blue
+color :LIG & element F green
+
+# Show catalytic residues
+show :862,863,878,904,907,988
+style :862,863,878,904,907,988 stick
+color :862,863,878,904,907,988 byelement
+
+# Pocket surface
+surface :LIG expand 5.0
+transparency surface 60
+color surface #B0BEC5
+
+# H-Bonds
+hbonds :LIG color yellow linewidth 3
+
+# View and export
+view :LIG
+save parp1_chimerax_publication_hd.png width 2400 height 1800 transparentBackground false

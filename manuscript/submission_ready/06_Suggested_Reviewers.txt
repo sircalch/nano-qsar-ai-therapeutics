@@ -1,0 +1,32 @@
+SUGGESTED PEER REVIEWERS (Beilstein Journal of Nanotechnology / Elsevier)
+========================================================================
+
+Reviewer 1:
+- Name: Prof. Alan Miralrio
+- Institution: Tecnologico de Monterrey, Escuela de Ingenieria y Ciencias, Mexico
+- Email: miralrio@tec.mx
+- Expertise: Quantum chemistry, Conceptual DFT, QSAR/QSPR, Nanomaterials, Drug delivery systems.
+
+Reviewer 2:
+- Name: Prof. Roberto Salcedo
+- Institution: Instituto de Investigaciones en Materiales, Universidad Nacional Autónoma de México (UNAM), Mexico
+- Email: salcedo@iim.unam.mx
+- Expertise: Theoretical chemistry, fullerenes, boron nitride nanostructures, molecular modeling.
+
+Reviewer 3:
+- Name: Prof. Subhash C. Basak
+- Institution: University of Minnesota Duluth, International Society of Mathematical Chemistry, USA
+- Email: sbasak@d.umn.edu
+- Expertise: Mathematical chemistry, chemoinformatics, QSAR modeling, topological descriptors.
+
+Reviewer 4:
+- Name: Prof. Pratim K. Chattaraj
+- Institution: Indian Institute of Technology (IIT) Kharagpur, Department of Chemistry, India
+- Email: pkc@chem.iitkgp.ac.in
+- Expertise: Conceptual Density Functional Theory (CDFT), chemical reactivity indices, electrophilicity.
+
+Reviewer 5:
+- Name: Prof. Bakhtiyor Rasulev
+- Institution: North Dakota State University, Department of Coatings and Polymeric Materials, USA
+- Email: bakhtiyor.rasulev@ndsu.edu
+- Expertise: Machine learning in QSAR, nanomaterials property prediction, cheminformatics.
