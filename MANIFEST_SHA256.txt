@@ -1,13 +1,12 @@
 # TNBC B36N36 — SHA-256 Integrity Manifest (AUTHENTIC EXECUTABLE RAW LOGS)
-# Generated: 2026-09-01T23:25:35Z
+# Generated: 2026-09-01T23:45:47Z
 # AutoDock Vina: v1.2.7 | xTB: v6.7.1-pre | ORCA: v6.1.1
 # Total processed compounds: 33 (30 organic + 3 platinum controls, PARP1 4UND docking + xTB quantum calculated)
 # Primary Target: Human PARP1 Catalytic Domain (PDB: 4UND, 2.20 A X-ray)
+# Heavy-Atom Redocking Validation: 4UND (4.474 A, FAILED) -> Docking treated as exploratory
 # Carrier: Fully tight-optimized 72-atom spherical B36N36 cage (E_cage = -150.205739 Eh)
-# Heavy-Atom Redocking Validation: 4UND RMSD = 4.474 A (FAILED) -> Docking treated as exploratory
-# Multi-Orientation Relaxed Subset (N=8): Spearman rho = 0.0476 (p=0.9108), MAE = 13.23 kcal/mol
-# Note on Adsorption: SP screening on curved cage does not predict relaxed ranking; carrier affinity requires full geometry optimization
-# Strict Nested Ridge Q2_CV: -0.0089, RMSE: 1.328 kcal/mol, MAE: 1.128 kcal/mol, h*: 0.5000
+# Adsorption Finding: SP screening does not predict relaxed ranking (rho=0.0476, p=0.9108); requires full geometry optimization
+# Strict Leak-Free Nested Ridge Q2_CV: 0.0016, RMSE: 1.321 kcal/mol, MAE: 1.127 kcal/mol, h*: 0.5000
 #
 # SHA256                                                               bytes  role  path
 #-----------------------------------------------------------------------------------------------
@@ -618,6 +617,7 @@ d57446a70388e38ba81aa20b9c247f416105f7d7a8fb6c9780b66412d654bf31          8850 b
 1ddb97ac067b0bbc2ebaca806608cb9601ebdaf67e064f6042093c16dc13fe24          6177 bytes  [tnbc]  data\processed\dataset_drug_B36N36_pristine.csv
 fc3b85f99584b2f41a03b6f5cdbfc30233d671827c229dbada96ac128e27f115          8679 bytes  [tnbc]  data\processed\dataset_isolated_drugs.csv
 f0307a36364d60587fa460414ba7f7c349ab2544ea78b0a9dcd174e832911bbc          6468 bytes  [tnbc]  data\processed\dataset_tnbc_bn_pristine.csv
+fbf429e0db140c222be6ae6078b55f38541f1be7cc26adc6dc03b615e9ccb816          1009 bytes  [tnbc]  data\processed\nested_cv_oof_predictions.csv
 da2fccf20157a2562b1a23eca6d1842b04e65d0d640264f001051325fee2be8a           478 bytes  [tnbc]  data\processed\redocking_validation.csv
 37b8a7088d6811c34ddcefaf27bda90fafe9562956df59d6eed8131bc352dfbc           354 bytes  [tnbc]  data\processed\relaxed_adsorption_subset.csv
 ac6a67532bc9926bf3c393bda0db2060b6b3112951b991e6c324c3f38ee286e9          7391 bytes  [tnbc]  data\processed\tnbc_isolated_descriptors.csv
