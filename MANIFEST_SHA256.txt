@@ -1,12 +1,13 @@
 # TNBC B36N36 — SHA-256 Integrity Manifest (AUTHENTIC EXECUTABLE RAW LOGS)
-# Generated: 2026-09-01T22:16:29Z
+# Generated: 2026-09-01T23:25:35Z
 # AutoDock Vina: v1.2.7 | xTB: v6.7.1-pre | ORCA: v6.1.1
 # Total processed compounds: 33 (30 organic + 3 platinum controls, PARP1 4UND docking + xTB quantum calculated)
-# Primary Target: Human PARP1 Catalytic Domain (PDB: 4UND, 2.30 A X-ray)
+# Primary Target: Human PARP1 Catalytic Domain (PDB: 4UND, 2.20 A X-ray)
 # Carrier: Fully tight-optimized 72-atom spherical B36N36 cage (E_cage = -150.205739 Eh)
-# Heavy-Atom Redocking RMSD: 4UND (2YQ, 25 heavy atoms) = 4.474 A
+# Heavy-Atom Redocking Validation: 4UND RMSD = 4.474 A (FAILED) -> Docking treated as exploratory
 # Multi-Orientation Relaxed Subset (N=8): Spearman rho = 0.0476 (p=0.9108), MAE = 13.23 kcal/mol
-# Nested Ridge Q2_CV (exploratory): 0.0554, RMSE: 1.285 kcal/mol, MAE: 1.057 kcal/mol, h*: 0.5000
+# Note on Adsorption: SP screening on curved cage does not predict relaxed ranking; carrier affinity requires full geometry optimization
+# Strict Nested Ridge Q2_CV: -0.0089, RMSE: 1.328 kcal/mol, MAE: 1.128 kcal/mol, h*: 0.5000
 #
 # SHA256                                                               bytes  role  path
 #-----------------------------------------------------------------------------------------------
@@ -617,7 +618,7 @@ d57446a70388e38ba81aa20b9c247f416105f7d7a8fb6c9780b66412d654bf31          8850 b
 1ddb97ac067b0bbc2ebaca806608cb9601ebdaf67e064f6042093c16dc13fe24          6177 bytes  [tnbc]  data\processed\dataset_drug_B36N36_pristine.csv
 fc3b85f99584b2f41a03b6f5cdbfc30233d671827c229dbada96ac128e27f115          8679 bytes  [tnbc]  data\processed\dataset_isolated_drugs.csv
 f0307a36364d60587fa460414ba7f7c349ab2544ea78b0a9dcd174e832911bbc          6468 bytes  [tnbc]  data\processed\dataset_tnbc_bn_pristine.csv
-9432afde5b302034605b059f162529aa82f69eaf45fa7647fdbcba41e5f91cc2           273 bytes  [tnbc]  data\processed\redocking_validation.csv
+da2fccf20157a2562b1a23eca6d1842b04e65d0d640264f001051325fee2be8a           478 bytes  [tnbc]  data\processed\redocking_validation.csv
 37b8a7088d6811c34ddcefaf27bda90fafe9562956df59d6eed8131bc352dfbc           354 bytes  [tnbc]  data\processed\relaxed_adsorption_subset.csv
 ac6a67532bc9926bf3c393bda0db2060b6b3112951b991e6c324c3f38ee286e9          7391 bytes  [tnbc]  data\processed\tnbc_isolated_descriptors.csv
 a72d65dabef3e3d7d7f5ed11178c7b629bd9e85b6f6c5a89b88ef916bba9cddd        973053 bytes  [tnbc]  data\raw\4UND.pdb
@@ -672,7 +673,7 @@ e4074e80ec9474f55a47dd4f387d919fd7ebb8d9648088f610da45ef61393993          4776 b
 5985582cc61ee5c7d945f1cb7ea3ec55fb44f8ab8d70844501236cc51e15e006          2152 bytes  [tnbc]  data\splits\Drug_B36N36_Pristine_validation.csv
 7af17b2e592638a7deb165d9935a51c7e282ce8365d499b4c9d72c6b09709388          6898 bytes  [tnbc]  data\splits\Isolated_Drugs_train.csv
 d87ebb2e99885f0bdd7a3825240b8bd18887f8d8a16d79aec9391c543633697f          2062 bytes  [tnbc]  data\splits\Isolated_Drugs_validation.csv
-baec878b8909b4b58a42554fd14c7476db9a7f0b543a5cd757eb822c25588074          6785 bytes  [tnbc]  eval_tnbc_summary.py
+023db0fd5127e398e31eff4f4bcdff9de6b4467ed7e2c2be94abc9a42b18bd4f          6168 bytes  [tnbc]  eval_tnbc_summary.py
 e1ab2e93007910616b6f30589bf0293684969228b815aefecd70752504ace8c2        759924 bytes  [tnbc]  figures\fig1_graphical_abstract.png
 0832bd03293140c4ec1dc7c4ae457d249808d12397b773a6479a0d75a6c418a1        384277 bytes  [tnbc]  figures\fig1_workflow.png
 d7c8a84da01bbb797c387d03c9f52ca68994472e938064a9c4ed112f8c43761a        833965 bytes  [tnbc]  figures\fig1_workflow_methodology.png
