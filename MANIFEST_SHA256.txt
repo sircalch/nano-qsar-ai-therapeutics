@@ -1,0 +1,8 @@
+# TNBC-B36N36 Package Integrity Manifest (SHA-256)
+
+079433ca4cd24e39f2459c4fb46352b66887dbe8bc39cbe887aedca97671195a        7159 bytes  data/processed/dataset_drug_B36N36_pristine.csv
+a72d65dabef3e3d7d7f5ed11178c7b629bd9e85b6f6c5a89b88ef916bba9cddd      973053 bytes  data/raw/4UND.pdb
+907a86fe7a12f3641dd6f0ca97e037746a0ad284bdfd58ae283c05cb691d996c      449550 bytes  data/raw/4UND_receptor.pdbqt
+40e6468f989766b09c15aaf4d02c91effb0bb450c32ce1fb8505fe0da2311aa2     1520792 bytes  manuscript/TNBC_B36N36_Full_Q1_Research_Paper_Monreal_Hernandez_et_al.docx
+e1ab2e93007910616b6f30589bf0293684969228b815aefecd70752504ace8c2      759924 bytes  figures/fig1_graphical_abstract.png
+920e44fd84e878aa0e1d68e48f7a28995c3773c9b423dc21d9313b4458731284      723499 bytes  figures/fig3_3d_parp1_docking_surfaces.png
