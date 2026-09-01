@@ -1,0 +1,2 @@
+pdb_id,target_desc,resolution_A,probe_ligand,affinity_kcal_mol,n_heavy_atoms,rmsd_heavy_atom_A,mapping_method,pose_file
+4UND,PARP1 Catalytic Domain (X-ray),2.3,Talazoparib (2YQ),-9.28,25,4.474,Hungarian symmetry-aware matching,calculations/tnbc/redock_2YQ_4UND_out.pdbqt
