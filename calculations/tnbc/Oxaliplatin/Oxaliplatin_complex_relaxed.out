@@ -1,0 +1,266 @@
+      -----------------------------------------------------------      
+     |                   =====================                   |     
+     |                           x T B                           |     
+     |                   =====================                   |     
+     |                         S. Grimme                         |     
+     |          Mulliken Center for Theoretical Chemistry        |     
+     |                    University of Bonn                     |     
+      -----------------------------------------------------------      
+
+   * xtb version 6.7.1pre (5071a88) compiled by 'Marcel@Raven' on 2024-07-23
+
+   xtb is free software: you can redistribute it and/or modify it under
+   the terms of the GNU Lesser General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+   
+   xtb is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Lesser General Public License for more details.
+   
+   Cite this work as:
+   * C. Bannwarth, E. Caldeweyher, S. Ehlert, A. Hansen, P. Pracht,
+     J. Seibert, S. Spicher, S. Grimme, WIREs Comput. Mol. Sci., 2020, 11,
+     e01493. DOI: 10.1002/wcms.1493
+   
+   for GFN2-xTB:
+   * C. Bannwarth, S. Ehlert and S. Grimme., J. Chem. Theory Comput., 2019,
+     15, 1652-1671. DOI: 10.1021/acs.jctc.8b01176
+   for GFN1-xTB:
+   * S. Grimme, C. Bannwarth, P. Shushkov, J. Chem. Theory Comput., 2017,
+     13, 1989-2009. DOI: 10.1021/acs.jctc.7b00118
+   for GFN0-xTB:
+   * P. Pracht, E. Caldeweyher, S. Ehlert, S. Grimme, ChemRxiv, 2019, preprint.
+     DOI: 10.26434/chemrxiv.8326202.v1
+   for GFN-FF:
+   * S. Spicher and S. Grimme, Angew. Chem. Int. Ed., 2020, 59, 15665-15673.
+     DOI: 10.1002/anie.202004239
+   
+   for ALPB and GBSA implicit solvation:
+   * S. Ehlert, M. Stahn, S. Spicher, S. Grimme, J. Chem. Theory Comput.,
+     2021, 17, 4250-4261. DOI: 10.1021/acs.jctc.1c00471
+   
+   for ddCOSMO and CPCM-X implicit solvation:
+   * M. Stahn, S. Ehlert, S. Grimme, J. Phys. Chem. A,
+     2023, XX, XXXX-XXXX. DOI: 10.1021/acs.jpca.3c04382
+   
+   for DFT-D4:
+   * E. Caldeweyher, C. Bannwarth and S. Grimme, J. Chem. Phys., 2017,
+     147, 034112. DOI: 10.1063/1.4993215
+   * E. Caldeweyher, S. Ehlert, A. Hansen, H. Neugebauer, S. Spicher,
+     C. Bannwarth and S. Grimme, J. Chem. Phys., 2019, 150, 154122.
+     DOI: 10.1063/1.5090222
+   * E. Caldeweyher, J.-M. Mewes, S. Ehlert and S. Grimme, Phys. Chem. Chem. Phys.
+     2020, 22, 8499-8512. DOI: 10.1039/D0CP00502A
+   
+   for sTDA-xTB:
+   * S. Grimme and C. Bannwarth, J. Chem. Phys., 2016, 145, 054103.
+     DOI: 10.1063/1.4959605
+   
+   in the mass-spec context:
+   * V. Asgeirsson, C. Bauer and S. Grimme, Chem. Sci., 2017, 8, 4879.
+     DOI: 10.1039/c7sc00601b
+   * J. Koopman and S. Grimme, ACS Omega 2019, 4, 12, 15120-15133.
+     DOI: 10.1021/acsomega.9b02011
+   
+   for metadynamics refer to:
+   * S. Grimme, J. Chem. Theory Comput., 2019, 155, 2847-2862
+     DOI: 10.1021/acs.jctc.9b00143
+   
+   for SPH calculations refer to:
+   * S. Spicher and S. Grimme, J. Chem. Theory Comput., 2021, 17, 1701-1714
+     DOI: 10.1021/acs.jctc.0c01306
+   
+   for ONIOM refer to:
+   * C. Plett, A. Katbashev, S. Ehlert, S. Grimme, M. Bursch,
+     Phys. Chem. Chem. Phys., 2023, 25, 17860-17868. DOI: 10.1039/D3CP02178E
+   
+   for DIPRO refer to:
+   * J. Kohn, N. Gildemeister, S. Grimme, D. Fazzi, A. Hansen,
+     J. Chem. Phys., 2023, just accepted.
+   
+   for PTB refer to:
+   * S. Grimme, M. Mueller, A. Hansen, J. Chem. Phys., 2023, 158, 124111.
+     DOI: 10.1063/5.0137838
+   
+   with help from (in alphabetical order)
+   P. Atkinson, C. Bannwarth, F. Bohle, G. Brandenburg, E. Caldeweyher
+   M. Checinski, S. Dohm, S. Ehlert, S. Ehrlich, I. Gerasimov, C. Hölzer
+   A. Katbashev, J. Kohn, J. Koopman, C. Lavigne, S. Lehtola, F. März, M. Müller,
+   F. Musil, H. Neugebauer, J. Pisarek, C. Plett, P. Pracht, F. Pultar,
+   J. Seibert, P. Shushkov, S. Spicher, M. Stahn, M. Steiner, T. Strunk,
+   J. Stückrath, T. Rose, and J. Unsleber
+   
+ * started run on 2026/08/31 at 21:10:51.356     
+   ID    Z sym.   atoms
+    1    7 N      1, 8, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57,
+                  59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87,
+                  89, 91, 93, 95, 97, 99, 101, 103
+    2    6 C      2-7, 10, 14, 16
+    3    8 O      9, 11, 13, 15, 17
+    4   78 Pt     12
+    5    1 H      18-31
+    6    5 B      32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60,
+                  62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90,
+                  92, 94, 96, 98, 100, 102
+
+           -------------------------------------------------
+          |                Calculation Setup                |
+           -------------------------------------------------
+
+          program call               : "c:\Users\Andre\Proyectos doctorado\kras-pancreatic-gC3N4-ai\tools\xtb\xtb-6.7.1\bin\xtb.exe" "c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\calculations\tnbc\Oxaliplatin\Oxaliplatin_B36N36_relaxed_complex.xyz" --gfn 2 --opt normal --chrg 0 --uhf 0 --iterations 50 --norestart
+          coordinate file            : c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\calculations\tnbc\Oxaliplatin\Oxaliplatin_B36N36_relaxed_complex.xyz
+          omp threads                :                    16
+
+
+molecular fragmentation (1/2 indicates fragments):
+111111111111111111111111111111122222222222222222222222222222222222222222
+2222222222222222222222222222222
+# atoms in fragment 1/2:    31    72
+ fragment masses (1/2) :      425.30      893.44
+CMA distance (Bohr)    :  15.460
+constraining FC (au)   :  0.0500
+
+           -------------------------------------------------
+          |                 G F N 2 - x T B                 |
+           -------------------------------------------------
+
+        Reference                      10.1021/acs.jctc.8b01176
+      * Hamiltonian:
+        H0-scaling (s, p, d)           1.850000    2.230000    2.230000
+        zeta-weighting                 0.500000
+      * Dispersion:
+        s8                             2.700000
+        a1                             0.520000
+        a2                             5.000000
+        s9                             5.000000
+      * Repulsion:
+        kExp                           1.500000    1.000000
+        rExp                           1.000000
+      * Coulomb:
+        alpha                          2.000000
+        third order                    shell-resolved
+        anisotropic                    true
+        a3                             3.000000
+        a5                             4.000000
+        cn-shift                       1.200000
+        cn-exp                         4.000000
+        max-rad                        5.000000
+
+
+          ...................................................
+          :                      SETUP                      :
+          :.................................................:
+          :  # basis functions                 376          :
+          :  # atomic orbitals                 375          :
+          :  # shells                          193          :
+          :  # electrons                       388          :
+          :  max. iterations                    50          :
+          :  Hamiltonian                  GFN2-xTB          :
+          :  restarted?                      false          :
+          :  GBSA solvation                  false          :
+          :  PC potential                    false          :
+          :  electronic temp.          300.0000000     K    :
+          :  accuracy                    1.0000000          :
+          :  -> integral cutoff          0.2500000E+02      :
+          :  -> integral neglect         0.1000000E-07      :
+          :  -> SCF convergence          0.1000000E-05 Eh   :
+          :  -> wf. convergence          0.1000000E-03 e    :
+          :  Broyden damping             0.4000000          :
+          :  net charge                          0          :
+          :  unpaired electrons                  0          :
+          ...................................................
+
+ iter      E             dE          RMSdq      gap      omega  full diag
+   1   -176.8876988 -0.176888E+03  0.132E+01    0.21       0.0  T
+   2    321.8329786  0.498721E+03  0.208E+01    0.07       1.0  T
+   3    177.2627686 -0.144570E+03  0.209E+01    0.02       1.0  T
+   4   -168.4294453 -0.345692E+03  0.948E+00    0.12       1.0  T
+   5   -197.3423165 -0.289129E+02  0.803E+00    0.13       1.0  T
+   6   -186.6460749  0.106962E+02  0.685E+00    0.08       1.0  T
+   7   -192.7367638 -0.609069E+01  0.712E+00    0.14       1.0  T
+   8   -198.4968493 -0.576009E+01  0.636E+00    0.13       1.0  T
+   9   -195.8853103  0.261154E+01  0.597E+00    0.05       1.0  T
+  10   -196.4035181 -0.518208E+00  0.579E+00    0.02       1.0  T
+  11   -196.1456112  0.257907E+00  0.571E+00    0.06       1.0  T
+  12   -193.7663734  0.237924E+01  0.579E+00    0.02       1.0  T
+  13   -196.9022590 -0.313589E+01  0.488E+00    0.08       1.0  T
+  14   -200.7101112 -0.380785E+01  0.434E+00    0.03       1.0  T
+  15   -202.1756202 -0.146551E+01  0.378E+00    0.04       1.0  T
+  16   -202.2665977 -0.909775E-01  0.368E+00    0.10       1.0  T
+  17   -202.2306786  0.359191E-01  0.356E+00    0.12       1.0  T
+  18   -202.8134508 -0.582772E+00  0.328E+00    0.05       1.0  T
+  19   -203.5820355 -0.768585E+00  0.308E+00    0.12       1.0  T
+  20   -203.5741227  0.791277E-02  0.307E+00    0.12       1.0  T
+  21   -203.5735965  0.526270E-03  0.307E+00    0.12       1.0  T
+  22   -203.6107385 -0.371420E-01  0.301E+00    0.14       1.0  T
+  23   -203.7566890 -0.145951E+00  0.252E+00    0.16       1.0  T
+  24   -203.9203481 -0.163659E+00  0.227E+00    0.17       1.0  T
+  25   -203.9879644 -0.676163E-01  0.209E+00    0.12       1.0  T
+  26   -204.0452211 -0.572568E-01  0.194E+00    0.22       1.0  T
+  27   -204.0962555 -0.510344E-01  0.173E+00    0.13       1.0  T
+  28   -204.1537903 -0.575347E-01  0.142E+00    0.33       1.0  T
+  29   -204.2184770 -0.646868E-01  0.111E+00    0.09       1.0  T
+  30   -204.2454254 -0.269484E-01  0.915E-01    0.07       1.0  T
+  31   -204.2549828 -0.955738E-02  0.802E-01    0.05       1.0  T
+  32   -204.2356138  0.193690E-01  0.796E-01    0.17       1.0  T
+  33   -204.2712177 -0.356040E-01  0.631E-01    0.06       1.0  T
+  34   -204.2714203 -0.202592E-03  0.577E-01    0.09       1.0  T
+  35   -204.2850612 -0.136409E-01  0.448E-01    0.06       1.0  T
+  36   -204.2865461 -0.148489E-02  0.401E-01    0.07       1.0  T
+  37   -204.2935296 -0.698352E-02  0.271E-01    0.05       1.0  T
+  38   -204.2952526 -0.172293E-02  0.229E-01    0.05       1.0  T
+  39   -204.2973174 -0.206487E-02  0.172E-01    0.04       1.0  T
+  40   -204.2978351 -0.517681E-03  0.160E-01    0.04       1.0  T
+  41   -204.2977539  0.812200E-04  0.139E-01    0.04       1.0  T
+  42   -204.2986149 -0.861047E-03  0.115E-01    0.06       1.0  T
+  43   -204.2999233 -0.130833E-02  0.928E-02    0.05       1.0  T
+  44   -204.2997118  0.211491E-03  0.859E-02    0.05       1.0  T
+  45   -204.3002908 -0.579064E-03  0.683E-02    0.05       1.0  T
+  46   -204.3003552 -0.643124E-04  0.598E-02    0.04       1.0  T
+  47   -204.3004267 -0.715682E-04  0.535E-02    0.04       1.0  T
+  48   -204.3004790 -0.522782E-04  0.482E-02    0.04       1.0  T
+  49   -204.3005938 -0.114832E-03  0.386E-02    0.05       1.0  T
+  50   -204.3006401 -0.462431E-04  0.323E-02    0.05       1.0  T
+
+   *** convergence criteria cannot be satisfied within 50 iterations ***
+
+         #    Occupation            Energy/Eh            Energy/eV
+      -------------------------------------------------------------
+         1        2.0000           -1.0814557             -29.4279
+       ...           ...                  ...                  ...
+       188        2.0000           -0.2796651              -7.6101
+       189        2.0000           -0.2760545              -7.5118
+       190        2.0000           -0.2751487              -7.4872
+       191        2.0000           -0.2718658              -7.3978
+       192        2.0000           -0.2663634              -7.2481
+       193        2.0000           -0.2607455              -7.0952
+       194        1.4077           -0.2365460              -6.4367 (HOMO)
+       195        0.5733           -0.2348573              -6.3908 (LUMO)
+       196        0.0190           -0.2313112              -6.2943
+       197        0.0000           -0.2220255              -6.0416
+       198                         -0.2182350              -5.9385
+       199                         -0.2163359              -5.8868
+       ...                                ...                  ...
+       375                         23.5245206             640.1348
+      -------------------------------------------------------------
+                  HL-Gap            0.0016887 Eh            0.0460 eV
+             Fermi-level           -0.2357235 Eh           -6.4144 eV
+
+ SCC (total)                   0 d,  0 h,  0 min,  1.318 sec
+ SCC setup                      ...        0 min,  0.001 sec (  0.076%)
+ Dispersion                     ...        0 min,  0.002 sec (  0.152%)
+ classical contributions        ...        0 min,  0.000 sec (  0.000%)
+ integral evaluation            ...        0 min,  0.012 sec (  0.910%)
+ iterations                     ...        0 min,  1.275 sec ( 96.737%)
+ molecular gradient             ...        0 min,  0.026 sec (  1.973%)
+ printout                       ...        0 min,  0.002 sec (  0.152%)
+
+########################################################################
+[ERROR] Program stopped due to fatal error
+-3- Single point calculation terminated
+-2- xtb_calculator_singlepoint: Electronic structure method terminated
+-1- scf: Self consistent charge iterator did not converge
+########################################################################
+abnormal termination of xtb
