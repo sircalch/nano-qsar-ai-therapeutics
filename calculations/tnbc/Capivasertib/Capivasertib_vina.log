@@ -1,0 +1,49 @@
+AutoDock Vina v1.2.7
+#################################################################
+# If you used AutoDock Vina in your work, please cite:          #
+#                                                               #
+# J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  #
+# AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      #
+# Field, and Python Bindings, J. Chem. Inf. Model. (2021)       #
+# DOI 10.1021/acs.jcim.1c00203                                  #
+#                                                               #
+# O. Trott, A. J. Olson,                                        #
+# AutoDock Vina: improving the speed and accuracy of docking    #
+# with a new scoring function, efficient optimization and       #
+# multithreading, J. Comp. Chem. (2010)                         #
+# DOI 10.1002/jcc.21334                                         #
+#                                                               #
+# Please see https://github.com/ccsb-scripps/AutoDock-Vina for  #
+# more information.                                             #
+#################################################################
+
+Scoring function : vina
+Rigid receptor: c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\data\raw\4UND_receptor.pdbqt
+Ligand: c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\calculations\tnbc\Capivasertib\Capivasertib_ligand.pdbqt
+Grid center: X 1.145 Y 63.743 Z 188.035
+Grid size  : X 22 Y 22 Z 22
+Grid space : 0.375
+Exhaustiveness: 8
+CPU: 0
+Verbosity: 1
+
+Computing Vina grid ... done.
+WARNING: At low exhaustiveness, it may be impossible to utilize all CPUs.
+Performing docking (random seed: 2029058241) ... 
+0%   10   20   30   40   50   60   70   80   90   100%
+|----|----|----|----|----|----|----|----|----|----|
+***************************************************
+
+mode |   affinity | dist from best mode
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+-----+------------+----------+----------
+   1       -9.184          0          0
+   2       -9.179      2.815      5.742
+   3       -8.998      3.945      5.794
+   4       -8.871      2.566      4.403
+   5        -8.84       3.59      7.153
+   6        -8.71      1.457      2.018
+   7       -8.617      3.901      7.682
+   8       -8.602      2.815      6.252
+   9       -8.539      3.915      5.651
+# Command: c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\src\docking\vina.exe --receptor c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\data\raw\4UND_receptor.pdbqt --ligand c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\calculations\tnbc\Capivasertib\Capivasertib_ligand.pdbqt --center_x 1.145 --center_y 63.743 --center_z 188.035 --size_x 22.0 --size_y 22.0 --size_z 22.0 --num_modes 9 --exhaustiveness 8 --out c:\Users\Andre\Proyectos doctorado\nano-qsar-ai-therapeutics\calculations\tnbc\Capivasertib\Capivasertib_out.pdbqt
