@@ -1,5 +1,5 @@
 # TNBC B36N36 — SHA-256 Integrity Manifest (AUTHENTIC EXECUTABLE RAW LOGS)
-# Generated: 2026-09-04T21:11:31Z
+# Generated: 2026-09-04T21:37:54Z
 # AutoDock Vina: v1.2.7 | xTB: v6.7.1-pre | ORCA: v6.1.1
 # Total processed compounds: 33 (30 organic + 3 platinum controls, PARP1 4UND docking + xTB quantum calculated)
 # Primary Target: Human PARP1 Catalytic Domain (PDB: 4UND, 2.20 A X-ray)
@@ -687,17 +687,17 @@ d247ad7f8a15dc5f0ddc63111f7080215a6b9e2903329c2995bb88b8bdb4a2fc        382183 b
 18ec710177896bcd0483ba2f62b4771d89bda9016dda0314a1274bd62cf76d00        599935 bytes  [tnbc]  figures\fig5_descriptor_correlation_matrix.png
 d62209f3bd44c91797366388dc50f6e1f2d808567658b60101c1fb576fd5e01f       3054941 bytes  [tnbc]  figures\fig5_quantum_ground_state_geometries.png
 8eda088cc29ebe67c21e0ad315e66f56b84460d55189aebed63ac0bc67a1d336        541415 bytes  [tnbc]  figures\fig6_docking_vina_statistical_profiles.png
-97e42a9e2dcb61071ac9660142a5af32bdbdafca0007bdf11ab81a240463d058        334307 bytes  [tnbc]  figures\fig7_parity_models_evaluation.png
+89fd248fb7ff23c6d400e0727e3a1b93a0ed58ee4eb301f26ab8d1a98b930e63        485725 bytes  [tnbc]  figures\fig7_parity_models_evaluation.png
 c91319100dc6d97b4bc04180d8054ee9307aac4b7417846af79a4d4d904a0d87        331603 bytes  [tnbc]  figures\fig8_williams_applicability_domain.png
 44c452d7da76f512cf75c63c984af314521970dc70df9d4eba7461303750e492          1143 bytes  [tnbc]  LICENSE
-40e6468f989766b09c15aaf4d02c91effb0bb450c32ce1fb8505fe0da2311aa2       1520792 bytes  [tnbc]  manuscript\Beilstein_Manuscript_Monreal_Hernandez_et_al.docx
+903b3bc98bdf417a788233eebd0017794f533c85e4fce12a043e418a5fe1b366       6469928 bytes  [tnbc]  manuscript\Beilstein_Manuscript_Monreal_Hernandez_et_al.docx
 b4f72dc6deb3e2f66ad8dc165bacc84363dfb2de93c2bfa85799f51369da8323         18177 bytes  [tnbc]  manuscript\manuscript.md
 749a1ce0f0f0dc8309ecabb60f1c25f0c21b6777462ffe5e625f63ac47bfdc78          8993 bytes  [tnbc]  manuscript\manuscript.tex
 1ccf461a0c11bc13ece596d36458f3499d6d6f96188276e9c61031650447eb04         12136 bytes  [tnbc]  manuscript\references.bib
-193072ae769691dd51e29f2091f83dbacae1e79123d1617e2015ff0d505dfdb6         38515 bytes  [tnbc]  manuscript\submission_ready\01_Cover_Letter_Beilstein.docx
+4d7c834716296b575454ac447b2c0768c450cac7f253497b75168bb1d523f533         38515 bytes  [tnbc]  manuscript\submission_ready\01_Cover_Letter_Beilstein.docx
 4216ac5911de5070597261dd2f992fd665c0825502dd9ac0af78519e6c296dbe          1817 bytes  [tnbc]  manuscript\submission_ready\01_Cover_Letter_Beilstein.md
 cb521d0fdc72eaeed632118589a16a901cc8b6b8b10d4bcbc1323e1fc6f3e5c0         38600 bytes  [tnbc]  manuscript\submission_ready\01_Cover_Letter_Molecular_Diversity.docx
-40e6468f989766b09c15aaf4d02c91effb0bb450c32ce1fb8505fe0da2311aa2       1520792 bytes  [tnbc]  manuscript\submission_ready\02_Main_Manuscript_Monreal_Hernandez_et_al.docx
+903b3bc98bdf417a788233eebd0017794f533c85e4fce12a043e418a5fe1b366       6469928 bytes  [tnbc]  manuscript\submission_ready\02_Main_Manuscript_Monreal_Hernandez_et_al.docx
 d7c8a84da01bbb797c387d03c9f52ca68994472e938064a9c4ed112f8c43761a        833965 bytes  [tnbc]  manuscript\submission_ready\04_Graphical_Abstract.png
 d7c8a84da01bbb797c387d03c9f52ca68994472e938064a9c4ed112f8c43761a        833965 bytes  [tnbc]  manuscript\submission_ready\05_Figures_300DPI\Figure_1_Graphical_Abstract.png
 d247ad7f8a15dc5f0ddc63111f7080215a6b9e2903329c2995bb88b8bdb4a2fc        382183 bytes  [tnbc]  manuscript\submission_ready\05_Figures_300DPI\Figure_2_Quantum_CDFT.png
@@ -707,12 +707,12 @@ d62209f3bd44c91797366388dc50f6e1f2d808567658b60101c1fb576fd5e01f       3054941 b
 8eda088cc29ebe67c21e0ad315e66f56b84460d55189aebed63ac0bc67a1d336        541415 bytes  [tnbc]  manuscript\submission_ready\05_Figures_300DPI\Figure_6_Docking_Distributions.png
 18ec710177896bcd0483ba2f62b4771d89bda9016dda0314a1274bd62cf76d00        599935 bytes  [tnbc]  manuscript\submission_ready\05_Figures_300DPI\Figure_7_Descriptor_Correlation_Matrix.png
 c91319100dc6d97b4bc04180d8054ee9307aac4b7417846af79a4d4d904a0d87        331603 bytes  [tnbc]  manuscript\submission_ready\05_Figures_300DPI\Figure_8_OECD_Williams_Plot.png
-97e42a9e2dcb61071ac9660142a5af32bdbdafca0007bdf11ab81a240463d058        334307 bytes  [tnbc]  manuscript\submission_ready\05_Figures_300DPI\Figure_9_Parity_Plots.png
+89fd248fb7ff23c6d400e0727e3a1b93a0ed58ee4eb301f26ab8d1a98b930e63        485725 bytes  [tnbc]  manuscript\submission_ready\05_Figures_300DPI\Figure_9_Parity_Plots.png
 d87a5780c0ab6245698540fa14b2379cd3ecbe22cd29e8644d04d85ec6db623f          1522 bytes  [tnbc]  manuscript\submission_ready\06_Suggested_Reviewers.txt
 f649b0d69fa680409b2fc293db758181251efbbc3b9d4b929ec998eca22f2f35          1969 bytes  [tnbc]  manuscript\submission_ready\07_Submission_Checklist.md
 49b3624c81b8907245826da255e919116dcad540ae976e866c483bd1f4e580b1          5855 bytes  [tnbc]  manuscript\supplementary_info.md
 d8a9dd1bae629a3e77b3ae4fe3c003df3db9144b10b17d646a4636c090677728         41733 bytes  [tnbc]  manuscript\TNBC_Nanocage_Supporting_Information.docx
-27e16dbc00fbf1bc9689bfa3dbe16f544bf7d2c9cc8a12b5408c3792459262ab       9244661 bytes  [tnbc]  nano-qsar-ai-therapeutics-FINAL-SUBMISSION-READY.zip
+33569e972a4343471cfa7cd581e8804375e1f6febc5a2fb19fb1bebc6843644c      14341460 bytes  [tnbc]  nano-qsar-ai-therapeutics-FINAL-SUBMISSION-READY.zip
 96bd0ccbb2129b0137773d4a5a4b315df03789236b5906d0d4f6682e73c995b9      16018764 bytes  [tnbc]  nano-qsar-ai-therapeutics-Submission-Package.zip
 107fef284c5410dce1ed8780a796d481c904f8d60f1df8ff4455964d766e11fa          5072 bytes  [tnbc]  README.md
 07aa64aebf935368023d571d6389b0da01e4c04950b1adcb5fbd107ea4f9697b           408 bytes  [tnbc]  requirements.txt
@@ -829,7 +829,7 @@ a489b92c24a358f10d9624970b4da44abbf80b9b1bee29403a96161996e62a7e          2947 b
 ef2ea481e17ed5a4230bbae805ddde80918f1c7c7be01c516a36f3e67f2ba458          7929 bytes  [tnbc]  src\quantum\__pycache__\quantum_hsab_engine.cpython-312.pyc
 c578d7a7ba3ca064d3daddac8add1920381bba54c395239f13f6835649b92fd5          6753 bytes  [tnbc]  src\quantum\quantum_hsab_engine.py
 067e275059cc866b095eb96961c74141fb1631330abe6528a07618aedbadae0e         14155 bytes  [tnbc]  src\visualization\__pycache__\build_comprehensive_verified_references.cpython-312.pyc
-f896df17cf6fc5e66cdda85af40b9816314519e5ec94e9e332db397438c8111a         27787 bytes  [tnbc]  src\visualization\__pycache__\generate_all_q1_figures.cpython-312.pyc
+7968c7a27bc6bb42b7e3d7ade885c154a5c95905c00d4cf1b42ee3ec6fe22bd3         28789 bytes  [tnbc]  src\visualization\__pycache__\generate_all_q1_figures.cpython-312.pyc
 1ff100b4d925d49263ee07e4bc5bf9d4a8efbba951fcf12ad143e044552bbf0b         42026 bytes  [tnbc]  src\visualization\__pycache__\generate_beilstein_word_manuscript.cpython-312.pyc
 2c3fc294a5d9d49b19ba620469bede19012c97628a6fea96e9d1ea8b33a75625          5500 bytes  [tnbc]  src\visualization\__pycache__\generate_fig2_quantum_schematics.cpython-312.pyc
 873c1812e7d5af455b4db871d1ff3d480a5be9097eded0a975ebe651215c911c         12411 bytes  [tnbc]  src\visualization\__pycache__\generate_master_q1_figure_set.cpython-312.pyc
@@ -843,8 +843,8 @@ fb87631c7c48f925a63ff0b6c82da37c9fdbe2b3f047ff8229321b3b8edc0b2f          7858 b
 ea24e6a97e570b5db6b5da65391606cd31125331778b10d438a5d7a9a7b1263f         15064 bytes  [tnbc]  src\visualization\__pycache__\render_perfect_fig3_and_fig5.cpython-312.pyc
 99df77927e54258c0f077714a7ef7a2c62affefa73ebfa3288cd856a9d07d6db         24210 bytes  [tnbc]  src\visualization\__pycache__\render_publication_3d_engine.cpython-312.pyc
 501415767d33109676298df97646b6124a01df3f70441bc9ce9eef41a6575f17         14730 bytes  [tnbc]  src\visualization\build_comprehensive_verified_references.py
-4e4a611defe2fb2b108cf3082088ba946b38e873d59d0c808b91cd1c905df949         21936 bytes  [tnbc]  src\visualization\generate_all_q1_figures.py
-1e1d7797a8f7257c648cfd66bc0960bbf43975e4e4d1e2ebf45554726b2540cb         37483 bytes  [tnbc]  src\visualization\generate_beilstein_word_manuscript.py
+c0d4b741096360ee3a09f2aa6e80affd4d34879e3cff4024df7f0a6a834b5da0         23481 bytes  [tnbc]  src\visualization\generate_all_q1_figures.py
+b047d5a81705884a8c18b4dcdf925f19b55f2417e7b770571d66e0df063a411a         38428 bytes  [tnbc]  src\visualization\generate_beilstein_word_manuscript.py
 bdcbb647613096f4be4c8bd0d190fea8b8c1130ca300d8409efd8f9fcdc7fb13          3820 bytes  [tnbc]  src\visualization\generate_fig2_quantum_schematics.py
 6ab8a0e2b6238f992c855387cb6c0ff8204309ea689e67c2b1b3c3e8a8af34be          9137 bytes  [tnbc]  src\visualization\generate_master_q1_figure_set.py
 6d0088dcf2fa7ce61087817135e7f77097f07486deb1e7654b7c0615ae45debf         10933 bytes  [tnbc]  src\visualization\generate_publication_figures.py

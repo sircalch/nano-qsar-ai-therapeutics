@@ -145,8 +145,9 @@ def build_manuscript_word():
         "while isolated therapeutics bind within the deep catalytic pocket (mean: -7.22 kcal/mol, spanning -10.22 to -3.91 kcal/mol), "
         "nanocarrier conjugation with B36N36 and B36N36-COOH systematically amplifies macromolecular stabilization to -11.13 kcal/mol "
         "and -12.13 kcal/mol, respectively, inducing a spatial relocation toward the outer regulatory cleft and polar surface grooves. "
-        "Tree-based machine learning (ExtraTrees, XGBoost) and Multiple Linear Regression (MLR) models achieved high predictive "
-        "precision (test MAPE = 5.05%–6.90%, R2 > 0.86). Game-theoretic SHAP analysis elucidated that nanocarrier adsorption energy "
+        "A regularized Ridge surrogate model (4 pre-specified orthogonal descriptors, n/p = 8.75) evaluated by fully leak-free nested "
+        "5x5 cross-validation (StandardScaler fit inside the pipeline on outer-training folds only) achieved modest, non-overfit "
+        "predictive accuracy (Q2_CV = 0.11-0.17 across the three systems; RMSE 1.28-1.43 kcal/mol). Game-theoretic SHAP analysis elucidated that nanocarrier adsorption energy "
         "(ΔE_ads), aromatic ring density, and electronic chemical potential (μ) drive complex stabilization. Compliance with OECD QSAR "
         "principles was established via Williams domain-of-applicability plots. These findings provide an actionable computational "
         "blueprint for the rational design of non-carbonaceous boron nitride nanomedicines against triple-negative breast cancer."
@@ -276,11 +277,15 @@ def build_manuscript_word():
     
     add_heading_styled(doc, "2.4 Machine Learning, Explainable AI (SHAP), and OECD Validation", level=2)
     doc.add_paragraph(
-        "The dataset was partitioned into an 80% training set and an independent 20% external validation set using stratified splitting. "
-        "Supervised regressor models (ExtraTrees, XGBoost, and Multiple Linear Regression) were trained with 5-fold cross-validation. "
-        "Model performance was evaluated using Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), "
-        "Mean Absolute Percentage Error (MAPE), and coefficient of determination (R2). Game-theoretic SHAP (SHapley Additive exPlanations) "
-        "was computed to quantify the exact marginal contribution of each descriptor. Compliance with OECD Principle 3 (Domain of Applicability) "
+        "A regularized Ridge surrogate model with 4 pre-specified orthogonal descriptors (MW, LogP, Polarizability_alpha, "
+        "Electrophilicity_omega; n/p = 8.75 per system, n = 35) was evaluated by a fully leak-free nested 5x5 cross-validation "
+        "protocol: an outer 5-fold split produced out-of-fold predictions for every compound, while StandardScaler and the Ridge "
+        "regularization strength (alpha) were fit exclusively on each outer-training split via an inner 5-fold RidgeCV, so no "
+        "test-fold information leaked into preprocessing or hyperparameter selection. Model performance was evaluated using Root "
+        "Mean Squared Error (RMSE), Mean Absolute Error (MAE), and the pooled out-of-fold coefficient of determination (Q2_CV). "
+        "Game-theoretic SHAP (SHapley Additive exPlanations), computed from exploratory tree-based models (ExtraTrees, XGBoost) "
+        "fit on the full data, was used descriptively to rank candidate governing descriptors and was not used to select or "
+        "validate the reported Ridge surrogate. Compliance with OECD Principle 3 (Domain of Applicability) "
         "was confirmed via Williams plots of standardized residuals versus hat leverage values (h_i) relative to the critical threshold h* = 3(p+1)/n."
     )
     
@@ -433,22 +438,22 @@ def build_manuscript_word():
         
     add_heading_styled(doc, "3.5 Machine Learning Benchmarking and Explainable AI (SHAP)", level=2)
     doc.add_paragraph(
-        "Table 2 summarizes the performance metrics of the machine learning algorithms evaluated on the independent external test set (20%). "
-        "Both ExtraTrees and XGBoost regressors exhibited exceptional predictive accuracy with test MAPEs between 6.90% and 9.86% and RMSE < 0.95 kcal/mol. "
-        "Game-theoretic SHAP variable importance rankings (Figure 7) confirmed that nanocarrier adsorption energy (ΔE_ads), aromatic ring density, "
-        "electronic chemical potential (μ), and molecular weight are the principal biophysical governing factors."
+        "Table 2 summarizes the performance of a regularized Ridge surrogate model (4 pre-specified orthogonal descriptors: MW, LogP, "
+        "Polarizability_alpha, Electrophilicity_omega; n/p = 8.75) evaluated by fully leak-free nested 5x5 cross-validation "
+        "(StandardScaler fit inside the modelling pipeline on outer-training folds only; alpha selected by inner RidgeCV) on all 35 "
+        "compounds per system, reported as out-of-fold predictions rather than a single held-out 20% split. Predictive accuracy is "
+        "modest and non-overfit (Q2_CV = 0.109-0.173, RMSE 1.28-1.43 kcal/mol) across the three systems -- exploratory rather than "
+        "confirmatory, consistent with the small sample size. Game-theoretic SHAP variable importance rankings (Figure 7) nonetheless indicate that nanocarrier adsorption energy (ΔE_ads), aromatic ring density, "
+        "electronic chemical potential (μ), and molecular weight are the principal biophysical governing factors considered by the model."
     )
-    
+
     # TABLE 2
-    doc.add_paragraph().add_run("Table 2. Machine Learning and MLR performance benchmarking on the independent external validation set.").font.bold = True
+    doc.add_paragraph().add_run("Table 2. Leak-free nested 5x5 cross-validation performance of the Ridge surrogate model (out-of-fold predictions, n=35 per system).").font.bold = True
     table2_data = [
-        ["System", "Algorithm", "MSE (kcal²/mol²)", "MAE (kcal/mol)", "RMSE (kcal/mol)", "MAPE (%)", "R²"],
-        ["Isolated Drugs", "XGBoost", "0.854", "0.742", "0.924", "9.04%", "0.633"],
-        ["Isolated Drugs", "ExtraTrees", "1.120", "0.880", "1.058", "13.87%", "0.100"],
-        ["Drug–B36N36 Pristine", "XGBoost", "0.812", "0.710", "0.901", "7.20%", "0.410"],
-        ["Drug–B36N36 Pristine", "ExtraTrees", "0.985", "0.810", "0.992", "9.86%", "0.272"],
-        ["Drug–B36N36-COOH", "XGBoost", "0.790", "0.680", "0.889", "6.90%", "0.531"],
-        ["Drug–B36N36-COOH", "ExtraTrees", "0.895", "0.740", "0.946", "9.09%", "0.169"]
+        ["System", "Algorithm", "n", "p", "MAE (kcal/mol)", "RMSE (kcal/mol)", "Q2_CV"],
+        ["Isolated Drugs", "Ridge (nested 5x5 CV)", "35", "4", "0.931", "1.283", "0.136"],
+        ["Drug–B36N36 Pristine", "Ridge (nested 5x5 CV)", "35", "4", "1.053", "1.429", "0.109"],
+        ["Drug–B36N36-COOH", "Ridge (nested 5x5 CV)", "35", "4", "1.018", "1.376", "0.173"],
     ]
     t2 = doc.add_table(rows=len(table2_data), cols=7)
     t2.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -533,7 +538,7 @@ def build_manuscript_word():
     concl_points = [
         "1. Physical Docking Validation: Real AutoDock Vina v1.2.7 calculations on the crystallographic human PARP1 catalytic domain (PDB ID: 4UND) confirmed strong target affinities for anti-TNBC agents, with irinotecan (-10.22 kcal/mol), abemaciclib (-9.06 kcal/mol), lapatinib (-8.83 kcal/mol), and olaparib (-8.76 kcal/mol) exhibiting top scores.",
         "2. Nanocarrier Affinity Amplification: Conjugation with B36N36 and B36N36-COOH systematically amplifies macromolecular stabilization to -11.13 kcal/mol and -12.13 kcal/mol, respectively, inducing spatial relocation toward outer regulatory clefts and polar surface grooves.",
-        "3. High Machine Learning Precision: Tree-based models (XGBoost, ExtraTrees) achieved test MAPEs of 6.90%–9.86% with RMSE < 0.95 kcal/mol on independent validation data.",
+        "3. Leak-Free Machine Learning Benchmark: A Ridge surrogate model evaluated by fully leak-free nested 5x5 cross-validation achieved modest, non-overfit predictive accuracy (Q2_CV = 0.109-0.173, RMSE 1.28-1.43 kcal/mol across the three systems), an honest exploratory baseline for this sample size.",
         "4. Biophysical Interpretability & OECD Compliance: SHAP analysis demonstrated that nanocarrier adsorption energy (ΔE_ads), aromatic ring density, and electronic chemical potential (μ) drive complex stabilization. Domain of applicability validation via Williams plots established 100% compliance with OECD Principle 3.",
         "5. Translational Nanomedicine Utility: Functionalized boron nitride nanocages offer an effective, non-carbonaceous, and biocompatible platform to overcome solubility and toxicity limitations in targeted Triple-Negative Breast Cancer chemotherapy."
     ]

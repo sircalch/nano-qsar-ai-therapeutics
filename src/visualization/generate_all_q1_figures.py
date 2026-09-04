@@ -335,45 +335,71 @@ def make_fig6_shap_suite(base_dir, fig_dir):
 # FIGURE 7: Parity Plots & Multi-Algorithm Benchmark
 # ==============================================================================
 def make_fig7_parity_benchmark(base_dir, fig_dir):
+    # Real, leak-free nested 5x5 CV per system -- replaces a previous version
+    # that plotted FABRICATED scatter points ("XGBoost predictions simulation
+    # matching exact metrics": y_pred = y_obs + np.random.normal(0, 0.45, ...))
+    # annotated with real-looking but single-80/20-split R^2/RMSE/MAPE values
+    # (n/p = 28/8 = 3.5, below the n/p>=5 OECD guidance used elsewhere in this
+    # project) read from qsar_models_benchmark_summary.json.
+    #
+    # Uses the same leak-free scheme as scripts/run_nested_cv_leakfree.py
+    # (StandardScaler inside the pipeline, RidgeCV inner loop, outer 5-fold
+    # cross_val_predict) with 4 pre-specified orthogonal descriptors
+    # (MW, LogP, Polarizability_alpha, Electrophilicity_omega; n/p = 35/4 = 8.75),
+    # matching the descriptor family used for the KRAS/GBM/Tau QSPR surrogates.
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.linear_model import RidgeCV
+    from sklearn.model_selection import KFold, cross_val_predict
+    from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+
     fig, axes = plt.subplots(1, 3, figsize=(16, 5.2), dpi=300)
     splits_dir = os.path.join(base_dir, "data", "splits")
-    
+    desc_cols = ["MW", "LogP", "Polarizability_alpha", "Electrophilicity_omega"]
+    alpha_grid = np.array([0.001, 0.01, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0])
+
     systems = [
         ("Isolated_Drugs", "(a) Isolated Drugs", "#1565C0"),
         ("Drug_B36N36_Pristine", r"(b) Drug + $B_{36}N_{36}$ Pristine", "#2E7D32"),
         ("Drug_B36N36_COOH", r"(c) Drug + $B_{36}N_{36}\text{-COOH}$", "#C62828")
     ]
-    
-    with open(os.path.join(base_dir, "results", "models", "qsar_models_benchmark_summary.json"), 'r') as f:
-        summary_data = json.load(f)
-        
+
     for i, (sys_id, title, col) in enumerate(systems):
-        val_df = pd.read_csv(os.path.join(splits_dir, f"{sys_id}_validation.csv"))
-        y_obs = val_df['Docking_Score_kcal_mol']
-        
-        # XGBoost predictions simulation matching exact metrics
-        noise = np.random.normal(0, 0.45, len(y_obs))
-        y_pred = y_obs + noise
-        
-        min_v = min(y_obs.min(), y_pred.min()) - 0.6
-        max_v = max(y_obs.max(), y_pred.max()) + 0.6
-        
+        tr = pd.read_csv(os.path.join(splits_dir, f"{sys_id}_train.csv"))
+        va = pd.read_csv(os.path.join(splits_dir, f"{sys_id}_validation.csv"))
+        df_full = pd.concat([tr, va], ignore_index=True)
+        X = df_full[desc_cols].values
+        y = df_full["Docking_Score_kcal_mol"].values
+        n, p = X.shape
+
+        outer_cv = KFold(n_splits=5, shuffle=True, random_state=42)
+        inner_cv = KFold(n_splits=5, shuffle=True, random_state=42)
+        pipe = Pipeline([("scaler", StandardScaler()), ("ridge", RidgeCV(alphas=alpha_grid, cv=inner_cv))])
+        y_pred = cross_val_predict(pipe, X, y, cv=outer_cv)
+
+        rmse = mean_squared_error(y, y_pred) ** 0.5
+        mae = mean_absolute_error(y, y_pred)
+        r2 = r2_score(y, y_pred)
+
+        min_v = min(y.min(), y_pred.min()) - 0.6
+        max_v = max(y.max(), y_pred.max()) + 0.6
+
         axes[i].plot([min_v, max_v], [min_v, max_v], 'k--', lw=1.6, alpha=0.7, label='Ideal 1:1 Identity')
-        axes[i].scatter(y_obs, y_pred, color=col, s=80, edgecolor='black', zorder=3, alpha=0.9, label='External Test Set (20%)')
-        
-        metrics = summary_data[sys_id]["Validation_Metrics"]["XGBoost"]
-        stats_txt = f"XGBoost MAPE = {metrics['MAPE']}%\nRMSE = {metrics['RMSE']} kcal/mol\n$R^2$ = {metrics['R2']}"
+        axes[i].scatter(y, y_pred, color=col, s=80, edgecolor='black', zorder=3, alpha=0.9,
+                         label=f'Out-of-Fold Prediction (n={n})')
+
+        stats_txt = f"Leak-free nested 5x5 CV (n={n}, p={p})\nRMSE = {rmse:.3f} kcal/mol\nMAE = {mae:.3f} kcal/mol\n$Q^2_{{CV}}$ = {r2:.3f}"
         axes[i].text(0.06, 0.92, stats_txt, transform=axes[i].transAxes, fontsize=9.5,
                      verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.88, edgecolor='#B0BEC5'))
-                     
+
         axes[i].set_xlim([min_v, max_v])
         axes[i].set_ylim([min_v, max_v])
         axes[i].set_xlabel("Real AutoDock Vina Score (kcal/mol)", fontsize=10.5)
-        axes[i].set_ylabel("Predicted Docking Score (kcal/mol)", fontsize=10.5)
+        axes[i].set_ylabel("Out-of-Fold Predicted Docking Score (kcal/mol)", fontsize=10.5)
         axes[i].set_title(title, fontsize=11.5, fontweight='bold')
         axes[i].legend(loc='lower right', fontsize=9)
-        
-    plt.suptitle("Figure 7. Parity Plots of Observed vs. Predicted Binding Affinities on Independent External Validation Sets",
+
+    plt.suptitle("Figure 7. Leak-Free Nested Cross-Validation Parity: Observed vs. Out-of-Fold Predicted Binding Affinities",
                  fontsize=13.5, fontweight='bold', y=0.98, color="#0D47A1")
     plt.tight_layout()
     out_file = os.path.join(fig_dir, "fig7_parity_models_evaluation.png")
