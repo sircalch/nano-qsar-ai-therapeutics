@@ -488,7 +488,7 @@ def build_manuscript_word():
         r_c8 = p_cap8.add_run("Figure 8. ")
         r_c8.font.bold = True
         r_c8.font.name = 'Arial'
-        p_cap8.add_run("OECD Principle 3: Williams plots defining the QSAR Domain of Applicability for all three molecular systems. Standardized residuals (δ_i) are plotted against hat leverage values (h_i) with ±3σ warning boundaries and critical leverage limits (h* = 0.86).")
+        p_cap8.add_run("OECD Principle 3: Williams plots defining the QSAR Domain of Applicability for all three molecular systems, using the real out-of-fold standardized residuals (δ_i) from the leak-free nested 5x5 Ridge CV of Figure 7 / Table 2, plotted against hat leverage values (h_i) with ±3σ warning boundaries and critical leverage limit (h* = 3(p+1)/n = 0.43; n=35, p=4).")
         
     fig9_path = os.path.join(fig_dir, "fig7_parity_models_evaluation.png")
     if os.path.exists(fig9_path):
