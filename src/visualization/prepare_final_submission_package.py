@@ -208,7 +208,7 @@ def create_submission_checklist(sub_dir):
 ## 📋 Required Documents & Files:
 - [x] **01_Cover_Letter_Beilstein.docx** (Cover letter with summary, highlights, and author declarations).
 - [x] **02_Main_Manuscript_Monreal_Hernandez_et_al.docx** (Full article with embedded 300 DPI figures and Tables 1–2).
-- [x] **03_Supplementary_Information_Monreal_Hernandez_et_al.docx** (Complete Tables S1 to S5).
+- [x] **03_Supplementary_Information_Monreal_Hernandez_et_al.docx** (Tables S1-S3: real dataset, formal charges, OECD checklist).
 - [x] **04_Graphical_Abstract.png** (Official High-Resolution Graphical Abstract, 300 DPI).
 - [x] **05_Figures_300DPI/** (Numbered individual high-resolution figures Fig 1 to Fig 9).
 - [x] **06_Suggested_Reviewers.txt** (5 expert reviewers with institutions and email addresses).
@@ -249,7 +249,12 @@ def build_complete_submission_folder():
     dst_ms = os.path.join(sub_dir, "02_Main_Manuscript_Monreal_Hernandez_et_al.docx")
     if os.path.exists(src_ms):
         shutil.copyfile(src_ms, dst_ms)
-        
+
+    src_si = os.path.join(base_dir, "manuscript", "TNBC_Nanocage_Supporting_Information.docx")
+    dst_si = os.path.join(sub_dir, "03_Supporting_Information_Monreal_Hernandez_et_al.docx")
+    if os.path.exists(src_si):
+        shutil.copyfile(src_si, dst_si)
+
     # 3. Graphical Abstract
     src_ga = os.path.join(base_dir, "figures", "fig1_workflow_methodology.png")
     dst_ga = os.path.join(sub_dir, "04_Graphical_Abstract.png")

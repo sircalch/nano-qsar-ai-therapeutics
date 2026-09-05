@@ -3,7 +3,7 @@
 ## 📋 Required Documents & Files:
 - [x] **01_Cover_Letter_Beilstein.docx** (Cover letter with summary, highlights, and author declarations).
 - [x] **02_Main_Manuscript_Monreal_Hernandez_et_al.docx** (Full article with embedded 300 DPI figures and Tables 1–2).
-- [x] **03_Supplementary_Information_Monreal_Hernandez_et_al.docx** (Complete Tables S1 to S5).
+- [x] **03_Supplementary_Information_Monreal_Hernandez_et_al.docx** (Tables S1-S3: real dataset, formal charges, OECD checklist).
 - [x] **04_Graphical_Abstract.png** (Official High-Resolution Graphical Abstract, 300 DPI).
 - [x] **05_Figures_300DPI/** (Numbered individual high-resolution figures Fig 1 to Fig 9).
 - [x] **06_Suggested_Reviewers.txt** (5 expert reviewers with institutions and email addresses).
