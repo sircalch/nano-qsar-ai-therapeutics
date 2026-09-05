@@ -319,35 +319,47 @@ def build_manuscript_word():
         
     add_heading_styled(doc, "3.2 Physical Molecular Docking on PARP1 and Active Site Relocation", level=2)
     doc.add_paragraph(
-        "Table 1 presents the physical binding free energies computed directly with AutoDock Vina v1.2.7 for representative therapeutics "
-        "docked against human PARP1 (PDB: 4UND). Isolated therapeutics exhibit an average binding score of -7.22 kcal/mol, spanning from "
-        "-10.22 kcal/mol (irinotecan) to -3.91 kcal/mol (ixabepilone). Targeted small-molecule kinase inhibitors and bulky topoisomerase "
-        "inhibitors display higher binding affinities due to extensive van der Waals surface contacts and aromatic π-stacking."
+        "Table 1 presents the physical binding free energies computed directly with AutoDock Vina v1.2.7 for the 20 therapeutics with real "
+        "docking against human PARP1 (PDB: 4UND) that also have a real GFN2-xTB single-point interaction energy computed against the "
+        "pristine B36N36 cage, alongside that real interaction energy. Isolated therapeutics in this overlap span from -9.06 kcal/mol "
+        "(abemaciclib) to -6.16 kcal/mol (rucaparib); real B36N36 interaction energies range from -0.38 to -4.83 kcal/mol and do not track "
+        "isolated affinity monotonically. No real structural or quantum data exists for the carboxylated B36N36-COOH derivative, so it is "
+        "not reported in this table."
     )
-    
-    # ADD TABLE 1
-    doc.add_paragraph().add_run("Table 1. Physical AutoDock Vina v1.2.7 binding affinities (ΔG_bind, kcal/mol) on human PARP1 (PDB ID: 4UND) and predicted nanocarrier complexes.").font.bold = True
-    
+
+    # ADD TABLE 1 -- real data only: the 20 compounds with both real isolated
+    # Vina docking (dataset_isolated_drugs.csv) and real GFN2-xTB single-point
+    # interaction energy on the pristine B36N36 cage (dataset_tnbc_bn_pristine.csv).
+    # Previously this was a fully hand-typed table (constant-offset pattern,
+    # e.g. "B36N36 = Isolated - ~4.1"), never derived from any real docking or
+    # quantum calculation; the B36N36-COOH column had no real data at all.
+    doc.add_paragraph().add_run("Table 1. Physical AutoDock Vina v1.2.7 binding affinities on human PARP1 (PDB ID: 4UND) and real GFN2-xTB single-point interaction energies on pristine B36N36 (real data only, n=20 compounds with both).").font.bold = True
+
     table1_data = [
-        ["Therapeutic Agent", "Mechanistic Class", "DrugBank ID", "Isolated Vina (kcal/mol)", "Drug + B36N36 (kcal/mol)", "Drug + B36N36-COOH (kcal/mol)"],
-        ["Irinotecan", "Topoisomerase I Inhibitor", "DB00762", "-10.22", "-14.33", "-15.30"],
-        ["Abemaciclib", "CDK4/6 Inhibitor", "DB12001", "-9.06", "-13.22", "-14.23"],
-        ["Bemcentinib", "AXL Kinase Inhibitor", "DB12411", "-8.84", "-13.00", "-14.01"],
-        ["Lapatinib", "EGFR/HER2 Inhibitor", "DB01259", "-8.83", "-13.00", "-14.01"],
-        ["Olaparib", "PARP1 Inhibitor", "DB00140", "-8.76", "-12.81", "-13.82"],
-        ["Exatecan", "Topoisomerase I Inhibitor", "DB04982", "-8.40", "-12.35", "-13.36"],
-        ["Palbociclib", "CDK4/6 Inhibitor", "DB09073", "-8.17", "-12.18", "-13.19"],
-        ["Alpelisib", "PI3Kα Inhibitor", "DB12001", "-8.01", "-12.02", "-13.03"],
-        ["Talazoparib", "PARP1 Inhibitor", "DB11760", "-7.89", "-11.93", "-12.94"],
-        ["Topotecan", "Topoisomerase I Inhibitor", "DB01030", "-7.84", "-11.85", "-12.86"],
-        ["Etoposide", "Topoisomerase II Inhibitor", "DB00773", "-7.79", "-11.77", "-12.78"],
-        ["Idarubicin", "Anthracycline", "DB00642", "-7.94", "-11.95", "-12.96"],
-        ["Doxorubicin", "Anthracycline", "DB00997", "-7.34", "-11.35", "-12.36"],
-        ["Gemcitabine", "Antimetabolite", "DB00441", "-5.34", "-9.05", "-10.06"],
-        ["5-Fluorouracil", "Antimetabolite", "DB00544", "-3.98", "-7.37", "-8.28"]
+        ["Therapeutic Agent", "Mechanistic Class", "DrugBank ID", "Isolated Vina (kcal/mol)", "Drug + B36N36 real ΔE_int,SP (kcal/mol)"],
+        ["Abemaciclib", "CDK4/6 Inhibitor", "DB12001", "-9.06", "-1.41"],
+        ["Lapatinib", "EGFR/HER2 Inhibitor", "DB01259", "-8.83", "-1.79"],
+        ["Olaparib", "PARP Inhibitor", "DB00140", "-8.76", "-0.38"],
+        ["Exatecan", "Topoisomerase I Inhibitor / DXd precursor", "DB04982", "-8.40", "-2.15"],
+        ["Palbociclib", "CDK4/6 Inhibitor", "DB09073", "-8.17", "-1.33"],
+        ["Alpelisib", "PI3Kalpha Inhibitor", "DB12001", "-8.01", "-0.97"],
+        ["Talazoparib", "PARP Inhibitor", "DB11760", "-7.89", "-1.53"],
+        ["Topotecan", "Topoisomerase I Inhibitor", "DB01030", "-7.84", "-2.51"],
+        ["Etoposide", "Topoisomerase II Inhibitor", "DB00773", "-7.79", "-4.83"],
+        ["Pamiparib", "PARP Inhibitor", "DB15002", "-7.75", "-4.12"],
+        ["Eribulin", "Halichondrin B Analog", "DB08871", "-7.73", "-2.97"],
+        ["Ribociclib", "CDK4/6 Inhibitor", "DB09075", "-7.71", "-0.77"],
+        ["Niraparib", "PARP Inhibitor", "DB12340", "-7.66", "-1.26"],
+        ["SN-38", "Topoisomerase I Inhibitor / ADC Payload", "DB05482", "-7.56", "-1.79"],
+        ["Doxorubicin", "Anthracycline", "DB00997", "-7.34", "-3.02"],
+        ["Epirubicin", "Anthracycline", "DB00445", "-7.12", "-3.17"],
+        ["Gefitinib", "EGFR Inhibitor", "DB00317", "-6.78", "-3.35"],
+        ["Veliparib", "PARP Inhibitor", "DB11692", "-6.34", "-0.61"],
+        ["Erlotinib", "EGFR Inhibitor", "DB00530", "-6.34", "-3.79"],
+        ["Rucaparib", "PARP Inhibitor", "DB12331", "-6.16", "-1.07"],
     ]
-    
-    t1 = doc.add_table(rows=len(table1_data), cols=6)
+
+    t1 = doc.add_table(rows=len(table1_data), cols=5)
     t1.alignment = WD_TABLE_ALIGNMENT.CENTER
     for r_idx, row in enumerate(table1_data):
         for c_idx, val in enumerate(row):
@@ -388,10 +400,12 @@ def build_manuscript_word():
         
     add_heading_styled(doc, "3.3 3D Quantum Geometries and Intermolecular Interactions", level=2)
     doc.add_paragraph(
-        "Figure 5 displays the DFTB3-D4 optimized 3D ground-state structures for the representative nanocarrier complexes. In Olaparib + B36N36 "
-        "(Figure 5a), strong non-covalent π-π stacking and dispersion forces dictate adsorption (ΔE_ads = -24.85 kcal/mol) with an equilibrium "
-        "intermolecular distance of 3.42 Å. In the carboxylated conjugate Talazoparib + B36N36-COOH (Figure 5b), functionalization introduces "
-        "a direct carboxyl O-H···N hydrogen bonding bridge (d = 1.92 Å), significantly enhancing complex stability (ΔE_ads = -30.80 kcal/mol)."
+        "Figure 5 is a schematic 3D rendering illustrating the proposed binding motifs for the nanocarrier complexes, not a rendering of a "
+        "DFTB3/GFN2-xTB optimized geometry (the underlying cage and ligand coordinates are illustrative). Panel (a) depicts the proposed "
+        "non-covalent π-π stacking and dispersion-driven adsorption motif for Olaparib + B36N36; the real GFN2-xTB single-point interaction "
+        "energy for this pair is -0.38 kcal/mol (Table 1), with a real relaxed-geometry value of -13.42 kcal/mol available for a curated "
+        "8-compound subset (Supporting Information). Panel (b) depicts a proposed carboxyl O-H...N hydrogen-bonding motif for a "
+        "B36N36-COOH conjugate; no real structural or quantum data exists for the carboxylated cage, so no energetic value is reported for it."
     )
     
     # EMBED FIGURE 5
@@ -405,7 +419,7 @@ def build_manuscript_word():
         r_c5 = p_cap5.add_run("Figure 5. ")
         r_c5.font.bold = True
         r_c5.font.name = 'Arial'
-        p_cap5.add_run("Quantum chemical (DFTB3-D4) 3D ground-state geometries rendered with ray-traced ball-and-stick representations: (a) Olaparib + B36N36 pristine nanocage displaying intermolecular π-π stacking (d = 3.42 Å, ΔE_ads = -24.85 kcal/mol); (b) Talazoparib + B36N36-COOH complex displaying carboxyl O-H···N hydrogen bonding (d = 1.92 Å, ΔE_ads = -30.80 kcal/mol).")
+        p_cap5.add_run("Schematic 3D representations of the proposed binding motifs (illustrative coordinates, not DFTB3/GFN2-xTB optimized geometries): (a) Olaparib + B36N36 pristine nanocage, proposed π-π stacking motif (real GFN2-xTB single-point ΔE_int = -0.38 kcal/mol; real relaxed-geometry value -13.42 kcal/mol for a curated subset); (b) proposed Talazoparib + B36N36-COOH carboxyl O-H···N hydrogen-bonding motif -- no real structural/quantum data exists for the carboxylated cage.")
         
     add_heading_styled(doc, "3.4 Statistical Docking Distributions and Residue Interactions", level=2)
     doc.add_paragraph(
@@ -505,16 +519,18 @@ def build_manuscript_word():
         
     add_heading_styled(doc, "3.6 Explicit Analytical QSAR Mathematical Models", level=2)
     doc.add_paragraph(
-        "Using the top AI-ranked descriptors, compact, transparent, and exportable Multiple Linear Regression (MLR) models were formulated:"
+        "Using the top AI-ranked descriptors on the real observed data, compact, transparent, and exportable Multiple Linear Regression (MLR) "
+        "models were formulated. Model 1 is fit on the real isolated-drug Vina docking data. Model 2 is refit here on the real GFN2-xTB "
+        "single-point interaction energies for the pristine B36N36 cage (dataset_tnbc_bn_pristine.csv, n=33); the version of this equation in "
+        "an earlier draft was fit on a fabricated Docking_Score_kcal_mol and is superseded. No real structural or quantum data exists for the "
+        "B36N36-COOH system, so no Model 3 is reported."
     )
-    
+
     mlr_eqs = [
-        ("Model 1 (Isolated Therapeutics):", 
+        ("Model 1 (Isolated Therapeutics, real Vina, n=35):",
          "Score_Isolated = +65.4718 - 0.3772(NOR) + 0.4849(AromRings) + 0.0627(WS) - 0.7022(LogS) + 0.0467(α) - 0.6372(Fraction_Csp3) - 13.6666(χ) + 5.5923(E_LUMO)"),
-        ("Model 2 (Drug + B36N36 Pristine Complexes):",
-         "Score_B36N36 = +5.4843 - 1.6185(AromRings) - 0.0087(NOR) + 0.0585(WS) + 1.5260(LogS) + 0.5801(μ) - 2.4520(Fraction_Csp3) + 1.2735(LogP) + 0.0932(α)"),
-        ("Model 3 (Drug + B36N36-COOH Functionalized Conjugates):",
-         "Score_B36N36-COOH = +58.7165 - 1.0280(AromRings) - 0.3316(NOR) + 0.0634(WS) - 0.4213(LogS) - 5.5993(χ) + 5.5993(μ) + 0.0253(α) - 0.9653(Fraction_Csp3)")
+        ("Model 2 (Drug + B36N36 Pristine, real GFN2-xTB ΔE_int,SP, n=33):",
+         "Score_B36N36 = -16.8827 - 0.0044(MolWt) + 0.0014(MolMR) - 1.7479(E_HOMO) - 0.0118(ω)"),
     ]
     for m_title, m_eq in mlr_eqs:
         p_m = doc.add_paragraph()
