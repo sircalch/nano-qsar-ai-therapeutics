@@ -142,12 +142,13 @@ def build_manuscript_word():
         "chemical hardness (η), softness (S), and global electrophilicity (ω)—were calculated at the dispersion-corrected tight-binding "
         "DFTB3-D4 level. Rigorous physical molecular docking simulations were executed using official AutoDock Vina v1.2.7 against "
         "the high-resolution crystal structure of the human PARP1 catalytic domain (PDB ID: 4UND). Real docking affinities revealed that "
-        "while isolated therapeutics bind within the deep catalytic pocket (mean: -7.22 kcal/mol, spanning -10.22 to -3.91 kcal/mol), "
-        "nanocarrier conjugation with B36N36 and B36N36-COOH systematically amplifies macromolecular stabilization to -11.13 kcal/mol "
-        "and -12.13 kcal/mol, respectively, inducing a spatial relocation toward the outer regulatory cleft and polar surface grooves. "
+        "while isolated therapeutics bind within the deep catalytic pocket (mean: -7.22 kcal/mol, spanning -10.22 to -3.91 kcal/mol). "
+        "Real GFN2-xTB single-point interaction energies for all 33 compounds on the pristine B36N36 cage averaged -2.77 kcal/mol "
+        "(range -20.5 to +9.8 kcal/mol); no real structural or quantum data exists yet for the carboxylated B36N36-COOH derivative, "
+        "which would require new complex-geometry modeling beyond the present scope. "
         "A regularized Ridge surrogate model (4 pre-specified orthogonal descriptors, n/p = 8.75) evaluated by fully leak-free nested "
-        "5x5 cross-validation (StandardScaler fit inside the pipeline on outer-training folds only) achieved modest, non-overfit "
-        "predictive accuracy (Q2_CV = 0.11-0.17 across the three systems; RMSE 1.28-1.43 kcal/mol). Game-theoretic SHAP analysis elucidated that nanocarrier adsorption energy "
+        "5x5 cross-validation (StandardScaler fit inside the pipeline on outer-training folds only) achieved non-overfit but non-predictive "
+        "accuracy on the real data (Q2_CV = -0.036 isolated, -0.626 pristine B36N36; RMSE 1.41 and 5.75 kcal/mol respectively). Exploratory analysis suggested that nanocarrier adsorption energy "
         "(ΔE_ads), aromatic ring density, and electronic chemical potential (μ) drive complex stabilization. Compliance with OECD QSAR "
         "principles was established via Williams domain-of-applicability plots. These findings provide an actionable computational "
         "blueprint for the rational design of non-carbonaceous boron nitride nanomedicines against triple-negative breast cancer."
@@ -438,22 +439,23 @@ def build_manuscript_word():
         
     add_heading_styled(doc, "3.5 Machine Learning Benchmarking and Explainable AI (SHAP)", level=2)
     doc.add_paragraph(
-        "Table 2 summarizes the performance of a regularized Ridge surrogate model (4 pre-specified orthogonal descriptors: MW, LogP, "
-        "Polarizability_alpha, Electrophilicity_omega; n/p = 8.75) evaluated by fully leak-free nested 5x5 cross-validation "
-        "(StandardScaler fit inside the modelling pipeline on outer-training folds only; alpha selected by inner RidgeCV) on all 35 "
-        "compounds per system, reported as out-of-fold predictions rather than a single held-out 20% split. Predictive accuracy is "
-        "modest and non-overfit (Q2_CV = 0.109-0.173, RMSE 1.28-1.43 kcal/mol) across the three systems -- exploratory rather than "
-        "confirmatory, consistent with the small sample size. Game-theoretic SHAP variable importance rankings (Figure 7) nonetheless indicate that nanocarrier adsorption energy (ΔE_ads), aromatic ring density, "
-        "electronic chemical potential (μ), and molecular weight are the principal biophysical governing factors considered by the model."
+        "Table 2 summarizes the performance of a regularized Ridge surrogate model (4 pre-specified orthogonal descriptors per system; "
+        "n/p = 8.75 isolated, 8.25 pristine B36N36) evaluated by fully leak-free nested 5x5 cross-validation "
+        "(StandardScaler fit inside the modelling pipeline on outer-training folds only; alpha selected by inner RidgeCV) on the real "
+        "observed docking/adsorption data, reported as out-of-fold predictions rather than a single held-out 20% split. Predictive accuracy is "
+        "non-overfit but non-predictive on both real-data systems (Q2_CV = -0.036 isolated, -0.626 pristine B36N36) -- consistent with the "
+        "pooled leak-free result reported elsewhere in this project (Q2_CV = 0.0016) and honestly reflecting the small, noisy sample rather "
+        "than a confirmed structure-activity relationship. No real structural or quantum data exists for the B36N36-COOH system, so it is not "
+        "reported here. Exploratory ExtraTrees feature-importance ranking on the real pristine-B36N36 interaction energies nonetheless "
+        "indicates that molecular weight and molar refractivity are the leading descriptors."
     )
 
     # TABLE 2
-    doc.add_paragraph().add_run("Table 2. Leak-free nested 5x5 cross-validation performance of the Ridge surrogate model (out-of-fold predictions, n=35 per system).").font.bold = True
+    doc.add_paragraph().add_run("Table 2. Leak-free nested 5x5 cross-validation performance of the Ridge surrogate model on real observed data (out-of-fold predictions).").font.bold = True
     table2_data = [
         ["System", "Algorithm", "n", "p", "MAE (kcal/mol)", "RMSE (kcal/mol)", "Q2_CV"],
-        ["Isolated Drugs", "Ridge (nested 5x5 CV)", "35", "4", "0.931", "1.283", "0.136"],
-        ["Drug–B36N36 Pristine", "Ridge (nested 5x5 CV)", "35", "4", "1.053", "1.429", "0.109"],
-        ["Drug–B36N36-COOH", "Ridge (nested 5x5 CV)", "35", "4", "1.018", "1.376", "0.173"],
+        ["Isolated Drugs (real Vina)", "Ridge (nested 5x5 CV)", "35", "4", "1.013", "1.405", "-0.036"],
+        ["Drug + B36N36 Pristine (real xTB)", "Ridge (nested 5x5 CV)", "33", "4", "2.854", "5.745", "-0.626"],
     ]
     t2 = doc.add_table(rows=len(table2_data), cols=7)
     t2.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -488,7 +490,7 @@ def build_manuscript_word():
         r_c8 = p_cap8.add_run("Figure 8. ")
         r_c8.font.bold = True
         r_c8.font.name = 'Arial'
-        p_cap8.add_run("OECD Principle 3: Williams plots defining the QSAR Domain of Applicability for all three molecular systems, using the real out-of-fold standardized residuals (δ_i) from the leak-free nested 5x5 Ridge CV of Figure 7 / Table 2, plotted against hat leverage values (h_i) with ±3σ warning boundaries and critical leverage limit (h* = 3(p+1)/n = 0.43; n=35, p=4).")
+        p_cap8.add_run("OECD Principle 3: Williams plots defining the QSAR Domain of Applicability for the two real-data systems (Isolated Drugs, Drug + B36N36 Pristine), using the real out-of-fold standardized residuals (δ_i) from the leak-free nested 5x5 Ridge CV of Figure 7 / Table 2, plotted against hat leverage values (h_i) with ±3σ warning boundaries (33/35 and 31/33 compounds within the applicability domain, respectively).")
         
     fig9_path = os.path.join(fig_dir, "fig7_parity_models_evaluation.png")
     if os.path.exists(fig9_path):
@@ -499,7 +501,7 @@ def build_manuscript_word():
         r_c9 = p_cap9.add_run("Figure 9. ")
         r_c9.font.bold = True
         r_c9.font.name = 'Arial'
-        p_cap9.add_run("Parity plots of observed versus machine-learning predicted binding affinities on independent external validation sets (20%) across (a) Isolated drugs, (b) Drug + B36N36, and (c) Drug + B36N36-COOH.")
+        p_cap9.add_run("Leak-free nested 5x5 cross-validation parity plots (real observed vs. out-of-fold predicted) for (a) Isolated drugs (real Vina) and (b) Drug + B36N36 Pristine (real GFN2-xTB). No real structural/quantum data exists for Drug + B36N36-COOH, so it is not shown.")
         
     add_heading_styled(doc, "3.6 Explicit Analytical QSAR Mathematical Models", level=2)
     doc.add_paragraph(
@@ -537,8 +539,8 @@ def build_manuscript_word():
     
     concl_points = [
         "1. Physical Docking Validation: Real AutoDock Vina v1.2.7 calculations on the crystallographic human PARP1 catalytic domain (PDB ID: 4UND) confirmed strong target affinities for anti-TNBC agents, with irinotecan (-10.22 kcal/mol), abemaciclib (-9.06 kcal/mol), lapatinib (-8.83 kcal/mol), and olaparib (-8.76 kcal/mol) exhibiting top scores.",
-        "2. Nanocarrier Affinity Amplification: Conjugation with B36N36 and B36N36-COOH systematically amplifies macromolecular stabilization to -11.13 kcal/mol and -12.13 kcal/mol, respectively, inducing spatial relocation toward outer regulatory clefts and polar surface grooves.",
-        "3. Leak-Free Machine Learning Benchmark: A Ridge surrogate model evaluated by fully leak-free nested 5x5 cross-validation achieved modest, non-overfit predictive accuracy (Q2_CV = 0.109-0.173, RMSE 1.28-1.43 kcal/mol across the three systems), an honest exploratory baseline for this sample size.",
+        "2. Real Pristine-Nanocarrier Interaction Energetics: Real GFN2-xTB single-point calculations on the pristine B36N36 cage (all 33 compounds) show a mean interaction energy of -2.77 kcal/mol (range -20.5 to +9.8 kcal/mol); the carboxylated B36N36-COOH derivative has no real structural/quantum data yet and requires new complex-geometry modeling.",
+        "3. Leak-Free Machine Learning Benchmark: A Ridge surrogate model evaluated by fully leak-free nested 5x5 cross-validation on the real observed data was non-overfit but non-predictive (Q2_CV = -0.036 isolated, -0.626 pristine B36N36), consistent with the pooled leak-free result (Q2_CV = 0.0016) reported elsewhere in this project -- an honest, non-inflated baseline for this sample size.",
         "4. Biophysical Interpretability & OECD Compliance: SHAP analysis demonstrated that nanocarrier adsorption energy (ΔE_ads), aromatic ring density, and electronic chemical potential (μ) drive complex stabilization. Domain of applicability validation via Williams plots established 100% compliance with OECD Principle 3.",
         "5. Translational Nanomedicine Utility: Functionalized boron nitride nanocages offer an effective, non-carbonaceous, and biocompatible platform to overcome solubility and toxicity limitations in targeted Triple-Negative Breast Cancer chemotherapy."
     ]

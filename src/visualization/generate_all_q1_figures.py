@@ -335,41 +335,46 @@ def make_fig6_shap_suite(base_dir, fig_dir):
 # FIGURE 7: Parity Plots & Multi-Algorithm Benchmark
 # ==============================================================================
 def make_fig7_parity_benchmark(base_dir, fig_dir):
-    # Real, leak-free nested 5x5 CV per system -- replaces a previous version
-    # that plotted FABRICATED scatter points ("XGBoost predictions simulation
-    # matching exact metrics": y_pred = y_obs + np.random.normal(0, 0.45, ...))
-    # annotated with real-looking but single-80/20-split R^2/RMSE/MAPE values
-    # (n/p = 28/8 = 3.5, below the n/p>=5 OECD guidance used elsewhere in this
-    # project) read from qsar_models_benchmark_summary.json.
+    # SECOND CORRECTION: the first fix (real leak-free nested 5x5 CV,
+    # replacing FABRICATED scatter points "y_pred = y_obs + np.random.normal")
+    # still trained on data/splits/Drug_B36N36_{Pristine,COOH}_*.csv, produced
+    # by train_qsar_models.py from dataset_drug_B36N36_pristine.csv /
+    # _COOH.csv -- whose Docking_Score_kcal_mol was ITSELF fabricated by
+    # sync_real_data_and_train.py from an empirical RDKit-descriptor formula
+    # ("Docking_Score = Isolated_Score - 2.5 - 0.045*|E_ads|"), never a real
+    # docking or quantum calculation, despite console output claiming
+    # "100% REAL docked molecules".
     #
-    # Uses the same leak-free scheme as scripts/run_nested_cv_leakfree.py
-    # (StandardScaler inside the pipeline, RidgeCV inner loop, outer 5-fold
-    # cross_val_predict) with 4 pre-specified orthogonal descriptors
-    # (MW, LogP, Polarizability_alpha, Electrophilicity_omega; n/p = 35/4 = 8.75),
-    # matching the descriptor family used for the KRAS/GBM/Tau QSPR surrogates.
+    # Real GFN2-xTB single-point interaction energies for all 33 compounds on
+    # the pristine B36N36 cage already exist
+    # (dataset_tnbc_bn_pristine.csv, delta_Eint_SP_kcal_mol -- the same data
+    # used by scripts/run_nested_cv_leakfree.py / eval_tnbc_summary.py), so
+    # panel (b) is fixed with zero new computation. No real structural or
+    # quantum data exists at all for the B36N36-COOH functionalized cage (no
+    # complex geometries were ever built for it) -- that panel is omitted
+    # rather than left fabricated.
     from sklearn.pipeline import Pipeline
     from sklearn.preprocessing import StandardScaler
     from sklearn.linear_model import RidgeCV
     from sklearn.model_selection import KFold, cross_val_predict
     from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-    fig, axes = plt.subplots(1, 3, figsize=(16, 5.2), dpi=300)
-    splits_dir = os.path.join(base_dir, "data", "splits")
-    desc_cols = ["MW", "LogP", "Polarizability_alpha", "Electrophilicity_omega"]
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.2), dpi=300)
     alpha_grid = np.array([0.001, 0.01, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0])
 
     systems = [
-        ("Isolated_Drugs", "(a) Isolated Drugs", "#1565C0"),
-        ("Drug_B36N36_Pristine", r"(b) Drug + $B_{36}N_{36}$ Pristine", "#2E7D32"),
-        ("Drug_B36N36_COOH", r"(c) Drug + $B_{36}N_{36}\text{-COOH}$", "#C62828")
+        ("Isolated Drugs", os.path.join(base_dir, "data", "processed", "dataset_isolated_drugs.csv"),
+         ["MW", "LogP", "Polarizability_alpha", "Electrophilicity_omega"], "Docking_Score_kcal_mol", "#1565C0"),
+        (r"Drug + $B_{36}N_{36}$ Pristine (real xTB)", os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv"),
+         ["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV"], "delta_Eint_SP_kcal_mol", "#2E7D32"),
     ]
 
-    for i, (sys_id, title, col) in enumerate(systems):
-        tr = pd.read_csv(os.path.join(splits_dir, f"{sys_id}_train.csv"))
-        va = pd.read_csv(os.path.join(splits_dir, f"{sys_id}_validation.csv"))
-        df_full = pd.concat([tr, va], ignore_index=True)
+    for i, (title, f_path, desc_cols, target_col, col) in enumerate(systems):
+        if not os.path.exists(f_path):
+            continue
+        df_full = pd.read_csv(f_path).dropna(subset=desc_cols + [target_col])
         X = df_full[desc_cols].values
-        y = df_full["Docking_Score_kcal_mol"].values
+        y = df_full[target_col].values
         n, p = X.shape
 
         outer_cv = KFold(n_splits=5, shuffle=True, random_state=42)
@@ -394,12 +399,12 @@ def make_fig7_parity_benchmark(base_dir, fig_dir):
 
         axes[i].set_xlim([min_v, max_v])
         axes[i].set_ylim([min_v, max_v])
-        axes[i].set_xlabel("Real AutoDock Vina Score (kcal/mol)", fontsize=10.5)
-        axes[i].set_ylabel("Out-of-Fold Predicted Docking Score (kcal/mol)", fontsize=10.5)
-        axes[i].set_title(title, fontsize=11.5, fontweight='bold')
+        axes[i].set_xlabel("Real Observed (kcal/mol)", fontsize=10.5)
+        axes[i].set_ylabel("Out-of-Fold Predicted (kcal/mol)", fontsize=10.5)
+        axes[i].set_title(f"({chr(97+i)}) {title}", fontsize=11.5, fontweight='bold')
         axes[i].legend(loc='lower right', fontsize=9)
 
-    plt.suptitle("Figure 7. Leak-Free Nested Cross-Validation Parity: Observed vs. Out-of-Fold Predicted Binding Affinities",
+    plt.suptitle("Figure 7. Leak-Free Nested CV Parity: Observed vs. Out-of-Fold Predicted (real data only)",
                  fontsize=13.5, fontweight='bold', y=0.98, color="#0D47A1")
     plt.tight_layout()
     out_file = os.path.join(fig_dir, "fig7_parity_models_evaluation.png")

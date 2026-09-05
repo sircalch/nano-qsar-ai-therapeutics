@@ -10,6 +10,14 @@ make_fig7_parity_benchmark in generate_all_q1_figures.py) -- previously this
 was `np.random.normal(0, 0.85/0.95, ...)`, completely disconnected from any
 actual model fit. Leverage was already real (hat matrix on real descriptors);
 only the residual axis was fabricated.
+
+SECOND CORRECTION: the fix above still read data/splits/Drug_B36N36_{Pristine,
+COOH}_*.csv, whose Docking_Score_kcal_mol was ITSELF fabricated by
+sync_real_data_and_train.py (empirical RDKit-descriptor formula, never a real
+docking/quantum calculation -- see generate_all_q1_figures.py). Now uses
+dataset_isolated_drugs.csv (real Vina) and dataset_tnbc_bn_pristine.csv (real
+GFN2-xTB delta_Eint_SP_kcal_mol, all 33 compounds); the B36N36-COOH panel is
+omitted since no real structural/quantum data exists for it.
 """
 
 import os
@@ -23,27 +31,27 @@ from sklearn.model_selection import KFold, cross_val_predict
 
 def compute_williams_plot():
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    splits_dir = os.path.join(base_dir, "data", "splits")
+    proc_dir = os.path.join(base_dir, "data", "processed")
     fig_dir = os.path.join(base_dir, "figures")
 
-    desc_cols = ["MW", "LogP", "Polarizability_alpha", "Electrophilicity_omega"]
     alpha_grid = np.array([0.001, 0.01, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0])
 
     systems = [
-        ("Isolated_Drugs", "(a) Isolated Drugs", "#1565C0"),
-        ("Drug_B36N36_Pristine", r"(b) Drug + $B_{36}N_{36}$ Pristine", "#2E7D32"),
-        ("Drug_B36N36_COOH", r"(c) Drug + $B_{36}N_{36}\text{-COOH}$", "#C62828")
+        ("(a) Isolated Drugs", os.path.join(proc_dir, "dataset_isolated_drugs.csv"),
+         ["MW", "LogP", "Polarizability_alpha", "Electrophilicity_omega"], "Docking_Score_kcal_mol", "#1565C0"),
+        (r"(b) Drug + $B_{36}N_{36}$ Pristine (real xTB)", os.path.join(proc_dir, "dataset_tnbc_bn_pristine.csv"),
+         ["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV"], "delta_Eint_SP_kcal_mol", "#2E7D32"),
     ]
 
-    fig, axes = plt.subplots(1, 3, figsize=(16, 5), dpi=300)
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 5), dpi=300)
 
-    for idx, (sys_id, title, col) in enumerate(systems):
-        train_df = pd.read_csv(os.path.join(splits_dir, f"{sys_id}_train.csv"))
-        val_df = pd.read_csv(os.path.join(splits_dir, f"{sys_id}_validation.csv"))
-        df_full = pd.concat([train_df, val_df], ignore_index=True)
+    for idx, (title, f_path, desc_cols, target_col, col) in enumerate(systems):
+        if not os.path.exists(f_path):
+            continue
+        df_full = pd.read_csv(f_path).dropna(subset=desc_cols + [target_col])
 
         X = df_full[desc_cols].values
-        y = df_full["Docking_Score_kcal_mol"].values
+        y = df_full[target_col].values
         n, p = X.shape
         h_star = 3.0 * (p + 1.0) / n
 
