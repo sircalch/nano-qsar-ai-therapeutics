@@ -58,28 +58,24 @@ VERIFIED_REFERENCES = [
         "doi": "10.1021/nn1006495",
     },
     {
-        "citation": "Ferreira, F. V.; Franceschi, W.; Menezes, B. R. C.; Biagio, P. R.; Coutinho, A. R. Synthesis, functionalization, and applications of carbon and boron nitride nanomaterials in drug delivery. J. Mater. Chem. B 2015, 3 (40), 8000–8018.",
-        "doi": "",
-        "needs_review": True,
+        "citation": "Merlo, A.; Mokkapati, V. R. S. S.; Pandit, S.; Mijakovic, I. Boron nitride nanomaterials: biocompatibility and bio-applications. Biomaterials Science 2018, 6 (9), 2298-2311.",
+        "doi": "10.1039/c8bm00516h",
     },
     {
         "citation": "Chen, X.; Wu, P.; Rousseas, M.; Okawa, D.; Gartner, Z.; Zettl, A.; Bertozzi, C. R. Boron Nitride Nanotubes Are Noncytotoxic and Can Be Functionalized for Interaction with Proteins and Cells. Journal of the American Chemical Society 2009, 131 (3), 890-891.",
         "doi": "10.1021/ja807334b",
     },
     {
-        "citation": "Robles-Hernández, J.-S.-L.; Medina, D. I.; Salcedo, R.; Miralrio, A. Quantum and machine learning-guided QSAR/QSPR modeling of therapeutics conjugated to functionalized fullerenes for enhanced anticancer drug delivery. Beilstein J. Nanotechnol. 2024, 15, 1170–1188.",
-        "doi": "",
-        "needs_review": True,
+        "citation": "Robles-Hernández, J. S. L.; Medina, D. I.; Aguirre-Hurtado, K.; Bosquez, M.; Salcedo, R.; Miralrio, A. AI-assisted models to predict chemotherapy drugs modified with C 60 fullerene derivatives. Beilstein Journal of Nanotechnology 2024, 15, 1170-1188.",
+        "doi": "10.3762/bjnano.15.95",
     },
     {
-        "citation": "Mukherjee, S.; Roy, S.; Sarkar, A. Structural, electronic, and adsorption properties of pristine and functionalized B36N36 nanocages for drug delivery applications: A DFT perspective. Phys. Chem. Chem. Phys. 2019, 21 (14), 7480–7492.",
-        "doi": "",
-        "needs_review": True,
+        "citation": "Gholami, A.; Shakerzadeh, E.; Chigo Anota, E. Exploring the potential use of pristine and metal-encapsulated B36N36 fullerenes in delivery of β-lapachone anticancer drug: DFT approach. Polyhedron 2023, 232, 116295.",
+        "doi": "10.1016/j.poly.2023.116295",
     },
     {
-        "citation": "Gao, Z.; Zhi, C.; Bando, Y.; Golberg, D.; Serizawa, T. Noncovalent functionalization of boron nitride nanosheets with hydrophilic polymers for enhanced biocompatibility and cellular uptake. ACS Appl. Mater. Interfaces 2017, 9 (6), 4988–4996.",
-        "doi": "",
-        "needs_review": True,
+        "citation": "Gao, Z.; Zhi, C.; Bando, Y.; Golberg, D.; Serizawa, T. Noncovalent Functionalization of Disentangled Boron Nitride Nanotubes with Flavin Mononucleotides for Strong and Stable Visible-Light Emission in Aqueous Solution. ACS Applied Materials & Interfaces 2011, 3 (3), 627-632.",
+        "doi": "10.1021/am1010699",
     },
     {
         "citation": "Weng, Q.; Wang, X.; Wang, X.; Bando, Y.; Golberg, D. Functionalized hexagonal boron nitride nanomaterials: emerging properties and applications. Chemical Society Reviews 2016, 45 (14), 3989-4012.",
@@ -90,9 +86,8 @@ VERIFIED_REFERENCES = [
         "doi": "10.1016/b978-0-323-38945-7.00003-1",
     },
     {
-        "citation": "Singh, B.; Sharma, R.; Kumar, P. Boron nitride nanocages as efficient carriers for fluorouracil and gemcitabine: A theoretical investigation. J. Mol. Liq. 2020, 318, 114032.",
-        "doi": "",
-        "needs_review": True,
+        "citation": "Shafiei, F.; Hashemianzadeh, S. M.; Bagheri, Y. Insight into the encapsulation of gemcitabine into boron- nitride nanotubes and gold cluster triggered release: A molecular dynamics simulation. Journal of Molecular Liquids 2019, 278, 201-212.",
+        "doi": "10.1016/j.molliq.2019.01.020",
     },
     {
         "citation": "Parr, R. G.; Szentpály, L. v.; Liu, S. Electrophilicity Index. Journal of the American Chemical Society 1999, 121 (9), 1922-1924.",
@@ -131,9 +126,8 @@ VERIFIED_REFERENCES = [
         "doi": "10.1080/00268977000101561",
     },
     {
-        "citation": "Miralrio, A.; Medina, D. I. Quantum chemical descriptors in QSAR/QSPR modeling: Applications and perspectives. Molecules 2020, 25 (19), 4474.",
-        "doi": "",
-        "needs_review": True,
+        "citation": "Karelson, M.; Lobanov, V. S.; Katritzky, A. R. Quantum-Chemical Descriptors in QSAR/QSPR Studies. Chemical Reviews 1996, 96 (3), 1027-1044.",
+        "doi": "10.1021/cr950202r",
     },
     {
         "citation": "Trott, O.; Olson, A. J. AutoDock Vina: Improving the speed and accuracy of docking with a new scoring function, efficient optimization, and multithreading. Journal of Computational Chemistry 2009, 31 (2), 455-461.",
@@ -144,9 +138,8 @@ VERIFIED_REFERENCES = [
         "doi": "10.1021/acs.jcim.1c00203",
     },
     {
-        "citation": "Papeo, G.; Posteri, H.; Borghi, D.; Busel, A. A.; Caprera, F.; Casale, E.; Ciomei, M.; Cirla, A.; Corti, L.; D'Anello, M. et al. Discovery of 2-[4-(trifluoromethyl)phenyl]-7,8-dihydro-5H-thiopyrano[4,3-d]pyrimidin-4-ol (NMS-P118): a potent, orally available, and highly selective PARP-1 inhibitor. J. Med. Chem. 2014, 57 (16), 6993–7005.",
-        "doi": "",
-        "needs_review": True,
+        "citation": "Papeo, G.; Posteri, H.; Borghi, D.; Busel, A. A.; Caprera, F.; Casale, E.; Ciomei, M.; Cirla, A.; Corti, E.; D’Anello, M.; et al. Discovery of 2-[1-(4,4-Difluorocyclohexyl)piperidin-4-yl]-6-fluoro-3-oxo-2,3-dihydro-1H-isoindole-4-carboxamide (NMS-P118): A Potent, Orally Available, and Highly Selective PARP-1 Inhibitor for Cancer Therapy. Journal of Medicinal Chemistry 2015, 58 (17), 6875-6898.",
+        "doi": "10.1021/acs.jmedchem.5b00680",
     },
     {
         "citation": "Riniker, S.; Landrum, G. A. Better Informed Distance Geometry: Using What We Know To Improve Conformation Generation. Journal of Chemical Information and Modeling 2015, 55 (12), 2562-2574.",
@@ -169,9 +162,8 @@ VERIFIED_REFERENCES = [
         "doi": "10.1093/nar/gkx1037",
     },
     {
-        "citation": "Lundberg, S. M.; Lee, S.-I. A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems (NeurIPS 2017); Guyon, I. et al., Eds.; Curran Associates, Inc.: Red Hook, NY, 2017; Vol. 30, pp 4765–4774.",
+        "citation": "Lundberg, S. M.; Lee, S.-I. A unified approach to interpreting model predictions. In Advances in Neural Information Processing Systems (NeurIPS 2017); Guyon, I. et al., Eds.; Curran Associates, Inc.: Red Hook, NY, 2017; Vol. 30, pp 4765–4774. arXiv:1705.07874.",
         "doi": "",
-        "needs_review": True,
     },
     {
         "citation": "Chen, T.; Guestrin, C. XGBoost. Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 2016, 785-794.",
@@ -190,9 +182,8 @@ VERIFIED_REFERENCES = [
         "doi": "10.1002/qsar.200610151",
     },
     {
-        "citation": "Rodríguez-Pérez, R.; Bajorath, J. Interpretation of machine learning models using shapley additive explanations (SHAP) in chemistry and drug discovery. J. Med. Chem. 2020, 63 (16), 8677–8688.",
-        "doi": "",
-        "needs_review": True,
+        "citation": "Rodríguez-Pérez, R.; Bajorath, J. Interpretation of machine learning models using shapley values: application to compound potency and multi-target activity predictions. Journal of Computer-Aided Molecular Design 2020, 34 (10), 1013-1026.",
+        "doi": "10.1007/s10822-020-00314-0",
     },
     {
         "citation": "Tropsha, A. Best Practices for QSAR Model Development, Validation, and Exploitation. Molecular Informatics 2010, 29 (6-7), 476-488.",
