@@ -85,20 +85,31 @@ def create_cover_letter(sub_dir):
     )
     
     doc.add_paragraph(
-        "In this study, we present an integrated quantum chemical (DFTB3-D4), physical molecular docking (AutoDock Vina v1.2.7 against PDB ID: 4UND), "
-        "and Explainable Artificial Intelligence (XAI) QSAR framework evaluating pristine Boron Nitride nanocages (B36N36) and carboxylated derivatives "
-        "(B36N36-COOH) as non-carbonaceous, biocompatible drug delivery nanovehicles across 42 anti-TNBC therapeutics."
+        "In this study, we present an integrated GFN2-xTB quantum-chemical, physical molecular docking "
+        "(AutoDock Vina v1.2.7), and explainable QSAR/QSPR framework evaluating the pristine inorganic boron "
+        "nitride nanocage B36N36 as a non-carbonaceous drug-delivery scaffold for 33 anti-TNBC therapeutics. "
+        "A carboxylated B36N36-COOH derivative is discussed only as future work, since no real structural or "
+        "quantum data for it exist in this study."
     )
-    
+
     p_hi = doc.add_paragraph()
-    p_hi.add_run("Key Highlights of our Investigation:").font.bold = True
-    
+    p_hi.add_run("Key points, all traceable to the deposited pipeline:").font.bold = True
+
     highlights = [
-        "1. 100% Real Physical Docking: Official AutoDock Vina v1.2.7 simulations on the crystallographic human PARP1 domain (PDB 4UND) confirmed strong target affinities and macromolecular stabilization upon nanocage complexation (-7.22 to -12.13 kcal/mol).",
-        "2. Non-Carbonaceous Biocompatibility: Demonstrating the unique advantages of B36N36 polar lattices over classic fullerenes (C60) in terms of enhanced dispersion and lack of pro-oxidant ROS cytotoxicity.",
-        "3. Machine Learning & Explainable AI (SHAP): High predictive performance (MAPE = 5.05%–6.90%, R2 > 0.86) with game-theoretic SHAP feature rankings revealing the critical governing role of adsorption energy (ΔE_ads), aromaticity, and electronic chemical potential (μ).",
-        "4. OECD Compliance: Comprehensive domain-of-applicability validation via Williams leverage plots ensuring 100% compliance with OECD Principle 3.",
-        "5. Complete Reproducibility: Fully automated, open-source computational pipeline with complete dataset tables and 300+ DPI visualizations."
+        "1. GFN2-xTB single-point interaction energies for all 33 therapeutics on the B36N36 cage were computed "
+        "from the xtb pipeline; frontier-orbital and conceptual-DFT indices are taken directly from the output, "
+        "not from an empirical formula.",
+        "2. Redocking against the human PARP1 crystal structure (PDB ID: 4UND) did NOT reproduce the native "
+        "ligand pose (heavy-atom RMSD > 4 Å); the reported Vina scores are therefore treated as exploratory "
+        "and are not used as a quantitative endpoint.",
+        "3. The surrogate model was evaluated with a leak-free nested 5x5 cross-validation on the real "
+        "interaction energies. Predictive performance is low (Q2_CV near zero); the model and its "
+        "feature-importance ranking are presented as an exploratory, honest baseline rather than a "
+        "validated predictor.",
+        "4. OECD Principle 3 applicability domain was assessed by Williams leverage on the real descriptor "
+        "matrix (30/33 compounds inside the domain).",
+        "5. Fully automated open-source pipeline with the complete real dataset and 300 DPI figures "
+        "(Zenodo 10.5281/zenodo.22187873)."
     ]
     for h in highlights:
         p_item = doc.add_paragraph()
@@ -146,12 +157,12 @@ Dear Editor-in-Chief,
 
 On behalf of my co-authors, I am pleased to submit our original research manuscript for consideration for publication as a Full Research Article in the *Beilstein Journal of Nanotechnology*.
 
-### Key Highlights:
-1. **100% Real Physical Docking on PARP1 (PDB 4UND):** Official AutoDock Vina v1.2.7 calculations on human PARP1 demonstrating nanocarrier-mediated affinity amplification (-7.22 to -12.13 kcal/mol).
-2. **Advanced Boron Nitride Nanocages (B36N36 / B36N36-COOH):** Overcoming fullerene C60 ROS toxicity with polar biocompatible boron nitride lattices.
-3. **Explainable AI (SHAP) & High ML Accuracy:** ExtraTrees, XGBoost, and analytical MLR models (MAPE = 5.05%–6.90%, R2 > 0.86).
-4. **OECD Principle 3 Compliance:** Rigorous Williams domain-of-applicability evaluation.
-5. **Full Reproducibility:** Master pipeline running in 1 click with complete open data.
+### Key points (all traceable to the deposited pipeline):
+1. **GFN2-xTB interaction energies** for all 33 therapeutics on the B36N36 cage, computed from the xtb pipeline; frontier-orbital / conceptual-DFT indices taken directly from the output.
+2. **Redocking on PARP1 (PDB 4UND) did not reproduce the native pose** (heavy-atom RMSD > 4 Å); Vina scores are reported as exploratory only.
+3. **Leak-free nested 5×5 cross-validation** on the real interaction energies; predictive performance is low (Q²_CV near zero) and the model is presented as an honest exploratory baseline, not a validated predictor.
+4. **OECD Principle 3** applicability domain by Williams leverage on the real descriptor matrix (30/33 inside the domain).
+5. **Full reproducibility:** open-source pipeline with the complete real dataset (Zenodo 10.5281/zenodo.22187873).
 
 All authors have approved the submission and confirm no conflict of interest.
 
@@ -161,6 +172,44 @@ Universidad Estatal de Sonora, Hermosillo, Sonora, Mexico
 `andres.monreal@ues.mx`
 """)
     print(f"Generated Cover Letter: {out_docx}")
+
+
+def create_cover_letter_md(sub_dir):
+    """Molecular Diversity edition. Only real, pipeline-traceable claims."""
+    doc = Document()
+    for s in doc.sections:
+        s.top_margin = s.bottom_margin = Inches(1.0)
+        s.left_margin = s.right_margin = Inches(1.0)
+    fo = doc.styles['Normal'].font
+    fo.name = 'Times New Roman'; fo.size = Pt(11); fo.color.rgb = RGBColor(33, 33, 33)
+    doc.add_paragraph("Andrés Monreal Hernández, Ph.D.\nUniversidad Estatal de Sonora, Hermosillo, Sonora, Mexico\n"
+                      "Email: andres.monreal@ues.mx | ORCID: 0009-0009-1207-8597").runs[0].font.bold = True
+    doc.add_paragraph("To: The Editor-in-Chief, Molecular Diversity (Springer Nature)")
+    doc.add_paragraph("Dear Editor,")
+    doc.add_paragraph("We submit our original research manuscript for consideration in Molecular Diversity:")
+    r = doc.add_paragraph().add_run("“Explainable AI and Quantum-Guided QSAR/QSPR Modeling of Triple-Negative "
+                                    "Breast Cancer Therapeutics Conjugated to Functionalized Boron Nitride Nanocages”")
+    r.font.bold = True; r.font.color.rgb = RGBColor(13, 71, 161)
+    doc.add_paragraph("Real, pipeline-traceable results:").runs[0].font.bold = True
+    for h in [
+        "GFN2-xTB single-point interaction energies for 33 anti-TNBC therapeutics on the pristine B36N36 "
+        "nanocage; frontier-orbital and conceptual-DFT indices taken directly from the xtb output.",
+        "Redocking against PARP1 (PDB 4UND) did not reproduce the native pose (heavy-atom RMSD > 4 Å); "
+        "Vina scores are reported as exploratory only.",
+        "Leak-free nested 5x5 cross-validation on the real interaction energies; Q2_CV near zero. The model "
+        "and its feature-importance ranking are presented as an honest exploratory baseline.",
+        "OECD Principle 3 applicability domain by Williams leverage on the real descriptor matrix "
+        "(30/33 inside the domain).",
+        "A carboxylated B36N36-COOH derivative is proposed as future work; it has no real data in this study.",
+        "Full open-source pipeline and data archive (Zenodo 10.5281/zenodo.22187873).",
+    ]:
+        p = doc.add_paragraph(h); p.paragraph_format.left_indent = Inches(0.3)
+    doc.add_paragraph("The manuscript is original, not under consideration elsewhere, and all authors approve the "
+                      "submission and declare no competing interests.")
+    doc.add_paragraph("Sincerely,\nAndrés Monreal Hernández, Ph.D. (Corresponding Author)")
+    doc.save(os.path.join(sub_dir, "01_Cover_Letter_Molecular_Diversity.docx"))
+    print("Generated TNBC Molecular Diversity Cover Letter")
+
 
 def create_suggested_reviewers(sub_dir):
     rev_path = os.path.join(sub_dir, "06_Suggested_Reviewers.txt")
@@ -243,6 +292,7 @@ def build_complete_submission_folder():
     
     # 1. Cover Letter
     create_cover_letter(sub_dir)
+    create_cover_letter_md(sub_dir)
     
     # 2. Main Manuscript Word
     src_ms = os.path.join(base_dir, "manuscript", "Beilstein_Manuscript_Monreal_Hernandez_et_al.docx")

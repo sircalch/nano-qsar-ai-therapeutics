@@ -16,12 +16,12 @@ Dear Editor-in-Chief,
 
 On behalf of my co-authors, I am pleased to submit our original research manuscript for consideration for publication as a Full Research Article in the *Beilstein Journal of Nanotechnology*.
 
-### Key Highlights:
-1. **100% Real Physical Docking on PARP1 (PDB 4UND):** Official AutoDock Vina v1.2.7 calculations on human PARP1 demonstrating nanocarrier-mediated affinity amplification (-7.22 to -12.13 kcal/mol).
-2. **Advanced Boron Nitride Nanocages (B36N36 / B36N36-COOH):** Overcoming fullerene C60 ROS toxicity with polar biocompatible boron nitride lattices.
-3. **Explainable AI (SHAP) & High ML Accuracy:** ExtraTrees, XGBoost, and analytical MLR models (MAPE = 5.05%–6.90%, R2 > 0.86).
-4. **OECD Principle 3 Compliance:** Rigorous Williams domain-of-applicability evaluation.
-5. **Full Reproducibility:** Master pipeline running in 1 click with complete open data.
+### Key points (all traceable to the deposited pipeline):
+1. **GFN2-xTB interaction energies** for all 33 therapeutics on the B36N36 cage, computed from the xtb pipeline; frontier-orbital / conceptual-DFT indices taken directly from the output.
+2. **Redocking on PARP1 (PDB 4UND) did not reproduce the native pose** (heavy-atom RMSD > 4 Å); Vina scores are reported as exploratory only.
+3. **Leak-free nested 5×5 cross-validation** on the real interaction energies; predictive performance is low (Q²_CV near zero) and the model is presented as an honest exploratory baseline, not a validated predictor.
+4. **OECD Principle 3** applicability domain by Williams leverage on the real descriptor matrix (30/33 inside the domain).
+5. **Full reproducibility:** open-source pipeline with the complete real dataset (Zenodo 10.5281/zenodo.22187873).
 
 All authors have approved the submission and confirm no conflict of interest.
 
