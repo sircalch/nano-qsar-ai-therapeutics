@@ -22,12 +22,10 @@ import matplotlib.gridspec as gridspec
 from PIL import Image
 import seaborn as sns
 
-plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica']
-plt.rcParams['axes.edgecolor'] = '#263238'
-plt.rcParams['axes.linewidth'] = 1.2
-plt.rcParams['grid.alpha'] = 0.25
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _pubstyle
+_pubstyle.apply()
 
 def get_dirs():
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

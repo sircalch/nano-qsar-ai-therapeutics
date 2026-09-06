@@ -25,44 +25,56 @@ def get_dirs():
 # 1. PERFECT FIGURE 5: NO TEXT COLLISION, 100% 3D RAY-TRACED PYVISTA
 # ==============================================================================
 def render_perfect_fig5():
+    """Figure 5 - real GFN2-xTB optimised drug + B36N36 nanocage geometries."""
     base_dir, fig_dir = get_dirs()
-    from render_hd_3d_figures import render_3d_complex_a, render_3d_complex_b
-    
-    img_a = render_3d_complex_a(fig_dir)
-    img_b = render_3d_complex_b(fig_dir)
-    
-    fig, axes = plt.subplots(1, 2, figsize=(18, 8.5), dpi=300)
-    plt.subplots_adjust(top=0.86, bottom=0.06, left=0.03, right=0.97, wspace=0.12)
-    
-    im_a = Image.open(img_a)
-    axes[0].imshow(im_a)
-    axes[0].axis('off')
-    axes[0].set_title(r"(a) Schematic binding motif: Olaparib + pristine $B_{36}N_{36}$ (illustrative coordinates)",
-                      fontsize=12, fontweight='bold', pad=14, color='#0D47A1')
-    axes[0].text(0.04, 0.90, "Real GFN2-xTB single-point $\\Delta E_{int,SP}$ = -0.38 kcal/mol\n"
-                             "Real relaxed-geometry value -13.42 kcal/mol (curated subset, SI)\n"
-                             "Proposed pi-stacking / dispersion contact",
-                 transform=axes[0].transAxes, fontsize=10.5, fontweight='bold',
-                 bbox=dict(boxstyle='round,pad=0.45', facecolor='white', edgecolor='#004D40', lw=1.6, alpha=0.95))
+    import sys as _s
+    _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import _pubstyle
+    _pubstyle.apply()
+    try:
+        import _mol3d
+    except Exception:
+        _mol3d = None
+    import pandas as pd
 
-    im_b = Image.open(img_b)
-    axes[1].imshow(im_b)
-    axes[1].axis('off')
-    axes[1].set_title(r"(b) Proposed motif: Talazoparib + $B_{36}N_{36}\text{-COOH}$ (illustrative; no real data)",
-                      fontsize=12, fontweight='bold', pad=14, color='#0D47A1')
-    axes[1].text(0.04, 0.90, "No real structural or quantum data exists for the\n"
-                             "carboxylated B36N36-COOH cage; this panel is a\n"
-                             "proposed O-H...N hydrogen-bonding motif only.",
-                 transform=axes[1].transAxes, fontsize=10.5, fontweight='bold',
-                 bbox=dict(boxstyle='round,pad=0.45', facecolor='white', edgecolor='#B71C1C', lw=1.6, alpha=0.95))
+    calc = os.path.join(base_dir, "calculations", "tnbc")
+    ds = pd.read_csv(os.path.join(base_dir, "data", "processed",
+                     "dataset_tnbc_bn_pristine.csv")).set_index("name")
+    de = ds["delta_Eint_SP_kcal_mol"]
 
-    plt.suptitle("Figure 5. Schematic drug-nanocage binding motifs (illustrative coordinates, not optimized geometries)",
-                 fontsize=14, fontweight='bold', y=0.96, color="#0D47A1")
-                 
+    panels = [
+        (os.path.join(calc, "B36N36_optimized.xyz"),
+         r"(a)  Pristine B$_{36}$N$_{36}$ nanocage", "3q",
+         "GFN2-xTB optimised carrier"),
+        (os.path.join(calc, "Olaparib", "Olaparib_B36N36_relaxed_complex.xyz"),
+         r"(b)  Olaparib + B$_{36}$N$_{36}$", "3q",
+         f"relaxed GFN2-xTB complex - $\\Delta E_{{int,SP}}$ = {de.get('Olaparib', float('nan')):.2f} kcal/mol"),
+        (os.path.join(calc, "Talazoparib", "Talazoparib_B36N36_relaxed_complex.xyz"),
+         r"(c)  Talazoparib + B$_{36}$N$_{36}$", "3q",
+         f"relaxed GFN2-xTB complex - $\\Delta E_{{int,SP}}$ = {de.get('Talazoparib', float('nan')):.2f} kcal/mol"),
+    ]
+    fig, axes = plt.subplots(1, 3, figsize=(11.4, 4.1))
+    fig.subplots_adjust(wspace=0.05, top=0.85, bottom=0.15, left=0.02, right=0.98)
+    for ax, (path, title, view, sub) in zip(axes, panels):
+        ax.set_xticks([]); ax.set_yticks([])
+        for s in ax.spines.values():
+            s.set_visible(False)
+        try:
+            sym, xyz = _mol3d.load(path)
+            ax.imshow(_mol3d.render_array([{"sym": sym, "xyz": xyz, "carbon": "#5b6470"}],
+                                          view=view, zoom=1.4, size=(1400, 1200)))
+            ax.set_title(title, fontsize=9.5, fontweight="bold", pad=6)
+            ax.text(0.5, -0.04, sub, ha="center", va="top", fontsize=8.0,
+                    color=_pubstyle.MUTED, transform=ax.transAxes)
+        except Exception as exc:
+            ax.text(0.5, 0.5, f"[render failed: {exc}]", ha="center", transform=ax.transAxes)
+            ax.axis("off")
+
+    fig.suptitle("Figure 5. Real GFN2-xTB optimised geometries of anti-TNBC drugs on the B$_{36}$N$_{36}$ nanocage",
+                 fontsize=10.5, fontweight="bold", y=0.99)
     out_fig5 = os.path.join(fig_dir, "fig5_quantum_ground_state_geometries.png")
-    plt.savefig(out_fig5, dpi=300)
-    plt.close()
-    print(f"Fixed Figure 5 (No text collision): {out_fig5}")
+    _pubstyle.save(fig, out_fig5, also_pdf=False)
+    print(f"Generated Figure 5 (real 3D): {out_fig5}")
 
 # ==============================================================================
 # 2. REDESIGNED MASTER FIGURE 3: 3D PARP1 RECEPTOR & DOCKING POCKETS

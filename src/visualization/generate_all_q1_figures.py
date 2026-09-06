@@ -21,16 +21,14 @@ import matplotlib.patches as patches
 import matplotlib.gridspec as gridspec
 import seaborn as sns
 
-# Configure publication-grade styling
-plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
-plt.rcParams['font.family'] = 'sans-serif'
-plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica']
-plt.rcParams['axes.edgecolor'] = '#263238'
-plt.rcParams['axes.linewidth'] = 1.2
-plt.rcParams['grid.alpha'] = 0.3
-plt.rcParams['figure.titlesize'] = 13
-plt.rcParams['axes.titlesize'] = 11.5
-plt.rcParams['axes.labelsize'] = 10.5
+import sys as _sys
+_sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _pubstyle
+_pubstyle.apply()
+try:
+    import _mol3d
+except Exception:
+    _mol3d = None
 
 def get_paths():
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

@@ -397,12 +397,11 @@ def build_manuscript_word():
         
     add_heading_styled(doc, "3.3 3D Quantum Geometries and Intermolecular Interactions", level=2)
     doc.add_paragraph(
-        "Figure 5 is a schematic 3D rendering illustrating the proposed binding motifs for the nanocarrier complexes, not a rendering of a "
-        "GFN2-xTB optimized geometry (the underlying cage and ligand coordinates are illustrative). Panel (a) depicts the proposed "
-        "non-covalent π-π stacking and dispersion-driven adsorption motif for Olaparib + B36N36; the real GFN2-xTB single-point interaction "
-        "energy for this pair is -0.38 kcal/mol (Table 1), with a real relaxed-geometry value of -13.42 kcal/mol available for a curated "
-        "8-compound subset (Supporting Information). Panel (b) depicts a proposed carboxyl O-H...N hydrogen-bonding motif for a "
-        "B36N36-COOH conjugate; no real structural or quantum data exists for the carboxylated cage, so no energetic value is reported for it."
+        "Figure 5 shows the real GFN2-xTB optimised geometries of the pristine B36N36 nanocage and of two representative "
+        "drug-nanocage complexes. Panel (a) is the optimised carrier. Panels (b) and (c) are the relaxed Olaparib + B36N36 and "
+        "Talazoparib + B36N36 complexes; the corresponding single-point interaction energies are -0.38 and -1.53 kcal/mol (Table 1), "
+        "consistent with weak, dispersion-dominated physisorption. A carboxylated B36N36-COOH conjugate is discussed only as future "
+        "work, since no real structural or quantum data exists for the carboxylated cage."
     )
     
     # EMBED FIGURE 5
@@ -416,7 +415,7 @@ def build_manuscript_word():
         r_c5 = p_cap5.add_run("Figure 5. ")
         r_c5.font.bold = True
         r_c5.font.name = 'Arial'
-        p_cap5.add_run("Schematic 3D representations of the proposed binding motifs (illustrative coordinates, not GFN2-xTB optimized geometries): (a) Olaparib + B36N36 pristine nanocage, proposed π-π stacking motif (real GFN2-xTB single-point ΔE_int = -0.38 kcal/mol; real relaxed-geometry value -13.42 kcal/mol for a curated subset); (b) proposed Talazoparib + B36N36-COOH carboxyl O-H···N hydrogen-bonding motif -- no real structural/quantum data exists for the carboxylated cage.")
+        p_cap5.add_run("Real GFN2-xTB optimised geometries: (a) the pristine B36N36 nanocage; (b) the relaxed Olaparib + B36N36 complex (single-point ΔE_int,SP = -0.38 kcal/mol); (c) the relaxed Talazoparib + B36N36 complex (single-point ΔE_int,SP = -1.53 kcal/mol). Boron in pink, nitrogen in blue, carbon in grey. A carboxylated B36N36-COOH cage was not modelled (future work).")
         
     add_heading_styled(doc, "3.4 Statistical Docking Distributions and Residue Interactions", level=2)
     doc.add_paragraph(
