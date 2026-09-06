@@ -133,25 +133,21 @@ def build_manuscript_word():
         "Triple-Negative Breast Cancer (TNBC) remains one of the most aggressive and therapeutically challenging "
         "oncological malignancies due to the clinical absence of estrogen, progesterone, and HER2 receptors. While small-molecule "
         "inhibitors targeting Poly(ADP-ribose) polymerase 1 (PARP1) and systemic chemotherapeutics provide essential therapeutic "
-        "options, their efficacy is severely constrained by non-specific tissue distribution, dose-limiting off-target toxicities, "
-        "and rapid clearance. In this investigation, we establish an integrated quantum chemical, physical molecular docking, "
-        "and Explainable Artificial Intelligence (XAI) Quantitative Structure–Activity/Property Relationship (QSAR/QSPR) "
-        "pipeline to evaluate pristine Boron Nitride nanocages (B36N36) and carboxylated functionalized derivatives (B36N36-COOH) "
-        "as biocompatible delivery nanovehicles across a curated library of 42 anti-TNBC therapeutics. Electronic structure "
-        "and Conceptual Density Functional Theory (CDFT) reactivity indices—including frontier molecular orbitals (HOMO/LUMO), "
-        "chemical hardness (η), softness (S), and global electrophilicity (ω)—were calculated at the dispersion-corrected tight-binding "
-        "DFTB3-D4 level. Rigorous physical molecular docking simulations were executed using official AutoDock Vina v1.2.7 against "
-        "the high-resolution crystal structure of the human PARP1 catalytic domain (PDB ID: 4UND). Real docking affinities revealed that "
-        "while isolated therapeutics bind within the deep catalytic pocket (mean: -7.22 kcal/mol, spanning -10.22 to -3.91 kcal/mol). "
-        "Real GFN2-xTB single-point interaction energies for all 33 compounds on the pristine B36N36 cage averaged -2.77 kcal/mol "
-        "(range -20.5 to +9.8 kcal/mol); no real structural or quantum data exists yet for the carboxylated B36N36-COOH derivative, "
-        "which would require new complex-geometry modeling beyond the present scope. "
-        "A regularized Ridge surrogate model (4 pre-specified orthogonal descriptors, n/p = 8.75) evaluated by fully leak-free nested "
-        "5x5 cross-validation (StandardScaler fit inside the pipeline on outer-training folds only) achieved non-overfit but non-predictive "
-        "accuracy on the real data (Q2_CV = -0.036 isolated, -0.626 pristine B36N36; RMSE 1.41 and 5.75 kcal/mol respectively). Exploratory analysis suggested that nanocarrier adsorption energy "
-        "(ΔE_ads), aromatic ring density, and electronic chemical potential (μ) drive complex stabilization. Compliance with OECD QSAR "
-        "principles was established via Williams domain-of-applicability plots. These findings provide an actionable computational "
-        "blueprint for the rational design of non-carbonaceous boron nitride nanomedicines against triple-negative breast cancer."
+        "options, their efficacy is constrained by non-specific tissue distribution, off-target toxicities and rapid clearance [3-5]. "
+        "Here we present an integrated computational framework combining GFN2-xTB tight-binding quantum chemistry (with D4 dispersion) "
+        "[25,26], physical molecular docking (AutoDock Vina v1.2.7 [31,32]), and a leak-free cross-validated explainable QSAR/QSPR "
+        "surrogate, to evaluate the pristine inorganic boron nitride nanocage B36N36 as a non-carbonaceous drug-loading scaffold for "
+        "33 anti-TNBC therapeutics. Frontier-orbital energies and conceptual-DFT reactivity indices (chemical hardness eta, softness S, "
+        "electrophilicity omega) were read directly from the GFN2-xTB output. Docking against the human PARP1 catalytic domain "
+        "(PDB ID: 4UND) is reported as an exploratory ranking only: self-redocking of the co-crystallized ligand reproduced the native "
+        "pose only within >4 Å heavy-atom RMSD, so Vina scores (mean -7.22 kcal/mol, range -10.2 to -3.9) are not used as a quantitative "
+        "endpoint. Real GFN2-xTB single-point interaction energies of the 33 drugs on the pristine B36N36 cage average -2.8 kcal/mol "
+        "(range -20.5 to +9.8 kcal/mol). A carboxylated B36N36-COOH derivative is discussed only as future work, since no real "
+        "structural or quantum data for it exist in this study. A StandardScaler + RidgeCV surrogate evaluated by leak-free nested 5x5 "
+        "cross-validation is non-predictive on both real-data systems (Q2_CV = -0.036 isolated, -0.626 pristine B36N36); the model and "
+        "its feature-importance ranking are reported as an honest exploratory baseline, not a validated structure-activity relationship. "
+        "OECD Principle 3 applicability-domain analysis (Williams leverage) places 33/35 and 30/33 compounds inside the domain. Every "
+        "value reported is computed from the deposited pipeline; no descriptor or energy is estimated from an empirical formula."
     )
     r_abs = p_abs_box.add_run(abs_body)
     
@@ -204,10 +200,11 @@ def build_manuscript_word():
         "Quantitative Structure–Activity/Property Relationship (QSAR/QSPR) modeling combined with quantum mechanics, rigorous molecular "
         "docking, and machine learning represents a powerful in silico paradigm to screen, evaluate, and predict nanocarrier–drug interactions. "
         "However, classical QSAR models often operate as opaque 'black boxes' or rely on simplified synthetic proxies. In this investigation, "
-        "we present an end-to-end, Explainable AI (XAI) and quantum-informed QSAR framework investigating 42 anti-TNBC therapeutics interacting "
-        "with pristine B36N36 and functionalized B36N36-COOH nanocages. Using physical AutoDock Vina v1.2.7 calculations on the crystallographic "
-        "structure of human PARP1 (PDB ID: 4UND), game-theoretic SHAP feature attribution, and OECD-compliant validation, we elucidate the "
-        "biophysical determinants governing macromolecular affinity and provide explicit analytical equations for targeted nanomedicine design."
+        "we present an explainable, quantum-informed QSAR framework for 33 anti-TNBC therapeutics interacting "
+        "with the pristine B36N36 nanocage. Physical AutoDock Vina v1.2.7 docking against human PARP1 (PDB ID: 4UND) is used only as an "
+        "exploratory affinity ranking (the co-crystallized ligand could not be redocked to within 2 Å), and the surrogate model and its "
+        "SHAP-based feature ranking are reported as an honest exploratory baseline. A carboxylated B36N36-COOH derivative is considered "
+        "only as future work (Conclusions), and all quantum results refer to the pristine cage."
     )
     
     # EMBED FIGURE 1
@@ -222,7 +219,7 @@ def build_manuscript_word():
         r_c1 = p_cap1.add_run("Figure 1. ")
         r_c1.font.bold = True
         r_c1.font.name = 'Arial'
-        p_cap1.add_run("Methodological workflow and Graphical Abstract illustrating the integrated study design: (1) Curated anti-TNBC therapeutics, (2) Quantum DFTB3 and Conceptual DFT modeling of B36N36 and B36N36-COOH nanocages, (3) Real physical molecular docking with AutoDock Vina on the human PARP1 catalytic domain (PDB ID: 4UND), and (4) Explainable Artificial Intelligence (XAI) and closed-form QSAR mathematical modeling.")
+        p_cap1.add_run("Methodological workflow: (1) 33 curated anti-TNBC therapeutics; (2) real GFN2-xTB single-point interaction energies on the pristine B36N36 nanocage; (3) exploratory AutoDock Vina docking against the human PARP1 catalytic domain (PDB ID: 4UND); (4) a leak-free cross-validated explainable QSAR/QSPR surrogate.")
     
     # ==============================================================================
     # 2. COMPUTATIONAL METHODS
@@ -231,21 +228,22 @@ def build_manuscript_word():
     
     add_heading_styled(doc, "2.1 Curated Anti-TNBC Therapeutic Library", level=2)
     doc.add_paragraph(
-        "A structurally diverse library of 42 therapeutic agents with established clinical activity or active clinical trials in "
-        "Triple-Negative Breast Cancer was curated from DrugBank (v5.1.10) and PubChem databases. The library spans seven mechanistic "
-        "classes: (i) PARP1 inhibitors (olaparib, talazoparib, rucaparib, niraparib, veliparib, pamiparib), (ii) Topoisomerase inhibitors "
-        "and ADC payloads (irinotecan, SN-38, topotecan, etoposide, exatecan), (iii) Anthracyclines (doxorubicin, epirubicin, idarubicin), "
-        "(iv) Antimetabolites and antifolates (gemcitabine, capecitabine, 5-fluorouracil, methotrexate, pemetrexed, cytarabine), "
-        "(v) Epothilones and microtubule inhibitors (ixabepilone, eribulin, vinorelbine), (vi) Targeted kinase modulators (lapatinib, gefitinib, "
-        "erlotinib, afatinib, bemcentinib, alpelisib, buparlisib, paxalisib), and (vii) CDK4/6 cell cycle inhibitors (palbociclib, ribociclib, abemaciclib)."
+        "A library of anti-TNBC therapeutic agents with established clinical activity or ongoing clinical trials was curated from DrugBank "
+        "and PubChem, spanning PARP1 inhibitors (olaparib, talazoparib, rucaparib, niraparib, veliparib, pamiparib), topoisomerase "
+        "inhibitors and ADC payloads (irinotecan, SN-38, topotecan, etoposide, exatecan), anthracyclines (doxorubicin, epirubicin, "
+        "idarubicin), antimetabolites (gemcitabine, capecitabine, 5-fluorouracil, methotrexate, pemetrexed, cytarabine), microtubule "
+        "agents (ixabepilone, eribulin, vinorelbine), kinase modulators (lapatinib, gefitinib, erlotinib, afatinib, bemcentinib, "
+        "alpelisib) and CDK4/6 inhibitors (palbociclib, ribociclib, abemaciclib). Of these, 35 completed docking and 33 have a converged "
+        "GFN2-xTB drug-cage complex; the analyses below use those real subsets."
     )
-    
-    add_heading_styled(doc, "2.2 Quantum Chemical Calculations and Conceptual DFT (CDFT)", level=2)
+
+    add_heading_styled(doc, "2.2 Quantum-chemical framework", level=2)
     doc.add_paragraph(
-        "All isolated drug structures, pristine B36N36 cages, and functionalized B36N36-COOH complexes were modeled and energy-minimized "
-        "using Density Functional based Tight Binding (DFTB3) with 3OB parameter sets and Lennard-Jones D4 dispersion corrections (UFF). "
-        "Solvation free energies were incorporated via the generalized Born implicit solvent framework at 298.15 K. Electronic reactivity "
-        "descriptors were derived within the Conceptual DFT framework using frontier molecular orbital energies (E_HOMO, E_LUMO):"
+        "Each isolated drug, the pristine B36N36 cage, and every drug-cage complex were geometry-optimized and evaluated at single point "
+        "with GFN2-xTB (xtb v6.7.1) including the D4 dispersion correction [25,26], in the gas phase. The standardized single-point "
+        "interaction energy is Delta_E_int,SP = E(complex) - E(cage) - E(drug), with both fragments taken at the complex geometry; a "
+        "relaxed-geometry adsorption energy was additionally computed for a curated 8-compound subset (Supporting Information). "
+        "Frontier-orbital energies and conceptual-DFT reactivity indices were read directly from the xtb output using:"
     )
     
     eqs = [
@@ -255,7 +253,7 @@ def build_manuscript_word():
         ("Global Softness (S):", "S = 1 / (2η) = 1 / (E_LUMO - E_HOMO)"),
         ("Electronegativity (χ) & Chemical Potential (μ):", "χ = -μ = -(E_HOMO + E_LUMO) / 2"),
         ("Global Electrophilicity Index (ω):", "ω = μ² / (2η) = (E_HOMO + E_LUMO)² / [4(E_LUMO - E_HOMO)]"),
-        ("Nanocarrier Adsorption Energy (ΔE_ads):", "ΔE_ads = E_complex - (E_drug + E_nanocage) + E_BSSE")
+        ("Standardized interaction energy (ΔE_int,SP):", "ΔE_int,SP = E_complex - E_cage - E_drug  (fragments at the complex geometry)")
     ]
     for name, form in eqs:
         p_eq = doc.add_paragraph()
@@ -265,28 +263,26 @@ def build_manuscript_word():
         r_n.font.bold = True
         p_eq.add_run(form)
         
-    add_heading_styled(doc, "2.3 Physical Molecular Docking Simulations on Human PARP1 (PDB: 4UND)", level=2)
+    add_heading_styled(doc, "2.3 Molecular docking against human PARP1 (PDB 4UND)", level=2)
     doc.add_paragraph(
-        "The atomic-resolution X-ray crystallographic structure of the human PARP1 catalytic domain complexed with an inhibitor "
-        "was retrieved directly from the RCSB Protein Data Bank (PDB ID: 4UND). Receptor preparation involved the removal of co-crystallized "
-        "solvent water molecules, extraction of the co-crystallized ligand to define the exact active-site grid center (X = 12.631 Å, "
-        "Y = 55.450 Å, Z = 206.738 Å), addition of polar hydrogen atoms, and assigning Gasteiger charges. Three-dimensional conformers of "
-        "all 42 therapeutics were generated using the ETKDGv3 algorithm in RDKit with UFF energy minimization, followed by PDBQT formatting "
-        "via Meeko. Docking was executed using the official AutoDock Vina v1.2.7 engine on local hardware with an exhaustiveness of 8 "
-        "and a grid bounding box of 22 × 22 × 22 Å³. Real binding free energies (ΔG_bind in kcal/mol) and 3D pose files were systematically collected."
+        "The X-ray structure of the human PARP1 catalytic domain (PDB ID: 4UND) was prepared by removing crystallographic waters, "
+        "extracting the co-crystallized ligand to centre the search grid, adding polar hydrogens and assigning Gasteiger charges. "
+        "Ligand conformers were generated with ETKDGv3 / UFF in RDKit and formatted with Meeko; docking used AutoDock Vina v1.2.7 "
+        "(exhaustiveness 8, 22 x 22 x 22 A grid). Self-redocking of the co-crystallized ligand did not reproduce the native pose within "
+        "2 A heavy-atom RMSD, so the Vina scores are used only as a relative exploratory ranking and never as a QSAR endpoint."
     )
     
     add_heading_styled(doc, "2.4 Machine Learning, Explainable AI (SHAP), and OECD Validation", level=2)
     doc.add_paragraph(
-        "A regularized Ridge surrogate model with 4 pre-specified orthogonal descriptors (MW, LogP, Polarizability_alpha, "
-        "Electrophilicity_omega; n/p = 8.75 per system, n = 35) was evaluated by a fully leak-free nested 5x5 cross-validation "
+        "A regularized RidgeCV surrogate model with four pre-specified descriptors (MW, molar refractivity, E_HOMO, electrophilicity "
+        "omega; n = 35 for the isolated-drug system and n = 33 for the pristine-B36N36 system) was evaluated by a leak-free nested 5x5 cross-validation "
         "protocol: an outer 5-fold split produced out-of-fold predictions for every compound, while StandardScaler and the Ridge "
         "regularization strength (alpha) were fit exclusively on each outer-training split via an inner 5-fold RidgeCV, so no "
         "test-fold information leaked into preprocessing or hyperparameter selection. Model performance was evaluated using Root "
         "Mean Squared Error (RMSE), Mean Absolute Error (MAE), and the pooled out-of-fold coefficient of determination (Q2_CV). "
-        "Game-theoretic SHAP (SHapley Additive exPlanations), computed from exploratory tree-based models (ExtraTrees, XGBoost) "
-        "fit on the full data, was used descriptively to rank candidate governing descriptors and was not used to select or "
-        "validate the reported Ridge surrogate. Compliance with OECD Principle 3 (Domain of Applicability) "
+        "SHAP (Shapley Additive Explanations) values [38], computed from an exploratory ExtraTrees estimator fit on the full data, "
+        "were used only to rank candidate descriptors and were not used to select or validate the reported RidgeCV surrogate. "
+        "Compliance with OECD Principle 3 (domain of applicability) [34-36] "
         "was confirmed via Williams plots of standardized residuals versus hat leverage values (h_i) relative to the critical threshold h* = 3(p+1)/n."
     )
     
@@ -295,13 +291,13 @@ def build_manuscript_word():
     # ==============================================================================
     add_heading_styled(doc, "3. Results and Discussion", level=1)
     
-    add_heading_styled(doc, "3.1 Quantum CDFT Reactivity and Frontier Orbital Hybridization", level=2)
+    add_heading_styled(doc, "3.1 Quantum conceptual-DFT reactivity of the isolated therapeutics", level=2)
     doc.add_paragraph(
-        "Frontier molecular orbital (FMO) analysis reveals significant electronic reorganization upon conjugating anti-TNBC therapeutics "
-        "with Boron Nitride nanocages (Figure 2). For isolated drugs, the mean HOMO and LUMO energy levels are -6.12 eV and -2.15 eV, "
-        "yielding an average band gap of ΔE_g = 3.97 eV and chemical hardness of η = 1.76 eV. Complexation with pristine B36N36 "
-        "(HOMO: -6.42 eV, LUMO: -2.78 eV, gap: 3.64 eV) and carboxylated B36N36-COOH (HOMO: -6.15 eV, LUMO: -2.95 eV, gap: 3.20 eV) "
-        "induces hybrid orbital stabilization, narrowing the band gap to 3.03 eV and 2.66 eV, respectively."
+        "Real GFN2-xTB single points for the 33-compound isolated cohort give a mean E_HOMO of -9.5 eV and mean E_LUMO of -7.5 eV "
+        "(mean HOMO-LUMO gap 2.0 eV, mean chemical hardness eta = 1.0 eV), with the anthracyclines and topoisomerase payloads at the "
+        "low-hardness / high-electrophilicity end of the distribution (Figure 2). No real complex-level frontier-orbital calculation "
+        "exists for the B36N36 cage or the drug-cage complexes, so no complexation-induced gap narrowing is claimed; the interaction "
+        "with the cage is characterized instead by the single-point interaction energies of Section 3.2."
     )
     
     # EMBED FIGURE 2
@@ -315,7 +311,7 @@ def build_manuscript_word():
         r_c2 = p_cap2.add_run("Figure 2. ")
         r_c2.font.bold = True
         r_c2.font.name = 'Arial'
-        p_cap2.add_run("Quantum chemical Conceptual DFT reactivity profiles: (a) Frontier Molecular Orbital (FMO) band alignment and gap narrowing (ΔE_g) across isolated drugs, pristine B36N36, and carboxylated B36N36-COOH complexes; (b) Pearson chemical hardness (η) and softness (S) evolution; (c) Global electrophilicity index (ω) distribution.")
+        p_cap2.add_run("Real GFN2-xTB conceptual-DFT reactivity of the isolated TNBC therapeutics cohort (n=33): (a) HOMO/LUMO frontier-orbital distribution; (b) chemical hardness vs. softness; (c) global electrophilicity index distribution. No complex-level frontier-orbital calculation exists for the B36N36 cage.")
         
     add_heading_styled(doc, "3.2 Physical Molecular Docking on PARP1 and Active Site Relocation", level=2)
     doc.add_paragraph(
@@ -396,12 +392,12 @@ def build_manuscript_word():
         r_c3 = p_cap3.add_run("Figure 3. ")
         r_c3.font.bold = True
         r_c3.font.name = 'Arial'
-        p_cap3.add_run("Three-dimensional macromolecular crystal structure representation of human PARP1 (PDB ID: 4UND) complexed with therapeutic payload. The zoomed-in panel displays key interacting binding site residues: Ser681, Lys684, Thr866, Arg865, Glu688, Tyr689, Cys908, Ser911, and Asp914 forming hydrogen bonds (dashed lines) and stabilizing contacts.")
+        p_cap3.add_run("Human PARP1 catalytic domain (PDB ID: 4UND) with a representative docked ligand. The most frequently contacted residues across the 35 poses are Glu688, Arg865, Thr866, Lys684, Thr867, Ser681, His909 and Ser911 (contact distance <= 3.8 A).")
         
     add_heading_styled(doc, "3.3 3D Quantum Geometries and Intermolecular Interactions", level=2)
     doc.add_paragraph(
         "Figure 5 is a schematic 3D rendering illustrating the proposed binding motifs for the nanocarrier complexes, not a rendering of a "
-        "DFTB3/GFN2-xTB optimized geometry (the underlying cage and ligand coordinates are illustrative). Panel (a) depicts the proposed "
+        "GFN2-xTB optimized geometry (the underlying cage and ligand coordinates are illustrative). Panel (a) depicts the proposed "
         "non-covalent π-π stacking and dispersion-driven adsorption motif for Olaparib + B36N36; the real GFN2-xTB single-point interaction "
         "energy for this pair is -0.38 kcal/mol (Table 1), with a real relaxed-geometry value of -13.42 kcal/mol available for a curated "
         "8-compound subset (Supporting Information). Panel (b) depicts a proposed carboxyl O-H...N hydrogen-bonding motif for a "
@@ -419,13 +415,14 @@ def build_manuscript_word():
         r_c5 = p_cap5.add_run("Figure 5. ")
         r_c5.font.bold = True
         r_c5.font.name = 'Arial'
-        p_cap5.add_run("Schematic 3D representations of the proposed binding motifs (illustrative coordinates, not DFTB3/GFN2-xTB optimized geometries): (a) Olaparib + B36N36 pristine nanocage, proposed π-π stacking motif (real GFN2-xTB single-point ΔE_int = -0.38 kcal/mol; real relaxed-geometry value -13.42 kcal/mol for a curated subset); (b) proposed Talazoparib + B36N36-COOH carboxyl O-H···N hydrogen-bonding motif -- no real structural/quantum data exists for the carboxylated cage.")
+        p_cap5.add_run("Schematic 3D representations of the proposed binding motifs (illustrative coordinates, not GFN2-xTB optimized geometries): (a) Olaparib + B36N36 pristine nanocage, proposed π-π stacking motif (real GFN2-xTB single-point ΔE_int = -0.38 kcal/mol; real relaxed-geometry value -13.42 kcal/mol for a curated subset); (b) proposed Talazoparib + B36N36-COOH carboxyl O-H···N hydrogen-bonding motif -- no real structural/quantum data exists for the carboxylated cage.")
         
     add_heading_styled(doc, "3.4 Statistical Docking Distributions and Residue Interactions", level=2)
     doc.add_paragraph(
-        "Quantitative residue contact analysis across all 35 docked therapeutics (Figure 4) revealed that Ser681, Lys684, Arg865, Thr866, "
-        "and Glu688 are the most frequently engaged residues within a 3.8 Å sphere. Statistical evaluation of binding affinities (Figure 6) "
-        "demonstrates that nanocarrier adsorption energy (ΔE_ads) strongly correlates with overall macromolecular stabilization (Pearson r = 0.640, p < 10⁻⁴)."
+        "Residue contact analysis across the 35 docked therapeutics (Figure 4) identifies Glu688, Arg865, Thr866, Lys684, Thr867 and "
+        "Ser681 as the most frequently engaged residues within 3.8 Å. The isolated-drug Vina score and the real GFN2-xTB B36N36 "
+        "interaction energy are only weakly (and negatively) correlated across the 20-compound overlap (Pearson r = -0.21), i.e. strong "
+        "target binders are not systematically the strongest-adsorbing on the cage (Figure 6)."
     )
     
     # EMBED FIGURE 4 & FIGURE 6
@@ -438,7 +435,7 @@ def build_manuscript_word():
         r_c4 = p_cap4.add_run("Figure 4. ")
         r_c4.font.bold = True
         r_c4.font.name = 'Arial'
-        p_cap4.add_run("Atomic-level macromolecular interaction profiles: (a) Total residue contacts versus estimated hydrogen bonds with π-stacking engagement; (b) Interaction frequency distribution across the 35 real docked therapeutics in the PARP1 catalytic domain.")
+        p_cap4.add_run("PARP1 interaction profiles from the real docked poses: (a) total residue contacts vs. estimated hydrogen bonds per drug; (b) residue contact-frequency distribution across the 35 docked therapeutics.")
         
     fig6_path = os.path.join(fig_dir, "fig6_docking_vina_statistical_profiles.png")
     if os.path.exists(fig6_path):
@@ -449,12 +446,12 @@ def build_manuscript_word():
         r_c6 = p_cap6.add_run("Figure 6. ")
         r_c6.font.bold = True
         r_c6.font.name = 'Arial'
-        p_cap6.add_run("Statistical docking profiles and energetic coupling: (a) Violin and jitter distributions of AutoDock Vina binding scores; (b) Top 15 therapeutics ranked by binding affinity; (c) Linear regression correlation between B36N36-COOH adsorption energy (ΔE_ads) and target affinity.")
+        p_cap6.add_run("Docking profiles: (a) distribution of AutoDock Vina scores on PARP1; (b) top-ranked therapeutics by score; (c) isolated-drug Vina score vs. real GFN2-xTB pristine-B36N36 interaction energy across the 20-compound overlap (weak negative correlation).")
         
     add_heading_styled(doc, "3.5 Machine Learning Benchmarking and Explainable AI (SHAP)", level=2)
     doc.add_paragraph(
-        "Table 2 summarizes the performance of a regularized Ridge surrogate model (4 pre-specified orthogonal descriptors per system; "
-        "n/p = 8.75 isolated, 8.25 pristine B36N36) evaluated by fully leak-free nested 5x5 cross-validation "
+        "Table 2 summarizes the performance of the RidgeCV surrogate (four pre-specified descriptors; n = 35 isolated, n = 33 pristine "
+        "B36N36) evaluated by leak-free nested 5x5 cross-validation "
         "(StandardScaler fit inside the modelling pipeline on outer-training folds only; alpha selected by inner RidgeCV) on the real "
         "observed docking/adsorption data, reported as out-of-fold predictions rather than a single held-out 20% split. Predictive accuracy is "
         "non-overfit but non-predictive on both real-data systems (Q2_CV = -0.036 isolated, -0.626 pristine B36N36) -- consistent with the "
@@ -504,7 +501,7 @@ def build_manuscript_word():
         r_c8 = p_cap8.add_run("Figure 8. ")
         r_c8.font.bold = True
         r_c8.font.name = 'Arial'
-        p_cap8.add_run("OECD Principle 3: Williams plots defining the QSAR Domain of Applicability for the two real-data systems (Isolated Drugs, Drug + B36N36 Pristine), using the real out-of-fold standardized residuals (δ_i) from the leak-free nested 5x5 Ridge CV of Figure 7 / Table 2, plotted against hat leverage values (h_i) with ±3σ warning boundaries (33/35 and 31/33 compounds within the applicability domain, respectively).")
+        p_cap8.add_run("OECD Principle 3 Williams plots for the two real-data systems (isolated drugs; drug + pristine B36N36): out-of-fold standardized residuals vs. hat leverage with +/-3sigma boundaries. 33/35 and 30/33 compounds fall inside the applicability domain, respectively.")
         
     fig9_path = os.path.join(fig_dir, "fig7_parity_models_evaluation.png")
     if os.path.exists(fig9_path):
@@ -548,17 +545,16 @@ def build_manuscript_word():
     # ==============================================================================
     add_heading_styled(doc, "4. Conclusions", level=1)
     doc.add_paragraph(
-        "In this study, we established an integrated quantum chemical, physical molecular docking, and Explainable AI (XAI) QSAR/QSPR "
-        "framework to evaluate pristine Boron Nitride nanocages (B36N36) and carboxylated functionalized derivatives (B36N36-COOH) "
-        "as biocompatible delivery nanovehicles for 42 anti-TNBC therapeutics targeting human PARP1. Key findings include:"
+        "We report a quantum-informed, explainable QSAR/QSPR analysis of the pristine inorganic boron nitride nanocage B36N36 as a "
+        "candidate loading scaffold for 33 anti-TNBC therapeutics. Key points:"
     )
-    
+
     concl_points = [
-        "1. Physical Docking Validation: Real AutoDock Vina v1.2.7 calculations on the crystallographic human PARP1 catalytic domain (PDB ID: 4UND) confirmed strong target affinities for anti-TNBC agents, with irinotecan (-10.22 kcal/mol), abemaciclib (-9.06 kcal/mol), lapatinib (-8.83 kcal/mol), and olaparib (-8.76 kcal/mol) exhibiting top scores.",
-        "2. Real Pristine-Nanocarrier Interaction Energetics: Real GFN2-xTB single-point calculations on the pristine B36N36 cage (all 33 compounds) show a mean interaction energy of -2.77 kcal/mol (range -20.5 to +9.8 kcal/mol); the carboxylated B36N36-COOH derivative has no real structural/quantum data yet and requires new complex-geometry modeling.",
-        "3. Leak-Free Machine Learning Benchmark: A Ridge surrogate model evaluated by fully leak-free nested 5x5 cross-validation on the real observed data was non-overfit but non-predictive (Q2_CV = -0.036 isolated, -0.626 pristine B36N36), consistent with the pooled leak-free result (Q2_CV = 0.0016) reported elsewhere in this project -- an honest, non-inflated baseline for this sample size.",
-        "4. Biophysical Interpretability & OECD Compliance: SHAP analysis demonstrated that nanocarrier adsorption energy (ΔE_ads), aromatic ring density, and electronic chemical potential (μ) drive complex stabilization. Domain of applicability validation via Williams plots established 100% compliance with OECD Principle 3.",
-        "5. Translational Nanomedicine Utility: Functionalized boron nitride nanocages offer an effective, non-carbonaceous, and biocompatible platform to overcome solubility and toxicity limitations in targeted Triple-Negative Breast Cancer chemotherapy."
+        "1. Exploratory docking: AutoDock Vina scores against the PARP1 catalytic domain (PDB 4UND) range from about -3.9 to -10.2 kcal/mol, but self-redocking of the co-crystallized ligand failed to reproduce the native pose within 2 A, so these scores are used only as a relative ranking and not as a quantitative endpoint.",
+        "2. Real interaction energetics: GFN2-xTB single-point interaction energies of the 33 drugs on the pristine B36N36 cage average -2.8 kcal/mol (range -20.5 to +9.8 kcal/mol); a carboxylated B36N36-COOH derivative has no real structural or quantum data here and would require dedicated complex-geometry modeling.",
+        "3. Honest ML baseline: the leak-free nested 5x5 cross-validated RidgeCV surrogate is non-predictive on both real-data systems (Q2_CV = -0.036 isolated, -0.626 pristine B36N36; pooled -0.0016), and the descriptor rankings from the exploratory tree models are reported as qualitative only.",
+        "4. Applicability domain: Williams-leverage analysis places 33/35 and 30/33 compounds inside the domain for the two real-data systems (OECD Principle 3).",
+        "5. Outlook: inorganic B36N36 remains an attractive non-carbonaceous scaffold on solubility and biocompatibility grounds, but the present data do not establish a predictive structure-activity relationship, and functionalized derivatives and a validated model are left as future work."
     ]
     for cp in concl_points:
         p_cp = doc.add_paragraph()

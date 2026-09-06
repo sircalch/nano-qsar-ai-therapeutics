@@ -37,22 +37,26 @@ def render_perfect_fig5():
     im_a = Image.open(img_a)
     axes[0].imshow(im_a)
     axes[0].axis('off')
-    axes[0].set_title(r"(a) DFTB3-Optimized Structure: Olaparib + $B_{36}N_{36}$ Pristine Nanocage",
+    axes[0].set_title(r"(a) Schematic binding motif: Olaparib + pristine $B_{36}N_{36}$ (illustrative coordinates)",
                       fontsize=12, fontweight='bold', pad=14, color='#0D47A1')
-    axes[0].text(0.04, 0.90, r"$\Delta E_{ads} = -24.85$ kcal/mol" + "\n" + r"$d_{\pi-\pi} = 3.42$ Å (Intermolecular Dispersion)" + "\n" + r"$E_{HOMO} = -5.95$ eV, $E_{LUMO} = -2.92$ eV",
+    axes[0].text(0.04, 0.90, "Real GFN2-xTB single-point $\\Delta E_{int,SP}$ = -0.38 kcal/mol\n"
+                             "Real relaxed-geometry value -13.42 kcal/mol (curated subset, SI)\n"
+                             "Proposed pi-stacking / dispersion contact",
                  transform=axes[0].transAxes, fontsize=10.5, fontweight='bold',
                  bbox=dict(boxstyle='round,pad=0.45', facecolor='white', edgecolor='#004D40', lw=1.6, alpha=0.95))
-                 
+
     im_b = Image.open(img_b)
     axes[1].imshow(im_b)
     axes[1].axis('off')
-    axes[1].set_title(r"(b) DFTB3-Optimized Structure: Talazoparib + $B_{36}N_{36}\text{-COOH}$ Complex",
+    axes[1].set_title(r"(b) Proposed motif: Talazoparib + $B_{36}N_{36}\text{-COOH}$ (illustrative; no real data)",
                       fontsize=12, fontweight='bold', pad=14, color='#0D47A1')
-    axes[1].text(0.04, 0.90, r"$\Delta E_{ads} = -30.80$ kcal/mol" + "\n" + r"$d_{H-bond} = 1.92$ Å (Carboxyl O-H $\cdots$ N Bridge)" + "\n" + r"$E_{HOMO} = -5.86$ eV, $E_{LUMO} = -3.18$ eV",
+    axes[1].text(0.04, 0.90, "No real structural or quantum data exists for the\n"
+                             "carboxylated B36N36-COOH cage; this panel is a\n"
+                             "proposed O-H...N hydrogen-bonding motif only.",
                  transform=axes[1].transAxes, fontsize=10.5, fontweight='bold',
                  bbox=dict(boxstyle='round,pad=0.45', facecolor='white', edgecolor='#B71C1C', lw=1.6, alpha=0.95))
-                 
-    plt.suptitle("Figure 5. Quantum Chemical (DFTB3-D4) Ground-State Geometries, 3D Nanocage Architectures, and Intermolecular Interactions",
+
+    plt.suptitle("Figure 5. Schematic drug-nanocage binding motifs (illustrative coordinates, not optimized geometries)",
                  fontsize=14, fontweight='bold', y=0.96, color="#0D47A1")
                  
     out_fig5 = os.path.join(fig_dir, "fig5_quantum_ground_state_geometries.png")

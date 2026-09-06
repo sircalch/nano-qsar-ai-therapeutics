@@ -107,75 +107,46 @@ def make_fig1_methodology(base_dir, fig_dir):
 # FIGURE 2: Quantum Frontier Orbitals, ESP & Reactivity Alignment
 # ==============================================================================
 def make_fig2_quantum_suite(base_dir, fig_dir):
-    fig = plt.figure(figsize=(16, 7), dpi=300)
-    gs = gridspec.GridSpec(1, 3, width_ratios=[1.2, 0.9, 0.9])
-    
-    # Subplot A: Band Alignment
-    ax0 = fig.add_subplot(gs[0])
-    systems = [
-        ("Olaparib\n(Isolated)", -6.12, -2.15, "#1565C0"),
-        (r"Pristine $B_{36}N_{36}$", -6.42, -2.78, "#2E7D32"),
-        (r"Olaparib+$B_{36}N_{36}$", -5.95, -2.92, "#00695C"),
-        (r"$B_{36}N_{36}\text{-COOH}$", -6.15, -2.95, "#EF6C00"),
-        (r"Olaparib+$B_{36}N_{36}\text{-COOH}$", -5.78, -3.12, "#C62828")
-    ]
-    
-    for i, (name, ehomo, elumo, col) in enumerate(systems):
-        x = i * 1.5 + 1.0
-        width = 0.95
-        
-        # LUMO bar
-        ax0.plot([x - width/2, x + width/2], [elumo, elumo], color='#D32F2F', lw=4, zorder=3)
-        ax0.text(x, elumo + 0.18, f"{elumo:.2f} eV", ha='center', fontsize=9, fontweight='bold', color='#D32F2F')
-        
-        # HOMO bar
-        ax0.plot([x - width/2, x + width/2], [ehomo, ehomo], color='#1976D2', lw=4, zorder=3)
-        ax0.text(x, ehomo - 0.26, f"{ehomo:.2f} eV", ha='center', fontsize=9, fontweight='bold', color='#1976D2')
-        
-        # Energy gap arrow
-        gap = elumo - ehomo
-        ax0.annotate('', xy=(x, elumo), xytext=(x, ehomo),
-                     arrowprops=dict(arrowstyle='<->', color='#424242', lw=1.5, ls='--'))
-        ax0.text(x + 0.16, (ehomo + elumo)/2, f"$\Delta E_g = {gap:.2f}$ eV", fontsize=8.5, color='#212121', va='center')
-        ax0.text(x, -7.5, name, ha='center', fontsize=9.5, fontweight='bold')
-        
-    ax0.set_xlim([0.2, len(systems)*1.5 + 0.8])
-    ax0.set_ylim([-7.8, -1.5])
-    ax0.set_ylabel("Energy (eV vs. Vacuum Level)", fontsize=11, fontweight='bold')
-    ax0.set_title("(a) Frontier Molecular Orbital (FMO) Band Alignment & Hybridization", fontsize=11, fontweight='bold')
-    ax0.set_xticks([])
-    
-    # Subplot B: Chemical Hardness vs Softness
-    ax1 = fig.add_subplot(gs[1])
-    categories = ["Isolated\n(Mean)", r"Pristine $B_{36}N_{36}$", r"Drug+$B_{36}N_{36}$", r"$B_{36}N_{36}\text{-COOH}$", r"Drug+$B_{36}N_{36}\text{-COOH}$"]
-    hardness = [1.76, 1.82, 1.47, 1.60, 1.30]
-    softness = [0.28, 0.27, 0.34, 0.31, 0.38]
-    
-    x_pos = np.arange(len(categories))
-    w = 0.35
-    ax1.bar(x_pos - w/2, hardness, w, label=r'Hardness $\eta$ (eV)', color='#1976D2', alpha=0.85, edgecolor='black')
-    ax1.bar(x_pos + w/2, softness, w, label=r'Softness $S$ (eV$^{-1}$)', color='#388E3C', alpha=0.85, edgecolor='black')
-    ax1.set_xticks(x_pos)
-    ax1.set_xticklabels(categories, fontsize=8.5)
-    ax1.set_ylabel("CDFT Parameter Value", fontsize=10.5, fontweight='bold')
-    ax1.set_title("(b) Pearson's Chemical Hardness & Softness", fontsize=11, fontweight='bold')
-    ax1.legend(loc='upper right', fontsize=9)
-    
-    # Subplot C: Electrophilicity Index (omega) Evolution
-    ax2 = fig.add_subplot(gs[2])
-    omegas = [4.85, 2.91, 6.75, 3.25, 7.65]
-    colors = ["#1976D2", "#388E3C", "#00796B", "#F57C00", "#D32F2F"]
-    bars = ax2.bar(categories, omegas, color=colors, alpha=0.85, edgecolor='black', width=0.55)
-    for bar in bars:
-        yval = bar.get_height()
-        ax2.text(bar.get_x() + bar.get_width()/2, yval + 0.15, f"{yval:.2f}", ha='center', fontsize=9, fontweight='bold')
-    ax2.set_ylabel(r"Electrophilicity Index $\omega$ (eV)", fontsize=10.5, fontweight='bold')
-    ax2.set_title(r"(c) Global Electrophilicity Index ($\omega$)", fontsize=11, fontweight='bold')
-    ax2.set_xticklabels(categories, fontsize=8.5)
-    
-    plt.suptitle("Figure 2. Quantum Chemical CDFT Reactivity Descriptors and Nanocarrier Orbital Evolution",
-                 fontsize=13.5, fontweight='bold', y=0.98, color="#0D47A1")
-    plt.tight_layout()
+    # Real GFN2-xTB single-point frontier orbitals / CDFT indices for the isolated
+    # cohort (dataset_tnbc_bn_pristine.csv). The previous version hardcoded
+    # HOMO/LUMO/eta/omega arrays for 5 fictitious "systems" including
+    # Olaparib+B36N36 and B36N36-COOH complexes that were never computed.
+    df = pd.read_csv(os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv"))
+    homo = df["E_HOMO_eV"].values
+    lumo = df["E_LUMO_eV"].values
+    eta = df["Eta_eV"].values
+    S = 1.0 / (2.0 * np.maximum(eta, 1e-3))
+    omega = df["Omega_eV"].values
+    n = len(df)
+
+    fig, axes = plt.subplots(1, 3, figsize=(16, 5.5), dpi=300)
+
+    ax0 = axes[0]
+    ax0.hist(homo, bins=12, color='#1976D2', alpha=0.8, edgecolor='k', label=f'E_HOMO (mean {homo.mean():.2f} eV)')
+    ax0.hist(lumo, bins=12, color='#D32F2F', alpha=0.7, edgecolor='k', label=f'E_LUMO (mean {lumo.mean():.2f} eV)')
+    ax0.set_xlabel("Electronic energy (eV)", fontsize=11)
+    ax0.set_ylabel("Compound count", fontsize=11)
+    ax0.set_title(f"(a) Real GFN2-xTB frontier orbitals (n={n})", fontsize=11, fontweight='bold')
+    ax0.legend(loc='upper left', fontsize=9)
+    ax0.grid(True, linestyle=':', alpha=0.6)
+
+    ax1 = axes[1]
+    ax1.scatter(eta, S, color='#388E3C', s=60, edgecolor='k', alpha=0.85)
+    ax1.set_xlabel(r"Chemical hardness $\eta$ (eV)", fontsize=11)
+    ax1.set_ylabel(r"Softness $S$ (eV$^{-1}$)", fontsize=11)
+    ax1.set_title("(b) Real chemical hardness vs. softness", fontsize=11, fontweight='bold')
+    ax1.grid(True, linestyle=':', alpha=0.6)
+
+    ax2 = axes[2]
+    ax2.hist(omega, bins=12, color='#00796B', alpha=0.85, edgecolor='k')
+    ax2.set_xlabel(r"Electrophilicity index $\omega$ (eV)", fontsize=11)
+    ax2.set_ylabel("Compound count", fontsize=11)
+    ax2.set_title(r"(c) Real global electrophilicity index $\omega$", fontsize=11, fontweight='bold')
+    ax2.grid(True, linestyle=':', alpha=0.6)
+
+    plt.suptitle("Figure 2. Real GFN2-xTB conceptual-DFT reactivity of the isolated TNBC therapeutics cohort",
+                 fontsize=13, fontweight='bold', y=0.99, color="#0D47A1")
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
     out_file = os.path.join(fig_dir, "fig2_quantum_cdft_architecture.png")
     plt.savefig(out_file, dpi=300, bbox_inches='tight')
     plt.close()
@@ -415,14 +386,21 @@ def make_fig7_parity_benchmark(base_dir, fig_dir):
 def generate_all():
     base_dir, fig_dir = get_paths()
     print("Generating complete Q1 scientific figure suite...")
+    # The manuscript embeds fig1, fig2, fig4, fig7 from this module and
+    # fig3 / fig5 / fig6 from generate_master_q1_figure_set.py +
+    # render_perfect_fig3_and_fig5.py. The make_fig3/5/6 helpers below write
+    # to non-embedded filenames and are kept only for exploratory use; a
+    # failure in them must not block the embedded figures.
     make_fig1_methodology(base_dir, fig_dir)
     make_fig2_quantum_suite(base_dir, fig_dir)
-    make_fig3_docking_distributions(base_dir, fig_dir)
     make_fig4_interaction_fingerprints(base_dir, fig_dir)
-    make_fig5_correlation_heatmap(base_dir, fig_dir)
-    make_fig6_shap_suite(base_dir, fig_dir)
     make_fig7_parity_benchmark(base_dir, fig_dir)
-    print("All 7 Q1 figures generated successfully!")
+    for opt in (make_fig3_docking_distributions, make_fig5_correlation_heatmap, make_fig6_shap_suite):
+        try:
+            opt(base_dir, fig_dir)
+        except Exception as e:
+            print(f"[skip] {opt.__name__}: {e}")
+    print("Embedded Q1 figures (1, 2, 4, 7) generated successfully!")
 
 if __name__ == "__main__":
     generate_all()

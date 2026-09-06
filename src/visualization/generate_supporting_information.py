@@ -30,7 +30,7 @@ S1 = ("The nanocarrier is a closed hollow B36N36 cage (72 atoms, alternating B a
       "exploratory only.")
 REPO = "https://github.com/sircalch/nano-qsar-ai-therapeutics"
 ZEN = "https://doi.org/10.5281/zenodo.22187873"
-VINA_COLS = [("vina_4UND_kcal_mol", "Vina 4UND (kcal/mol, exploratory)")]
+VINA_COLS = [("Docking_Score_kcal_mol", "PARP1 4UND Vina (kcal/mol, exploratory)")]
 ENDPOINT = ("GFN2-xTB single-point interaction energy Delta_E_int,SP (kcal/mol) of each drug "
             "on the B36N36 nanocage cluster.")
 Q2_NOTE = ("Leak-free nested 5x5 CV on the real Delta_E_int,SP; see the manuscript for the "
@@ -93,6 +93,12 @@ def _williams(df, feats, target):
 
 def generate_supporting_information():
     df = pd.read_csv(DATASET)
+    # merge the isolated-drug PARP1 Vina score (the source used by the main
+    # manuscript Table 1), so Table S1 and the manuscript agree
+    iso_csv = os.path.join(BASE, "data", "processed", "dataset_isolated_drugs.csv")
+    if os.path.exists(iso_csv) and "Docking_Score_kcal_mol" not in df.columns:
+        iso = pd.read_csv(iso_csv)[["name", "Docking_Score_kcal_mol"]]
+        df = df.merge(iso, on="name", how="left")
     doc = Document()
     for s in doc.sections:
         s.top_margin = s.bottom_margin = Inches(1.0)
