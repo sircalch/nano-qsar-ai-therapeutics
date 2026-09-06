@@ -146,7 +146,7 @@ def build_manuscript_word():
         "structural or quantum data for it exist in this study. A StandardScaler + RidgeCV surrogate evaluated by leak-free nested 5x5 "
         "cross-validation is non-predictive on both real-data systems (Q2_CV = -0.036 isolated, -0.626 pristine B36N36); the model and "
         "its feature-importance ranking are reported as an honest exploratory baseline, not a validated structure-activity relationship. "
-        "OECD Principle 3 applicability-domain analysis (Williams leverage) places 33/35 and 30/33 compounds inside the domain. Every "
+        "OECD Principle 3 applicability-domain analysis (Williams leverage) places 33/35 and 31/33 compounds inside the domain. Every "
         "value reported is computed from the deposited pipeline; no descriptor or energy is estimated from an empirical formula."
     )
     r_abs = p_abs_box.add_run(abs_body)
@@ -280,10 +280,11 @@ def build_manuscript_word():
         "regularization strength (alpha) were fit exclusively on each outer-training split via an inner 5-fold RidgeCV, so no "
         "test-fold information leaked into preprocessing or hyperparameter selection. Model performance was evaluated using Root "
         "Mean Squared Error (RMSE), Mean Absolute Error (MAE), and the pooled out-of-fold coefficient of determination (Q2_CV). "
-        "SHAP (Shapley Additive Explanations) values [38], computed from an exploratory ExtraTrees estimator fit on the full data, "
+        "SHAP (Shapley Additive Explanations) values [39, 43], computed from an exploratory ExtraTrees estimator [40] fit on the full data, "
         "were used only to rank candidate descriptors and were not used to select or validate the reported RidgeCV surrogate. "
-        "Compliance with OECD Principle 3 (domain of applicability) [34-36] "
-        "was confirmed via Williams plots of standardized residuals versus hat leverage values (h_i) relative to the critical threshold h* = 3(p+1)/n."
+        "Compliance with OECD Principle 3 (domain of applicability) [41, 42] "
+        "was confirmed via Williams plots of standardized residuals versus hat leverage values (h_i) relative to the critical threshold h* = 3(p+1)/n, "
+        "following established QSAR model-validation best practice [44]."
     )
     
     # ==============================================================================
@@ -501,7 +502,7 @@ def build_manuscript_word():
         r_c8 = p_cap8.add_run("Figure 8. ")
         r_c8.font.bold = True
         r_c8.font.name = 'Arial'
-        p_cap8.add_run("OECD Principle 3 Williams plots for the two real-data systems (isolated drugs; drug + pristine B36N36): out-of-fold standardized residuals vs. hat leverage with +/-3sigma boundaries. 33/35 and 30/33 compounds fall inside the applicability domain, respectively.")
+        p_cap8.add_run("OECD Principle 3 Williams plots for the two real-data systems (isolated drugs; drug + pristine B36N36): out-of-fold standardized residuals vs. hat leverage with +/-3sigma boundaries. 33/35 and 31/33 compounds fall inside the applicability domain, respectively.")
         
     fig9_path = os.path.join(fig_dir, "fig7_parity_models_evaluation.png")
     if os.path.exists(fig9_path):
@@ -553,7 +554,7 @@ def build_manuscript_word():
         "1. Exploratory docking: AutoDock Vina scores against the PARP1 catalytic domain (PDB 4UND) range from about -3.9 to -10.2 kcal/mol, but self-redocking of the co-crystallized ligand failed to reproduce the native pose within 2 A, so these scores are used only as a relative ranking and not as a quantitative endpoint.",
         "2. Real interaction energetics: GFN2-xTB single-point interaction energies of the 33 drugs on the pristine B36N36 cage average -2.8 kcal/mol (range -20.5 to +9.8 kcal/mol); a carboxylated B36N36-COOH derivative has no real structural or quantum data here and would require dedicated complex-geometry modeling.",
         "3. Honest ML baseline: the leak-free nested 5x5 cross-validated RidgeCV surrogate is non-predictive on both real-data systems (Q2_CV = -0.036 isolated, -0.626 pristine B36N36; pooled -0.0016), and the descriptor rankings from the exploratory tree models are reported as qualitative only.",
-        "4. Applicability domain: Williams-leverage analysis places 33/35 and 30/33 compounds inside the domain for the two real-data systems (OECD Principle 3).",
+        "4. Applicability domain: Williams-leverage analysis places 33/35 and 31/33 compounds inside the domain for the two real-data systems (OECD Principle 3).",
         "5. Outlook: inorganic B36N36 remains an attractive non-carbonaceous scaffold on solubility and biocompatibility grounds, but the present data do not establish a predictive structure-activity relationship, and functionalized derivatives and a validated model are left as future work."
     ]
     for cp in concl_points:

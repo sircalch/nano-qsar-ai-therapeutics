@@ -46,27 +46,27 @@ def make_fig1_methodology(base_dir, fig_dir):
     ax.axis('off')
     
     stages = [
-        ("Phase 1: Drug Library\n& Nanocarrier Curation", "#1A365D", 
-         "• 42 Anti-TNBC Therapeutics\n  (PARP inh, Topo, Taxanes, Kinase)\n• Boron Nitride Nanocage (B36N36)\n• Carboxylated Cage (B36N36-COOH)\n• 2D/3D Structural Canonicalization"),
-        
-        ("Phase 2: Quantum Chemistry\n& CDFT / HSAB Modeling", "#1B5E20", 
-         "• Tight-Binding DFTB3/UFF-D4\n• Frontier Orbitals (HOMO/LUMO)\n• Hardness (eta), Softness (S)\n• Electrophilicity Index (omega)\n• Adsorption Energy (Delta E_ads)"),
-        
-        ("Phase 3: Real AutoDock Vina\nDocking on PARP1 (4UND)", "#B71C1C", 
-         "• Human PARP1 Crystal PDB: 4UND\n• RDKit ETKDGv3 Conformer Prep\n• Official AutoDock Vina v1.2.7 Binary\n• Exact Delta G_bind Affinities (kcal/mol)\n• Pocket Relocation (Inner vs Outer)"),
-        
-        ("Phase 4: Chemometrics &\nDescriptor Engineering", "#E65100", 
-         "• 20 High-Dimensional Descriptors\n• MW, LogP, ESOL LogS, TPSA\n• HBD, HBA, RBC, NOR, alpha\n• Pearson Correlation Screening\n• 80/20 Train-Validation Splits"),
-        
-        ("Phase 5: Explainable AI\n& Analytical QSAR Models", "#4A148C", 
-         "• ExtraTrees, XGBoost & MLR Regressors\n• 5-Fold Stratified Cross-Validation\n• Game-Theoretic SHAP Interpretability\n• Closed-Form Exportable Equations\n• Error Metrics: MAPE, RMSE, R2")
+        ("Phase 1: Library &\nnanocarrier curation", "#1A365D",
+         "- 35 anti-TNBC drugs\n  (PARP, topo, taxane,\n   kinase classes)\n- B36N36 nanocage\n  (pristine only)\n- B36N36-COOH: future\n  work (no real data)"),
+
+        ("Phase 2: Quantum\nchemistry (GFN2-xTB)", "#1B5E20",
+         "- GFN2-xTB, gas phase\n  (xtb v6.7.1, D4)\n- Frontier orbitals\n  (HOMO / LUMO)\n- Conceptual-DFT indices\n  (eta, S, chi, omega)\n- Single-point interaction\n  energy on B36N36 (n=33)"),
+
+        ("Phase 3: Docking on\nPARP1 4UND (exploratory)", "#B71C1C",
+         "- Human PARP1, PDB 4UND\n- RDKit ETKDG conformers\n- AutoDock Vina v1.2.7\n- Redocking RMSD > 2 A:\n  scores kept as\n  exploratory only"),
+
+        ("Phase 4: Descriptors\n& correlation", "#E65100",
+         "- 4 pre-registered\n  descriptors for the model\n  (MW, LogP, alpha, omega)\n- 20 descriptors for\n  exploratory correlation\n  only\n- Pearson screening"),
+
+        ("Phase 5: QSPR baseline\n& explainability", "#4A148C",
+         "- Leak-free nested 5x5 CV\n  (Pipeline[scaler, RidgeCV])\n- Exploratory baseline:\n  Q2_CV ~ 0 (not a predictor)\n- ExtraTrees SHAP for\n  exploratory ranking only\n- Metrics: Q2_CV, RMSE, MAE"),
     ]
-    
+
     box_w = 0.172
-    box_h = 0.76
+    box_h = 0.80
     spacing = 0.028
     start_x = 0.015
-    y = 0.12
+    y = 0.10
     
     for i, (title, color, text) in enumerate(stages):
         x = start_x + i * (box_w + spacing)
@@ -86,8 +86,8 @@ def make_fig1_methodology(base_dir, fig_dir):
                 fontweight='bold', ha='center', va='center', zorder=4)
         
         # Body text
-        ax.text(x + 0.015, y + box_h/2 - 0.08, text, color="#FFFFFF", fontsize=8.8,
-                ha='left', va='center', zorder=4, linespacing=1.45)
+        ax.text(x + 0.012, y + box_h/2 - 0.06, text, color="#FFFFFF", fontsize=7.6,
+                ha='left', va='center', zorder=4, linespacing=1.4)
         
         # Arrows
         if i < len(stages) - 1:
@@ -207,36 +207,35 @@ def make_fig4_interaction_fingerprints(base_dir, fig_dir):
     inter_csv = os.path.join(base_dir, "results", "docking", "real_residue_interactions.csv")
     df_inter = pd.read_csv(inter_csv)
     
-    fig, axes = plt.subplots(1, 2, figsize=(16, 6), dpi=300, gridspec_kw={'width_ratios': [1.1, 0.9]})
-    
-    # 1. Total Contacts vs Estimated H-Bonds
-    sns.scatterplot(data=df_inter, x="Total_Contacts", y="Estimated_HBonds", hue="Pi_Stacking_Catalytic",
-                    palette={"Yes": "#D32F2F", "No": "#1976D2"}, s=90, edgecolor='black', alpha=0.85, ax=axes[0])
-    for idx, row in df_inter.iterrows():
-        if row['Total_Contacts'] > 18 or row['Estimated_HBonds'] >= 3:
-            axes[0].text(row['Total_Contacts'] + 0.3, row['Estimated_HBonds'] + 0.1, row['name'], fontsize=8.5)
-    axes[0].set_title("(a) Contact Density vs. Putative Hydrogen Bonds", fontsize=11, fontweight='bold')
-    axes[0].set_xlabel("Total Residue Contacts within 3.8 Å Sphere", fontsize=10.5)
-    axes[0].set_ylabel("Estimated H-Bonds", fontsize=10.5)
-    axes[0].legend(title=r"$\pi$-Stacking (Tyr907/Tyr896)", fontsize=9.5)
-    
-    # 2. Key Catalytic Residue Contact Frequencies
-    key_res = ["TYR907", "GLY863", "SER904", "GLU988", "HIS862", "ARG878", "TYR896", "MET890", "LEU877", "LYS903", "PHE897", "ASN868"]
-    counts = {r: 0 for r in key_res}
-    for r_str in df_inter['Interacting_Residues']:
-        if isinstance(r_str, str):
-            for r in key_res:
-                if r in r_str.upper():
-                    counts[r] += 1
-                    
-    s_counts = pd.Series(counts).sort_values(ascending=True)
-    axes[1].barh(s_counts.index, s_counts.values, color="#0288D1", edgecolor='black', height=0.65, alpha=0.85)
-    axes[1].set_title("(b) Interaction Frequency with Catalytic Domain Residues", fontsize=11, fontweight='bold')
-    axes[1].set_xlabel("Number of Compounds Engaging Residue (N=35)", fontsize=10.5)
-    axes[1].set_ylabel("PARP1 Catalytic Residue", fontsize=10.5)
-    
-    plt.suptitle("Figure 4. Atomic-Level Macromolecular Interaction Profiles in Human PARP1 Domain",
-                 fontsize=13.5, fontweight='bold', y=0.98, color="#0D47A1")
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6), dpi=300, gridspec_kw={'width_ratios': [1.0, 1.0]})
+
+    # 1. Total Contacts vs Estimated H-Bonds (real per-compound docking-pose analysis)
+    axes[0].scatter(df_inter["Total_Contacts"], df_inter["Estimated_HBonds"],
+                    s=90, color="#1976D2", edgecolor='black', alpha=0.85)
+    for _, row in df_inter.iterrows():
+        if row['Total_Contacts'] >= 13 or row['Estimated_HBonds'] >= 4:
+            axes[0].annotate(row['name'], (row['Total_Contacts'], row['Estimated_HBonds']),
+                             xytext=(4, 3), textcoords='offset points', fontsize=8.0)
+    axes[0].set_title("(a) Contact density vs. putative hydrogen bonds (exploratory 4UND poses)", fontsize=10.5, fontweight='bold')
+    axes[0].set_xlabel("Total residue contacts within 3.8 A", fontsize=10.5)
+    axes[0].set_ylabel("Estimated H-bond count (heuristic)", fontsize=10.5)
+    axes[0].grid(True, linestyle=':', alpha=0.5)
+
+    # 2. Per-residue engagement frequency across the 35 compounds (real)
+    import collections as _c
+    ctr = _c.Counter()
+    for r_str in df_inter['Interacting_Residues'].dropna():
+        for r in str(r_str).split(','):
+            ctr[r.strip()] += 1
+    top = ctr.most_common(12)[::-1]
+    axes[1].barh([r for r, _ in top], [n for _, n in top], color="#0288D1", edgecolor='black', height=0.65, alpha=0.85)
+    axes[1].set_title(f"(b) PARP1 4UND residues most engaged across {len(df_inter)} compounds", fontsize=10.5, fontweight='bold')
+    axes[1].set_xlabel(f"Number of compounds engaging residue (of {len(df_inter)})", fontsize=10.5)
+    axes[1].set_ylabel("PARP1 residue (4UND numbering)", fontsize=10.5)
+    axes[1].grid(True, axis='x', linestyle=':', alpha=0.5)
+
+    plt.suptitle("Figure 4. Residue-level interaction profile of anti-TNBC drugs on human PARP1 (PDB 4UND, exploratory docking)",
+                 fontsize=12.5, fontweight='bold', y=0.99, color="#0D47A1")
     plt.tight_layout()
     out_file = os.path.join(fig_dir, "fig4_interaction_residue_fingerprints.png")
     plt.savefig(out_file, dpi=300, bbox_inches='tight')
