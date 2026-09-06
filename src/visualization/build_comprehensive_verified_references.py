@@ -106,12 +106,12 @@ VERIFIED_REFERENCES = [
         "doi": "10.1021/ic00277a030",
     },
     {
-        "citation": "Hourahine, B.; Aradi, B.; Blum, V.; Bonafé, F.; Buccheri, A.; Camacho, C.; Cevallos, C.; Deshaye, M. Y.; Dumitrică, T.; Dominguez, A.; et al. DFTB+, a software package for efficient approximate density functional theory based atomistic simulations. The Journal of Chemical Physics 2020, 152 (12).",
-        "doi": "10.1063/1.5143190",
+        "citation": "Bannwarth, C.; Caldeweyher, E.; Ehlert, S.; Hansen, A.; Pracht, P.; Seibert, J.; Spicher, S.; Grimme, S. Extended tight-binding quantum chemistry methods. WIREs Computational Molecular Science 2021, 11 (2), e1493.",
+        "doi": "10.1002/wcms.1493"
     },
     {
-        "citation": "Gaus, M.; Cui, Q.; Elstner, M. DFTB3: Extension of the Self-Consistent-Charge Density-Functional Tight-Binding Method (SCC-DFTB). Journal of Chemical Theory and Computation 2011, 7 (4), 931-948.",
-        "doi": "10.1021/ct100684s",
+        "citation": "Bannwarth, C.; Ehlert, S.; Grimme, S. GFN2-xTB-An Accurate and Broadly Parametrized Self-Consistent Tight-Binding Quantum Chemical Method with Multipole Electrostatics and Density-Dependent Dispersion Contributions. Journal of Chemical Theory and Computation 2019, 15 (3), 1652-1671.",
+        "doi": "10.1021/acs.jctc.8b01176"
     },
     {
         "citation": "Grimme, S.; Bannwarth, C.; Shushkov, P. A Robust and Accurate Tight-Binding Quantum Chemical Method for Structures, Vibrational Frequencies, and Noncovalent Interactions of Large Molecular Systems Parametrized for All spd-Block Elements ( Z = 1–86). Journal of Chemical Theory and Computation 2017, 13 (5), 1989-2009.",

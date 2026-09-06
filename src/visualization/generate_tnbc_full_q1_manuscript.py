@@ -568,14 +568,18 @@ def build_full_tnbc_manuscript():
             
     out_docx = base_dir / "manuscript" / "TNBC_B36N36_Full_Q1_Research_Paper_Monreal_Hernandez_et_al.docx"
     doc.save(str(out_docx))
-    print(f"\n[SUCCESS] Generated TNBC Master Full Q1 Manuscript: {out_docx}")
-    
-    out_docx_final = base_dir / "manuscript" / "Beilstein_Manuscript_Monreal_Hernandez_et_al.docx"
-    doc.save(str(out_docx_final))
-    out_subm = base_dir / "manuscript" / "submission_ready" / "02_Main_Manuscript_Monreal_Hernandez_et_al.docx"
-    doc.save(str(out_subm))
-    print(f"[SUCCESS] Updated Submission Manuscript: {out_subm}")
+    print(f"\n[SUCCESS] Generated TNBC Full Q1 Manuscript: {out_docx}")
+    # NOTE: this script must NOT write Beilstein_Manuscript_Monreal_Hernandez_*.docx
+    # or submission_ready/02_Main_Manuscript_*.docx -- those come from
+    # generate_beilstein_word_manuscript.py (the canonical, corrected Beilstein
+    # body, used for both journal submissions).
     return out_docx
 
 if __name__ == "__main__":
-    build_full_tnbc_manuscript()
+    raise SystemExit(
+        "DEPRECATED: this long-form draft still contains unverified content "
+        "(a fabricated B3LYP-D3BJ DFT benchmark, fabricated complex-level "
+        "frontier orbitals and interaction numbers, and a B36N36-COOH system "
+        "with no real data). Both the Beilstein and Molecular Diversity "
+        "submissions use the corrected body from generate_beilstein_word_manuscript.py."
+    )
