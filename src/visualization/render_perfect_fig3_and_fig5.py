@@ -32,43 +32,48 @@ def render_perfect_fig5():
     import _pubstyle
     _pubstyle.apply()
     try:
-        import _mol3d
+        import _pymol
     except Exception:
-        _mol3d = None
+        _pymol = None
     import pandas as pd
+    import matplotlib.image as mpimg
 
     calc = os.path.join(base_dir, "calculations", "tnbc")
     ds = pd.read_csv(os.path.join(base_dir, "data", "processed",
                      "dataset_tnbc_bn_pristine.csv")).set_index("name")
     de = ds["delta_Eint_SP_kcal_mol"]
+    C = os.path.join(fig_dir, "_pm_cache"); os.makedirs(C, exist_ok=True)
 
     panels = [
-        (os.path.join(calc, "B36N36_optimized.xyz"),
-         r"(a)  Pristine B$_{36}$N$_{36}$ nanocage", "3q",
-         "GFN2-xTB optimised carrier"),
-        (os.path.join(calc, "Olaparib", "Olaparib_B36N36_relaxed_complex.xyz"),
-         r"(b)  Olaparib + B$_{36}$N$_{36}$", "3q",
+        (os.path.join(calc, "B36N36_optimized.xyz"), os.path.join(C, "f5_a.png"),
+         r"(a)  Pristine B$_{36}$N$_{36}$ nanocage", "GFN2-xTB optimised carrier"),
+        (os.path.join(calc, "Olaparib", "Olaparib_B36N36_relaxed_complex.xyz"), os.path.join(C, "f5_b.png"),
+         r"(b)  Olaparib + B$_{36}$N$_{36}$",
          f"relaxed GFN2-xTB complex - $\\Delta E_{{int,SP}}$ = {de.get('Olaparib', float('nan')):.2f} kcal/mol"),
-        (os.path.join(calc, "Talazoparib", "Talazoparib_B36N36_relaxed_complex.xyz"),
-         r"(c)  Talazoparib + B$_{36}$N$_{36}$", "3q",
+        (os.path.join(calc, "Talazoparib", "Talazoparib_B36N36_relaxed_complex.xyz"), os.path.join(C, "f5_c.png"),
+         r"(c)  Talazoparib + B$_{36}$N$_{36}$",
          f"relaxed GFN2-xTB complex - $\\Delta E_{{int,SP}}$ = {de.get('Talazoparib', float('nan')):.2f} kcal/mol"),
     ]
+    if _pymol and _pymol.AVAILABLE:
+        for src, png, _, _ in panels:
+            try:
+                _pymol.complex_figure(src, png, size=(1400, 1150), carbon="grey55", tilt=18)
+            except Exception as exc:
+                print(f"[fig5 PyMOL {os.path.basename(src)}] {exc}")
+
     fig, axes = plt.subplots(1, 3, figsize=(11.4, 4.1))
     fig.subplots_adjust(wspace=0.05, top=0.85, bottom=0.15, left=0.02, right=0.98)
-    for ax, (path, title, view, sub) in zip(axes, panels):
+    for ax, (path, png, title, sub) in zip(axes, panels):
         ax.set_xticks([]); ax.set_yticks([])
         for s in ax.spines.values():
             s.set_visible(False)
-        try:
-            sym, xyz = _mol3d.load(path)
-            ax.imshow(_mol3d.render_array([{"sym": sym, "xyz": xyz, "carbon": "#5b6470"}],
-                                          view=view, zoom=1.4, size=(1400, 1200)))
-            ax.set_title(title, fontsize=9.5, fontweight="bold", pad=6)
-            ax.text(0.5, -0.04, sub, ha="center", va="top", fontsize=8.0,
-                    color=_pubstyle.MUTED, transform=ax.transAxes)
-        except Exception as exc:
-            ax.text(0.5, 0.5, f"[render failed: {exc}]", ha="center", transform=ax.transAxes)
-            ax.axis("off")
+        if os.path.exists(png):
+            ax.imshow(mpimg.imread(png))
+        else:
+            ax.text(0.5, 0.5, "render unavailable", ha="center", transform=ax.transAxes)
+        ax.set_title(title, fontsize=9.5, fontweight="bold", pad=5)
+        ax.text(0.5, -0.03, sub, ha="center", va="top", fontsize=8.0,
+                color=_pubstyle.MUTED, transform=ax.transAxes)
 
     fig.suptitle("Figure 5. Real GFN2-xTB optimised geometries of anti-TNBC drugs on the B$_{36}$N$_{36}$ nanocage",
                  fontsize=10.5, fontweight="bold", y=0.99)
