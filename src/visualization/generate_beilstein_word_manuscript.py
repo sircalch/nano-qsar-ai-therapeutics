@@ -583,6 +583,19 @@ def build_manuscript_word():
         p_cp.paragraph_format.space_after = Pt(4)
         p_cp.add_run(cp)
         
+    # ------------------------------------------------------------------ back matter
+    add_heading_styled(doc, "Data Availability", level=1)
+    doc.add_paragraph(
+        "All code, the curated dataset, the real GFN2-xTB and AutoDock Vina outputs, the leak-free cross-validation predictions and the "
+        "figure/manuscript generators are in the public repository https://github.com/sircalch/nano-qsar-ai-therapeutics. The full pipeline "
+        "reproduces every value and figure.")
+    import sys as _bsys, os as _bos
+    _bsys.path.insert(0, _bos.path.dirname(_bos.path.abspath(__file__)))
+    import _backmatter
+    _backmatter.append(doc, add_heading_styled,
+                       "TNBC_B36N36_Supporting_Information.docx",
+                       "curated dataset (N = 33), formal charges at pH 7.4, the OECD Principles 1-5 checklist and per-residue PARP1 contact frequencies")
+
     # ==============================================================================
     # 5. REFERENCES (45 REAL, VERIFIED CITATIONS WITH DOIS)
     # ==============================================================================
