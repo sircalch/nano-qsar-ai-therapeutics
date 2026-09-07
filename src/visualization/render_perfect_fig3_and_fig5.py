@@ -232,5 +232,44 @@ def render_perfect_fig3():
     plt.close()
     print(f"Redesigned Figure 3 Generated: {out_fig3}")
 
+def render_deltarho_fig10():
+    """Figure 6 - charge-density difference for the Olaparib / B36N36 nanocage
+    complex (real GFN2-xTB densities). Cube + build script ship in
+    results/quantum/drho/."""
+    base_dir, fig_dir = get_dirs()
+    import sys as _s
+    _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    try:
+        import _drho_fig
+    except Exception as exc:
+        print(f"[fig6 drho] helper unavailable: {exc}")
+        return
+    drho_dir = os.path.join(base_dir, "results", "quantum", "drho")
+    dEint = None
+    for cand in ("dataset_drug_b36n36.csv", "tnbc_adsorption_results.csv",
+                 "dataset_drug_nanocage_pristine.csv"):
+        p = os.path.join(base_dir, "data", "processed", cand)
+        if os.path.exists(p):
+            try:
+                import pandas as pd
+                df = pd.read_csv(p)
+                nm = [c for c in df.columns if c.lower() in ("name", "drug", "drug_name")][0]
+                ec = [c for c in df.columns if "eint" in c.lower() or "e_ads" in c.lower()
+                      or "delta_e" in c.lower()][0]
+                dEint = float(df.set_index(nm).loc["Olaparib", ec])
+            except Exception:
+                pass
+            break
+    render = os.path.join(drho_dir, "tnbc_deltarho_render.png")
+    render = _drho_fig.render_isosurface(drho_dir, "tnbc", render, level=0.0008,
+                                         turn=(0, -28, 0))
+    out_p = os.path.join(fig_dir, "fig10_tnbc_charge_density_difference.png")
+    _drho_fig.compose(out_p, render, 10,
+                      "Interfacial charge redistribution on the B$_{36}$N$_{36}$ nanocage",
+                      "Olaparib", "B$_{36}$N$_{36}$", 0.0008, dEint_kcal=dEint)
+    print(f"Generated Figure 10 (charge-density difference): {out_p}")
+
+
 if __name__ == "__main__":
     render_perfect_fig5()
+    render_deltarho_fig10()

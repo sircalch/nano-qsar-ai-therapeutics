@@ -513,7 +513,28 @@ def build_manuscript_word():
         r_c9.font.bold = True
         r_c9.font.name = 'Arial'
         p_cap9.add_run("Leak-free nested 5x5 cross-validation parity plots (real observed vs. out-of-fold predicted) for (a) Isolated drugs (real Vina) and (b) Drug + B36N36 Pristine (real GFN2-xTB). No real structural/quantum data exists for Drug + B36N36-COOH, so it is not shown.")
-        
+
+    fig10_path = os.path.join(fig_dir, "fig10_tnbc_charge_density_difference.png")
+    if os.path.exists(fig10_path):
+        doc.add_paragraph(
+            "To visualise the electronic reorganisation on adsorption, the charge-density difference "
+            "Delta_rho = rho(complex) - rho(carrier) - rho(drug) was evaluated from the real GFN2-xTB densities of the "
+            "Olaparib / B36N36 relaxed complex, all three fragments at the bound geometry on a common grid (Figure 10). "
+            "Accumulation (yellow) and depletion (blue) lobes are confined to the drug carbonyl / amide region facing the cage, "
+            "with the remainder of the drug and the B36N36 framework essentially unperturbed - the localised signature of a "
+            "weak, dispersion-dominated physisorptive contact. The Delta_rho cube and the script that regenerates it from the "
+            "fragment geometries are provided in results/quantum/drho/."
+        )
+        doc.add_paragraph().alignment = WD_ALIGN_PARAGRAPH.CENTER
+        doc.add_picture(fig10_path, width=Inches(5.4))
+        p_cap10 = doc.add_paragraph()
+        p_cap10.paragraph_format.space_after = Pt(12)
+        r_c10 = p_cap10.add_run("Figure 10. ")
+        r_c10.font.bold = True
+        r_c10.font.name = 'Arial'
+        p_cap10.add_run("Charge-density difference (real GFN2-xTB densities) for the Olaparib / B36N36 nanocage complex. "
+                        "Isovalue +/-0.0008 e bohr^-3; yellow = electron accumulation, blue = electron depletion.")
+
     add_heading_styled(doc, "3.6 Explicit Analytical QSAR Mathematical Models", level=2)
     doc.add_paragraph(
         "Using the top AI-ranked descriptors on the real observed data, compact, transparent, and exportable Multiple Linear Regression (MLR) "
