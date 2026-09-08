@@ -12,6 +12,13 @@ Computes:
 - Explicit, publishable MLR analytical equations
 """
 
+import sys
+raise SystemExit(
+    "DEPRECATED (2026-09-08): XGBoost/ExtraTrees benchmark on the sync output. "
+    "Nothing in the manuscript reads its output any more: the real B36N36 endpoint is dataset_tnbc_bn_pristine.csv (delta_Eint_SP_kcal_mol, vina_4UND_kcal_mol); "
+    "the leak-free nested CV is in render_perfect_fig3_and_fig5.py / generate_beilstein_word_manuscript.py / compute_oecd_applicability_domain.py."
+)
+
 import os
 import json
 import numpy as np

@@ -44,11 +44,11 @@ def compute_williams_plot():
 
     alpha_grid = np.array([0.001, 0.01, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0])
 
+    _mt = os.path.join(proc_dir, "dataset_tnbc_bn_pristine.csv")
+    _f = ["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV"]
     systems = [
-        ("(a) Isolated Drugs", os.path.join(proc_dir, "dataset_isolated_drugs.csv"),
-         ["MW", "LogP", "Polarizability_alpha", "Electrophilicity_omega"], "Docking_Score_kcal_mol", "#1565C0"),
-        (r"(b) Drug + $B_{36}N_{36}$ Pristine (real xTB)", os.path.join(proc_dir, "dataset_tnbc_bn_pristine.csv"),
-         ["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV"], "delta_Eint_SP_kcal_mol", "#2E7D32"),
+        (r"(a) PARP1 docking (Vina, 4UND)", _mt, _f, "vina_4UND_kcal_mol", "#1565C0"),
+        (r"(b) Drug + $B_{36}N_{36}$ Pristine (real xTB)", _mt, _f, "delta_Eint_SP_kcal_mol", "#2E7D32"),
     ]
 
     fig, axes = plt.subplots(1, 2, figsize=(11.5, 5), dpi=300)

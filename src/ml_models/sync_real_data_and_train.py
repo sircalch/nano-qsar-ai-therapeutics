@@ -5,6 +5,13 @@ with quantum & QSAR descriptors, trains ML & MLR models, calculates SHAP XAI,
 and re-generates all publication figures.
 """
 
+import sys
+raise SystemExit(
+    "DEPRECATED (2026-09-08): sync (quantum_hsab_engine estimate_quantum_properties = empirical, + fabricated Docking_Score = iso - 2.5 - 0.045*|E_ads|). "
+    "Nothing in the manuscript reads its output any more: the real B36N36 endpoint is dataset_tnbc_bn_pristine.csv (delta_Eint_SP_kcal_mol, vina_4UND_kcal_mol); "
+    "the leak-free nested CV is in render_perfect_fig3_and_fig5.py / generate_beilstein_word_manuscript.py / compute_oecd_applicability_domain.py."
+)
+
 import os
 import json
 import numpy as np
