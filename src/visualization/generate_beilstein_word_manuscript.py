@@ -65,6 +65,30 @@ def build_manuscript_word():
     VINA_MEAN, VINA_MIN, VINA_MAX, VINA_N = _vv.mean(), _vv.min(), _vv.max(), len(_vv)
     VINA_RANGE = f"{VINA_MAX:.1f} to {VINA_MIN:.1f}"
 
+    # Leak-free nested 5x5 Ridge CV Q2 for both endpoints, computed here so the
+    # text, Table 2 and Figure 7 can never drift apart (same protocol as
+    # generate_all_q1_figures.make_fig7_parity_benchmark).
+    def _q2cv(_target, _phys_only):
+        import numpy as _np, pandas as _pd
+        from sklearn.pipeline import Pipeline as _P
+        from sklearn.preprocessing import StandardScaler as _S
+        from sklearn.linear_model import RidgeCV as _R
+        from sklearn.model_selection import KFold as _K, cross_val_predict as _cvp
+        from sklearn.metrics import r2_score as _r2
+        _d = _pd.read_csv(os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv"))
+        _d = _d.dropna(subset=["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV", _target])
+        if _phys_only:
+            _d = _d[_d["adsorption_mode"] == "physisorption"]
+        _ag = _np.array([.001, .01, .1, .3, 1, 3, 10, 30, 100, 300, 1000])
+        _X, _y = _d[["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV"]].values, _d[_target].values
+        _pipe = _P([("s", _S()), ("r", _R(alphas=_ag, cv=_K(5, shuffle=True, random_state=42)))])
+        _yp = _cvp(_pipe, _X, _y, cv=_K(5, shuffle=True, random_state=42))
+        return _r2(_y, _yp), len(_y)
+    Q2_VINA, _ = _q2cv("vina_4UND_kcal_mol", False)
+    Q2_PHYS, N_PHYS = _q2cv("delta_Eint_SP_kcal_mol", True)
+    _q2s = lambda x: f"{x:.2f}".replace("-0.00", "0.00")
+    Q2_VINA_S, Q2_PHYS_S = _q2s(Q2_VINA), _q2s(Q2_PHYS)
+
     doc = Document()
     
     # Page setup: Standard A4 with 2.54 cm (1 in) margins
@@ -155,7 +179,7 @@ def build_manuscript_word():
         "kcal/mol) and 5 CHEMISORB, forming a covalent B-O or B-N bond (contact 1.37-1.72 Angstrom, Delta_E_int,SP = -43 to -186 "
         "kcal/mol): the camptothecins SN-38 and topotecan, the anthracycline epirubicin, and the kinase inhibitors lapatinib and "
         "rucaparib, each through an accessible phenol, hydroxyl or lactam nucleophile. A descriptor-based QSPR of the physisorption "
-        "energy is not predictive (Q2_CV = 0.0, n = 25); the docking-score QSPR reaches only Q2_CV = 0.11. A carboxylated B36N36-COOH "
+        f"energy is not predictive (Q2_CV = {Q2_PHYS_S}, n = {N_PHYS}); the docking-score QSPR is no better (Q2_CV = {Q2_VINA_S}). A carboxylated B36N36-COOH "
         "derivative is discussed only as future work. Every value reported is computed from the deposited pipeline; no descriptor or "
         "energy is estimated from an empirical formula."
     )
@@ -383,8 +407,8 @@ def build_manuscript_word():
     doc.add_paragraph(
         "Table 2 summarizes the RidgeCV surrogate (four pre-specified descriptors: MolWt, MolMR, E_HOMO, omega), both endpoints on the "
         "single 30/33-compound master table, evaluated by leak-free nested 5x5 cross-validation (StandardScaler fit on outer-training folds "
-        "only; alpha by inner RidgeCV), reported as out-of-fold predictions. The model is non-predictive: Q2_CV = 0.11 for the PARP1 Vina "
-        "docking score (n = 30) and Q2_CV = 0.0 for the 25-point physisorption interaction energy. The chemisorbers are excluded from the "
+        f"only; alpha by inner RidgeCV), reported as out-of-fold predictions. The model is non-predictive: Q2_CV = {Q2_VINA_S} for the PARP1 Vina "
+        f"docking score (n = {VINA_N}) and Q2_CV = {Q2_PHYS_S} for the {N_PHYS}-point physisorption interaction energy. The chemisorbers are excluded from the "
         "physisorption QSPR because covalent bond strength and dispersion are different physics. Descriptor-based prediction of either "
         "quantity on this small, chemically narrow cohort therefore fails; the model-free chemisorption/physisorption outcome (Figure 11) "
         "is the robust result. The exploratory ExtraTrees ranking indicates molecular weight and molar refractivity as leading descriptors "
@@ -395,8 +419,8 @@ def build_manuscript_word():
     doc.add_paragraph().add_run("Table 2. Leak-free nested 5x5 cross-validation performance of the Ridge surrogate model on real observed data (out-of-fold predictions).").font.bold = True
     table2_data = [
         ["Endpoint", "Algorithm", "n", "p", "Q2_CV"],
-        ["PARP1 Vina docking score (4UND)", "Ridge (nested 5x5 CV)", "30", "4", "0.11"],
-        ["B36N36 physisorption interaction energy", "Ridge (nested 5x5 CV)", "25", "4", "0.00"],
+        ["PARP1 Vina docking score (4UND)", "Ridge (nested 5x5 CV)", str(VINA_N), "4", Q2_VINA_S],
+        ["B36N36 physisorption interaction energy", "Ridge (nested 5x5 CV)", str(N_PHYS), "4", Q2_PHYS_S],
     ]
     t2 = doc.add_table(rows=len(table2_data), cols=len(table2_data[0]))
     t2.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -530,7 +554,7 @@ def build_manuscript_word():
     concl_points = [
         f"1. Exploratory docking: AutoDock Vina scores against the PARP1 catalytic domain (PDB 4UND) range from about {VINA_RANGE} kcal/mol (n = {VINA_N}), but self-redocking of the co-crystallized ligand failed to reproduce the native pose within 2 A, so these scores are used only as a relative ranking and not as a quantitative endpoint.",
         "2. Two adsorption regimes: after full GFN2-xTB relaxation of the 30 modelled complexes, 25 drugs physisorb on pristine B36N36 (Delta_E_int,SP = -6 to -31 kcal/mol, contact 2.2-3.5 A) and 5 - SN-38, epirubicin, topotecan, lapatinib, rucaparib - chemisorb, forming a covalent B-O/B-N bond (-43 to -186 kcal/mol). Pristine B36N36 is therefore not a purely physisorptive scaffold for the polyfunctional camptothecin/anthracycline chemotype. The three Pt(II) agents are outside the GFN2-xTB+RDKit build. A carboxylated B36N36-COOH derivative has no real data here.",
-        "3. Honest ML baseline: on the single 30/33-compound master table, the leak-free nested 5x5 cross-validated RidgeCV surrogate is non-predictive - Q2_CV = 0.11 for the PARP1 docking score and 0.0 for the 25-point physisorption energy; the descriptor rankings are qualitative only. The model-free chemisorption/physisorption outcome is the robust result.",
+        f"3. Honest ML baseline: on the single 30/33-compound master table, the leak-free nested 5x5 cross-validated RidgeCV surrogate is non-predictive - Q2_CV = {Q2_VINA_S} for the PARP1 docking score and {Q2_PHYS_S} for the {N_PHYS}-point physisorption energy; the descriptor rankings are qualitative only. The model-free chemisorption/physisorption outcome is the robust result.",
         "4. Applicability domain: Williams-leverage analysis (OECD Principle 3) places the modelled compounds inside the domain for both endpoints; given the near-zero Q2, this is a formality.",
         "5. Outlook: inorganic B36N36 is attractive on solubility and biocompatibility grounds, but for the reactive chemotype adsorption is effectively irreversible; a passivated / functionalised cage and a validated model are left as future work."
     ]

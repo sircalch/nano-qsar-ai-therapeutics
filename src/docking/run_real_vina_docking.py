@@ -191,6 +191,7 @@ def run_docking():
             "--size_z", "22",
             "--exhaustiveness", "8",
             "--num_modes", "9",
+            "--seed", "42",
             "--out", out_pose
         ]
         
