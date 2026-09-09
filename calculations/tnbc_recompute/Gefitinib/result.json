@@ -1,0 +1,19 @@
+{
+  "name": "Gefitinib",
+  "formal_charge": 0,
+  "smiles": "COc1cc2ncnc(Nc3ccc(F)c(Cl)c3)c2cc1OCCCN1CCOCC1",
+  "E_drug_Eh": -92.563645961638,
+  "drug_formula": "CClFHNO",
+  "n_drug": 55,
+  "status": "OK",
+  "best_orientation_deg": 270,
+  "min_contact_A": 2.863,
+  "E_complex_Eh": -242.809250114584,
+  "E_carrier_frozen_Eh": -150.205185035842,
+  "E_drug_frozen_Eh": -92.559409773219,
+  "delta_Eint_SP_kcal_mol": -28.022,
+  "delta_Eads_kcal_mol": -25.016,
+  "final_pose_file": "calculations\\tnbc_recompute\\Gefitinib\\complex_opt.xyz",
+  "sha256": "d8695b8bd7c1d618c96023a6d1a39bc7fb06f045b5bf966a2cb26525fdcd57a5",
+  "seconds": 1242.8
+}

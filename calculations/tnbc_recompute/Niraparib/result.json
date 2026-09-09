@@ -1,0 +1,19 @@
+{
+  "name": "Niraparib",
+  "formal_charge": 0,
+  "smiles": "NC(=O)c1cccc(c1)[C@@H]1CCCN(Cc2ccc3ncccc3c2)C1",
+  "E_drug_Eh": -71.692683122493,
+  "drug_formula": "CHNO",
+  "n_drug": 49,
+  "status": "OK",
+  "best_orientation_deg": 270,
+  "min_contact_A": 3.46,
+  "E_complex_Eh": -221.917411366338,
+  "E_carrier_frozen_Eh": -150.205679273422,
+  "E_drug_frozen_Eh": -71.692507014915,
+  "delta_Eint_SP_kcal_mol": -12.064,
+  "delta_Eads_kcal_mol": -11.916,
+  "final_pose_file": "calculations\\tnbc_recompute\\Niraparib\\complex_opt.xyz",
+  "sha256": "2120eeda8a3224805fb27a371295f5070c3b51cc8ba587c29d83b37ca5aa92cc",
+  "seconds": 491.3
+}

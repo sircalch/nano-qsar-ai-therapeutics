@@ -1,0 +1,19 @@
+{
+  "name": "Selumetinib",
+  "formal_charge": 0,
+  "smiles": "NC(=O)c1c(Cl)c(Nc2ccc(I)cc2F)c(F)cc1OCC(O)CO",
+  "E_drug_Eh": -81.350371019411,
+  "drug_formula": "CClFHINO",
+  "n_drug": 40,
+  "status": "OK",
+  "best_orientation_deg": 90,
+  "min_contact_A": 2.907,
+  "E_complex_Eh": -231.579338469971,
+  "E_carrier_frozen_Eh": -150.205457620017,
+  "E_drug_frozen_Eh": -81.348897639752,
+  "delta_Eint_SP_kcal_mol": -15.677,
+  "delta_Eads_kcal_mol": -14.576,
+  "final_pose_file": "calculations\\tnbc_recompute\\Selumetinib\\complex_opt.xyz",
+  "sha256": "ba660017b2048605a53018f576514ed79017c4317f13a7eecc1e6d0dc07ebd84",
+  "seconds": 527.3
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Cabazitaxel",
+  "formal_charge": 0,
+  "smiles": "CC(C)(C)OC(=O)N[C@@H](c1ccccc1)[C@H](O)C(=O)O[C@H]1C[C@@]2(O)C(=C3C(=O)[C@@H](OC)[C@]4(C)[C@@H](C[C@H](OC(=O)c5ccccc5)[C@]34C)C2(C)C)C1",
+  "E_drug_Eh": -154.285610202732,
+  "drug_formula": "CHNO",
+  "n_drug": 100,
+  "status": "OK",
+  "best_orientation_deg": 270,
+  "min_contact_A": 2.897,
+  "E_complex_Eh": -304.527158031154,
+  "E_carrier_frozen_Eh": -150.205505273744,
+  "E_drug_frozen_Eh": -154.284807766627,
+  "delta_Eint_SP_kcal_mol": -23.121,
+  "delta_Eads_kcal_mol": -22.47,
+  "final_pose_file": "calculations\\tnbc_recompute\\Cabazitaxel\\complex_opt.xyz",
+  "sha256": "d17310e1ac443ae5b3ba62b760f6441b378f0558c9526ffd33e0ccfc217069c4",
+  "seconds": 1386.6
+}

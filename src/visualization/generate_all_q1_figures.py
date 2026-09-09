@@ -330,17 +330,19 @@ def make_fig7_parity_benchmark(base_dir, fig_dir):
     fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.2), dpi=300)
     alpha_grid = np.array([0.001, 0.01, 0.1, 0.3, 1.0, 3.0, 10.0, 30.0, 100.0, 300.0, 1000.0])
 
+    _mt = os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv")
+    _f = ["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV"]
     systems = [
-        ("Isolated Drugs", os.path.join(base_dir, "data", "processed", "dataset_isolated_drugs.csv"),
-         ["MW", "LogP", "Polarizability_alpha", "Electrophilicity_omega"], "Docking_Score_kcal_mol", "#1565C0"),
-        (r"Drug + $B_{36}N_{36}$ Pristine (real xTB)", os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv"),
-         ["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV"], "delta_Eint_SP_kcal_mol", "#2E7D32"),
+        (r"PARP1 Vina docking (4UND)", _mt, _f, "vina_4UND_kcal_mol", "#1565C0"),
+        (r"Drug + $B_{36}N_{36}$ physisorption (real xTB)", _mt, _f, "delta_Eint_SP_kcal_mol", "#2E7D32"),
     ]
 
     for i, (title, f_path, desc_cols, target_col, col) in enumerate(systems):
         if not os.path.exists(f_path):
             continue
         df_full = pd.read_csv(f_path).dropna(subset=desc_cols + [target_col])
+        if target_col == "delta_Eint_SP_kcal_mol" and "adsorption_mode" in df_full.columns:
+            df_full = df_full[df_full["adsorption_mode"] == "physisorption"]  # physisorption QSPR only
         X = df_full[desc_cols].values
         y = df_full[target_col].values
         n, p = X.shape

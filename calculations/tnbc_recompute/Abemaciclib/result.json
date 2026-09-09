@@ -1,0 +1,19 @@
+{
+  "name": "Abemaciclib",
+  "formal_charge": 0,
+  "smiles": "CCN1CCN(Cc2ccc(Nc3ncc(F)c(Nc4ccc(C#N)c(C(C)C)n4)n3)nc2)CC1",
+  "E_drug_Eh": -99.920453315341,
+  "drug_formula": "CFHN",
+  "n_drug": 65,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 2.834,
+  "E_complex_Eh": -250.16598925266,
+  "E_carrier_frozen_Eh": -150.205554306935,
+  "E_drug_frozen_Eh": -99.914500691216,
+  "delta_Eint_SP_kcal_mol": -28.824,
+  "delta_Eads_kcal_mol": -24.973,
+  "final_pose_file": "calculations\\tnbc_recompute\\Abemaciclib\\complex_opt.xyz",
+  "sha256": "923a0907aad0058426f94361a5799eda5be1a42657207ae851962caf16ffc4fe",
+  "seconds": 552.7
+}

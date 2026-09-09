@@ -1,0 +1,19 @@
+{
+  "name": "Eribulin",
+  "formal_charge": 0,
+  "smiles": "C=C1C[C@@H]2O[C@@H]3C[C@@H]4O[C@H]5CC[C@@H]6O[C@H]7C[C@H]8O[C@@H]9C[C@@H]%10O[C@H]%11CC[C@@H](CN)O[C@H]%11C[C@@H]%10O[C@H]9C[C@@H]8O[C@H]7C[C@@H]6O[C@H]5C[C@@H]4O[C@H]3C[C@@H]2O1",
+  "E_drug_Eh": -154.026831865675,
+  "drug_formula": "CHNO",
+  "n_drug": 102,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 3.31,
+  "E_complex_Eh": -304.266702538184,
+  "E_carrier_frozen_Eh": -150.205365669653,
+  "E_drug_frozen_Eh": -154.024575846962,
+  "delta_Eint_SP_kcal_mol": -23.068,
+  "delta_Eads_kcal_mol": -21.418,
+  "final_pose_file": "calculations\\tnbc_recompute\\Eribulin\\complex_opt.xyz",
+  "sha256": "b52a99e8a440653040ab4749bc444ab6434fdb07a6cfd5626849f0f199621968",
+  "seconds": 1770.2
+}

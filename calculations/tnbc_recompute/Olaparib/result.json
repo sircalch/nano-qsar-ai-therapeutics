@@ -1,0 +1,19 @@
+{
+  "name": "Olaparib",
+  "formal_charge": 0,
+  "smiles": "O=C(c1cc(Cc2n[nH]c(=O)c3ccccc23)ccc1F)N1CCN(C(=O)C2CC2)CC1",
+  "E_drug_Eh": -91.783829347653,
+  "drug_formula": "CFHNO",
+  "n_drug": 55,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 3.133,
+  "E_complex_Eh": -242.016321857769,
+  "E_carrier_frozen_Eh": -150.205540037422,
+  "E_drug_frozen_Eh": -91.783460162559,
+  "delta_Eint_SP_kcal_mol": -17.145,
+  "delta_Eads_kcal_mol": -16.788,
+  "final_pose_file": "calculations\\tnbc_recompute\\Olaparib\\complex_opt.xyz",
+  "sha256": "1ee17459f4c56f1f4dff04728a31b00ef3ae8628d2da0d922d9370ef5dfa6130",
+  "seconds": 307.2
+}

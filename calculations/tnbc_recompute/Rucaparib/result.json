@@ -1,0 +1,19 @@
+{
+  "name": "Rucaparib",
+  "formal_charge": 0,
+  "smiles": "CNCc1ccc(-c2cc3[nH]c2CCNC(=O)c2cccc(F)c2-3)cc1",
+  "E_drug_Eh": -72.722608369297,
+  "drug_formula": "CFHNO",
+  "n_drug": 46,
+  "status": "OK",
+  "best_orientation_deg": 270,
+  "min_contact_A": 1.716,
+  "E_complex_Eh": -222.975630222908,
+  "E_carrier_frozen_Eh": -150.190750682261,
+  "E_drug_frozen_Eh": -72.715721038872,
+  "delta_Eint_SP_kcal_mol": -43.398,
+  "delta_Eads_kcal_mol": -29.67,
+  "final_pose_file": "calculations\\tnbc_recompute\\Rucaparib\\complex_opt.xyz",
+  "sha256": "8fbd6f64fe30eb5dc3e0b683c864d4d3befd7bd138312b3af342e7dd4b68419d",
+  "seconds": 706.6
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Pamiparib",
+  "formal_charge": 0,
+  "smiles": "C[C@]12CCCN1CC3=NNC(=O)C4=C5C3=C2NC5=CC(=C4)F",
+  "E_drug_Eh": -62.456061773242,
+  "drug_formula": "CFHNO",
+  "n_drug": 37,
+  "status": "OK",
+  "best_orientation_deg": 90,
+  "min_contact_A": 2.667,
+  "E_complex_Eh": -212.696811650571,
+  "E_carrier_frozen_Eh": -150.205270597584,
+  "E_drug_frozen_Eh": -62.455336567338,
+  "delta_Eint_SP_kcal_mol": -22.719,
+  "delta_Eads_kcal_mol": -21.97,
+  "final_pose_file": "calculations\\tnbc_recompute\\Pamiparib\\complex_opt.xyz",
+  "sha256": "00b4ab3eb8c829c9ba19d3dd3c0b39d6b8326919b646bc429503ac3d24e97e09",
+  "seconds": 463.8
+}

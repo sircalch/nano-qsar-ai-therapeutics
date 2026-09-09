@@ -1,0 +1,19 @@
+{
+  "name": "SN-38",
+  "formal_charge": 0,
+  "smiles": "CCc1c2c(nc3ccc(O)cc13)-c1cc3c(c(=O)n1C2)COC(=O)C3(O)CC",
+  "E_drug_Eh": -83.576361740682,
+  "drug_formula": "CHNO",
+  "n_drug": 49,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 1.374,
+  "E_complex_Eh": -233.875398780597,
+  "E_carrier_frozen_Eh": -150.107178588584,
+  "E_drug_frozen_Eh": -83.47195229735,
+  "delta_Eint_SP_kcal_mol": -185.911,
+  "delta_Eads_kcal_mol": -58.545,
+  "final_pose_file": "calculations\\tnbc_recompute\\SN_38\\complex_opt.xyz",
+  "sha256": "eba500130233edffdfe42ab092e6abe0fd2e5c56a0aa8f28fb5ee279cea7b493",
+  "seconds": 664.6
+}

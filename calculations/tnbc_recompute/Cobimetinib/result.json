@@ -1,0 +1,19 @@
+{
+  "name": "Cobimetinib",
+  "formal_charge": 0,
+  "smiles": "OC1(CN(Cc2cc(F)ccc2I)CCO1)c1c(F)c(F)c(F)c(Nc2c(F)cccc2I)c1F",
+  "E_drug_Eh": -107.416883067007,
+  "drug_formula": "CFHINO",
+  "n_drug": 51,
+  "status": "OK",
+  "best_orientation_deg": 90,
+  "min_contact_A": 2.961,
+  "E_complex_Eh": -257.655266347085,
+  "E_carrier_frozen_Eh": -150.205478939465,
+  "E_drug_frozen_Eh": -107.415105314584,
+  "delta_Eint_SP_kcal_mol": -21.763,
+  "delta_Eads_kcal_mol": -20.485,
+  "final_pose_file": "calculations\\tnbc_recompute\\Cobimetinib\\complex_opt.xyz",
+  "sha256": "685f43306e8182ea2fafc2c47f67ef93f84ad2fe0a0942c014795cff15407882",
+  "seconds": 975.5
+}

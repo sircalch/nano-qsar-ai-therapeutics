@@ -1,0 +1,19 @@
+{
+  "name": "Topotecan",
+  "formal_charge": 0,
+  "smiles": "CCC1(O)C(=O)OCC2=C1C=C3N(C2=O)CC4=C3C=C(CN(C)C)C5=C4C=CC(=C5)O",
+  "E_drug_Eh": -89.892136103103,
+  "drug_formula": "CHNO",
+  "n_drug": 55,
+  "status": "OK",
+  "best_orientation_deg": 270,
+  "min_contact_A": 1.607,
+  "E_complex_Eh": -240.148718542933,
+  "E_carrier_frozen_Eh": -150.191982644194,
+  "E_drug_frozen_Eh": -89.875227903598,
+  "delta_Eint_SP_kcal_mol": -51.147,
+  "delta_Eads_kcal_mol": -31.905,
+  "final_pose_file": "calculations\\tnbc_recompute\\Topotecan\\complex_opt.xyz",
+  "sha256": "febe3cd64b718998b4064e6149cd8d5a9a33bb95738aa3120d536a49a57b2219",
+  "seconds": 899.2
+}

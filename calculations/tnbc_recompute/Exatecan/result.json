@@ -1,0 +1,19 @@
+{
+  "name": "Exatecan",
+  "formal_charge": 0,
+  "smiles": "CC[C@@]1(O)C(=O)OCC2=C1C=C3N(C2=O)CC4=C3C=C(F)C5=C4CCCN5",
+  "E_drug_Eh": -79.463273025268,
+  "drug_formula": "CFHNO",
+  "n_drug": 46,
+  "status": "OK",
+  "best_orientation_deg": 90,
+  "min_contact_A": 2.965,
+  "E_complex_Eh": -229.701371800916,
+  "E_carrier_frozen_Eh": -150.205652766294,
+  "E_drug_frozen_Eh": -79.46209430691,
+  "delta_Eint_SP_kcal_mol": -21.1,
+  "delta_Eads_kcal_mol": -20.306,
+  "final_pose_file": "calculations\\tnbc_recompute\\Exatecan\\complex_opt.xyz",
+  "sha256": "44c51ffb358ed6be32ae465c6b421ce7d86512158b92aeecc3c851d29fb978c2",
+  "seconds": 628.1
+}

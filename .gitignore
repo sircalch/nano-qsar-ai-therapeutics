@@ -35,3 +35,13 @@ Thumbs.db
 *.swp
 *.swo
 figures/_pm_cache/
+
+# TNBC adsorption recompute (2026-09-08): keep only final geometries + result.json,
+# not the multi-MB xtb optimisation scratch/logs
+calculations/tnbc_recompute/**
+!calculations/tnbc_recompute/*/
+!calculations/tnbc_recompute/*/result.json
+!calculations/tnbc_recompute/*/complex_opt.xyz
+!calculations/tnbc_recompute/*/drug_opt.xyz
+!calculations/tnbc_recompute/*/frag_carrier.xyz
+!calculations/tnbc_recompute/*/frag_drug.xyz

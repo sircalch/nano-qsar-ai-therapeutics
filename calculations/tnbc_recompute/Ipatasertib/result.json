@@ -1,0 +1,19 @@
+{
+  "name": "Ipatasertib",
+  "formal_charge": 0,
+  "smiles": "NC[C@H](c1ccc(Cl)cc1)c1c[nH]c2nccc(-c3ccc(OCC(F)(F)F)cc3)c12",
+  "E_drug_Eh": -90.54395216063,
+  "drug_formula": "CClFHNO",
+  "n_drug": 50,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 2.226,
+  "E_complex_Eh": -240.786379039195,
+  "E_carrier_frozen_Eh": -150.201742292395,
+  "E_drug_frozen_Eh": -90.542503005798,
+  "delta_Eint_SP_kcal_mol": -26.439,
+  "delta_Eads_kcal_mol": -23.022,
+  "final_pose_file": "calculations\\tnbc_recompute\\Ipatasertib\\complex_opt.xyz",
+  "sha256": "43e6a2b36f6317b5649cd3eb9b33a63ac1f6aab48dfe9c5ca4f3c3e6da30af65",
+  "seconds": 660.8
+}

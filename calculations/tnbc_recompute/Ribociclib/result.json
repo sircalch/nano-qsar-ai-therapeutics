@@ -1,0 +1,19 @@
+{
+  "name": "Ribociclib",
+  "formal_charge": 0,
+  "smiles": "CN(C)C(=O)c1cc2cnc(Nc3ccc(N4CCNCC4)cn3)nc2n1C1CCCC1",
+  "E_drug_Eh": -92.11519093855,
+  "drug_formula": "CHNO",
+  "n_drug": 62,
+  "status": "OK",
+  "best_orientation_deg": 270,
+  "min_contact_A": 3.396,
+  "E_complex_Eh": -242.330907946052,
+  "E_carrier_frozen_Eh": -150.205724364297,
+  "E_drug_frozen_Eh": -92.115124828634,
+  "delta_Eint_SP_kcal_mol": -6.312,
+  "delta_Eads_kcal_mol": -6.261,
+  "final_pose_file": "calculations\\tnbc_recompute\\Ribociclib\\complex_opt.xyz",
+  "sha256": "64fd52836b3e8afd7c9cc3df61fd4895787807c06c3a4f56edb9f29cec917293",
+  "seconds": 437.7
+}

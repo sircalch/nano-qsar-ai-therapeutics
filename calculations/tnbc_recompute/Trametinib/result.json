@@ -1,0 +1,19 @@
+{
+  "name": "Trametinib",
+  "formal_charge": 0,
+  "smiles": "CC1=C(C(=O)N(C(=O)N1c1ccc(I)cc1F)c1ccccc1NC(=O)C2CC2)c1c(F)cccc1",
+  "E_drug_Eh": -102.315621413506,
+  "drug_formula": "CFHINO",
+  "n_drug": 56,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 2.904,
+  "E_complex_Eh": -252.561199067913,
+  "E_carrier_frozen_Eh": -150.205180570985,
+  "E_drug_frozen_Eh": -102.314724421212,
+  "delta_Eint_SP_kcal_mol": -25.912,
+  "delta_Eads_kcal_mol": -24.999,
+  "final_pose_file": "calculations\\tnbc_recompute\\Trametinib\\complex_opt.xyz",
+  "sha256": "70da69389b5ceed74fab3e8e5e69b628d3984487d233bf6ee7f0ee9079b49168",
+  "seconds": 927.3
+}

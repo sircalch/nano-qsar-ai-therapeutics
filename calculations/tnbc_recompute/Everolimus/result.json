@@ -1,0 +1,19 @@
+{
+  "name": "Everolimus",
+  "formal_charge": 0,
+  "smiles": "COCCOC1CC2CCC(C)C(O)(C(=O)C(=O)N3CCCCC3C(=O)OC(C(C)(OC)CC2)CC=CC=CC=C(C)CC(C)CC(OC)C(=O)C)C1",
+  "E_drug_Eh": -167.678331503745,
+  "drug_formula": "CHNO",
+  "n_drug": 120,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 3.077,
+  "E_complex_Eh": -317.921729118623,
+  "E_carrier_frozen_Eh": -150.205620543959,
+  "E_drug_frozen_Eh": -167.688678974031,
+  "delta_Eint_SP_kcal_mol": -17.212,
+  "delta_Eads_kcal_mol": -23.631,
+  "final_pose_file": "calculations\\tnbc_recompute\\Everolimus\\complex_opt.xyz",
+  "sha256": "2a0f716f3fdd8075c6ea6777c36cb25293b7833b6c696f1270a7c4c2dddf77f3",
+  "seconds": 2017.0
+}

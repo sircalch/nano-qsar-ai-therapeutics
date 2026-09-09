@@ -1,0 +1,19 @@
+{
+  "name": "Paclitaxel",
+  "formal_charge": 0,
+  "smiles": "CC(=O)O[C@H]1C(=O)[C@@]2(C)[C@H](O)C[C@H]3OC[C@@]3(OC(C)=O)[C@H]2[C@H](OC(=O)c2ccccc2)[C@]2(O)C[C@@H](OC(=O)[C@H](O)[C@@H](NC(=O)c3ccccc3)c3ccccc3)C(C)=C1C2(C)C",
+  "E_drug_Eh": -186.553268041586,
+  "drug_formula": "CHNO",
+  "n_drug": 113,
+  "status": "OK",
+  "best_orientation_deg": 270,
+  "min_contact_A": 3.349,
+  "E_complex_Eh": -336.771014012953,
+  "E_carrier_frozen_Eh": -150.205680787049,
+  "E_drug_frozen_Eh": -186.553019591874,
+  "delta_Eint_SP_kcal_mol": -7.727,
+  "delta_Eads_kcal_mol": -7.534,
+  "final_pose_file": "calculations\\tnbc_recompute\\Paclitaxel\\complex_opt.xyz",
+  "sha256": "64cbca9c0243aaa176cf1ef0ad5e7c2848fc70f3fa8328596b6a0d465e3795cc",
+  "seconds": 757.1
+}

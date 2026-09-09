@@ -1,0 +1,19 @@
+{
+  "name": "Etoposide",
+  "formal_charge": 0,
+  "smiles": "COc1cc([C@@H]2c3cc4c(cc3[C@@H](O[C@@H]3O[C@H]5COC(C)O[C@H]5[C@H]3O)[C@H]3COC(=O)[C@@]23)OCO4)cc(OC)c1O",
+  "E_drug_Eh": -123.577233307841,
+  "drug_formula": "CHO",
+  "n_drug": 69,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 3.146,
+  "E_complex_Eh": -273.794575393352,
+  "E_carrier_frozen_Eh": -150.205359386453,
+  "E_drug_frozen_Eh": -123.576786354879,
+  "delta_Eint_SP_kcal_mol": -7.8,
+  "delta_Eads_kcal_mol": -7.281,
+  "final_pose_file": "calculations\\tnbc_recompute\\Etoposide\\complex_opt.xyz",
+  "sha256": "52122433022b854ea1479fe7346ac5334e869ffb6d488ee43ec8757c158890e1",
+  "seconds": 547.0
+}

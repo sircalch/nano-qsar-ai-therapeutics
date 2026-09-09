@@ -1,0 +1,19 @@
+{
+  "name": "Capivasertib",
+  "formal_charge": 0,
+  "smiles": "NC[C@H](c1ccc(Cl)cc1)c1c[nH]c2nccc(-c3ccc(C4CC4)cc3)c12",
+  "E_drug_Eh": -75.920330630487,
+  "drug_formula": "CClHN",
+  "n_drug": 50,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 2.322,
+  "E_complex_Eh": -226.157057938984,
+  "E_carrier_frozen_Eh": -150.20322484477,
+  "E_drug_frozen_Eh": -75.918190016535,
+  "delta_Eint_SP_kcal_mol": -22.366,
+  "delta_Eads_kcal_mol": -19.445,
+  "final_pose_file": "calculations\\tnbc_recompute\\Capivasertib\\complex_opt.xyz",
+  "sha256": "04862bc81df473cfbf2a3ea34f81687852c2c2560f48637828f8dadbd2138152",
+  "seconds": 675.6
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Docetaxel",
+  "formal_charge": 0,
+  "smiles": "CC(C)(C)OC(=O)N[C@@H](c1ccccc1)[C@H](O)C(=O)O[C@H]1C[C@@]2(O)C(=C3C(=O)[C@@H](O)[C@]4(C)[C@@H](C[C@H](OC(=O)c5ccccc5)[C@]34C)C2(C)C)C1",
+  "E_drug_Eh": -151.119342188776,
+  "drug_formula": "CHNO",
+  "n_drug": 97,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 2.813,
+  "E_complex_Eh": -301.357137503955,
+  "E_carrier_frozen_Eh": -150.205071799562,
+  "E_drug_frozen_Eh": -151.119896618234,
+  "delta_Eint_SP_kcal_mol": -20.186,
+  "delta_Eads_kcal_mol": -20.116,
+  "final_pose_file": "calculations\\tnbc_recompute\\Docetaxel\\complex_opt.xyz",
+  "sha256": "d88312b20db808ffe66c7205b1ce84db3db4f5ca7573c2ca9203d9ae1f41e05d",
+  "seconds": 1836.1
+}

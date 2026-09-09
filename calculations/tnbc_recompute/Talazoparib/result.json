@@ -1,0 +1,19 @@
+{
+  "name": "Talazoparib",
+  "formal_charge": 0,
+  "smiles": "FC(F)(c1ccc(cc1)[C@H]1c2cc(F)ccc2N[C@@H]2C(=O)NN=C12)F",
+  "E_drug_Eh": -73.794903286982,
+  "drug_formula": "CFHNO",
+  "n_drug": 36,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 2.933,
+  "E_complex_Eh": -224.035299047184,
+  "E_carrier_frozen_Eh": -150.205390682557,
+  "E_drug_frozen_Eh": -73.791465189219,
+  "delta_Eint_SP_kcal_mol": -24.123,
+  "delta_Eads_kcal_mol": -21.747,
+  "final_pose_file": "calculations\\tnbc_recompute\\Talazoparib\\complex_opt.xyz",
+  "sha256": "65c1f016181199bfd4fcbe4a0b6e675bd99a50f317a8468fa7bf4449157a1c0a",
+  "seconds": 560.8
+}

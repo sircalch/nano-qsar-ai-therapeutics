@@ -270,6 +270,40 @@ def render_deltarho_fig10():
     print(f"Generated Figure 10 (charge-density difference): {out_p}")
 
 
+def render_fig11_adsorption_landscape():
+    """Figure 11 - the real GFN2-xTB adsorption landscape for the 30 modelled
+    anti-TNBC drugs on pristine B36N36: closest drug-cage contact vs interaction
+    energy, coloured by regime. Replaces the superseded unrelaxed single points."""
+    base_dir, fig_dir = get_dirs()
+    import sys as _s
+    _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import _pubstyle
+    _pubstyle.apply()
+    import pandas as pd
+    p = os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv")
+    df = pd.read_csv(p)
+    if "min_contact_A" not in df.columns:
+        print("[fig11] dataset lacks min_contact_A - run recompute_tnbc_adsorption.py")
+        return
+    df = df[df["adsorption_mode"].isin(["chemisorption", "physisorption"])]
+    fig, ax = plt.subplots(figsize=(7.6, 5.4))
+    for m, col, lab in [("chemisorption", getattr(_pubstyle, "WARN", "#d55e00"), "chemisorption (B-O / B-N)"),
+                        ("physisorption", getattr(_pubstyle, "ACCENT", "#0072b2"), "physisorption")]:
+        s = df[df["adsorption_mode"] == m]
+        ax.scatter(s["min_contact_A"], s["delta_Eint_SP_kcal_mol"], s=55, color=col,
+                   edgecolor="k", linewidth=0.5, label=f"{lab}  (n={len(s)})", zorder=3)
+    ax.axvspan(1.2, 1.9, color="0.9", zorder=0)
+    ax.set_xlabel("closest drug-cage heavy-atom contact (Å)")
+    ax.set_ylabel(r"$\Delta E_{int,SP}$ (kcal mol$^{-1}$, GFN2-xTB)")
+    ax.set_yscale("symlog")
+    ax.legend(frameon=True, fontsize=8.5, loc="lower right")
+    ax.set_title("Figure 11. Adsorption landscape of 30 anti-TNBC drugs on pristine B$_{36}$N$_{36}$",
+                 fontsize=10, fontweight="bold", pad=8)
+    _pubstyle.save(fig, os.path.join(fig_dir, "fig11_tnbc_adsorption_landscape.png"), also_pdf=True)
+    print("Generated Figure 11 (TNBC adsorption landscape)")
+
+
 if __name__ == "__main__":
     render_perfect_fig5()
     render_deltarho_fig10()
+    render_fig11_adsorption_landscape()

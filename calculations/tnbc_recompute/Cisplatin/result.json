@@ -1,0 +1,9 @@
+{
+  "name": "Cisplatin",
+  "formal_charge": 0,
+  "smiles": "N.N.Cl[Pt]Cl",
+  "status": "ERROR",
+  "error": "FileNotFoundError(2, 'No such file or directory')",
+  "tb": "Traceback (most recent call last):\n  File \"C:\\Users\\Andre\\Proyectos doctorado\\nano-qsar-ai-papers\\nano-qsar-ai-therapeutics\\recompute_tnbc_adsorption.py\", line 191, in process\n    del_el, del_xyz = read_xyz(dopt)\n                      ^^^^^^^^^^^^^^\n  File \"C:\\Users\\Andre\\Proyectos doctorado\\nano-qsar-ai-papers\\nano-qsar-ai-therapeutics\\recompute_tnbc_adsorption.py\", line 61, in read_xyz\n    L = Path(p).read_text().splitlines()\n        ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Andre\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\pathlib.py\", line 1027, in read_text\n    with self.open(mode='r', encoding=encoding, errors=errors) as f:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\Andre\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\Andre\\\\Proyectos doctorado\\\\nano-qsar-ai-papers\\\\nano-qsar-ai-therapeutics\\\\calculations\\\\tnbc_recompute\\\\Cisplatin\\\\xtbopt.xyz'\n",
+  "seconds": 1.5
+}

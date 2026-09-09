@@ -1,0 +1,19 @@
+{
+  "name": "Oxaliplatin",
+  "formal_charge": 0,
+  "smiles": "N[C@@H]1CCCC[C@H]1N.O=C1O[Pt]OC(=O)C1=O",
+  "E_drug_Eh": -56.973002143145,
+  "drug_formula": "CHNOPt",
+  "n_drug": 31,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 1.608,
+  "E_complex_Eh": -207.32131738242,
+  "E_carrier_frozen_Eh": -150.17269654401,
+  "E_drug_frozen_Eh": -56.998292319397,
+  "delta_Eint_SP_kcal_mol": -94.333,
+  "delta_Eads_kcal_mol": -89.468,
+  "final_pose_file": "calculations\\tnbc_recompute\\Oxaliplatin\\complex_opt.xyz",
+  "sha256": "9c6fd8977402f8885875630692c5cb54267e67bf44a72b558093ec3b94613640",
+  "seconds": 689.8
+}

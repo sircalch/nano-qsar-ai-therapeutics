@@ -1,0 +1,19 @@
+{
+  "name": "Veliparib",
+  "formal_charge": 0,
+  "smiles": "CC1(NC(=O)c2cccc3[nH]c(C)nc23)CCCN1",
+  "E_drug_Eh": -54.981839550742,
+  "drug_formula": "CHNO",
+  "n_drug": 37,
+  "status": "OK",
+  "best_orientation_deg": 90,
+  "min_contact_A": 2.897,
+  "E_complex_Eh": -205.214797764248,
+  "E_carrier_frozen_Eh": -150.205461460735,
+  "E_drug_frozen_Eh": -54.98001712604,
+  "delta_Eint_SP_kcal_mol": -18.398,
+  "delta_Eads_kcal_mol": -17.08,
+  "final_pose_file": "calculations\\tnbc_recompute\\Veliparib\\complex_opt.xyz",
+  "sha256": "503ce10e1037cf00d7446efa9adf549b6fa1f5040dfd71c473b6de5979c97e16",
+  "seconds": 455.8
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Lapatinib",
+  "formal_charge": 0,
+  "smiles": "CS(=O)(=O)CCNCc1ccc(-c2ccc(Nc3ccc(OCc4cccc(F)c4Cl)c(Cl)c3)ncnc2)o1",
+  "E_drug_Eh": -115.528578975512,
+  "drug_formula": "CClFHNOS",
+  "n_drug": 64,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 1.628,
+  "E_complex_Eh": -265.786006681011,
+  "E_carrier_frozen_Eh": -150.183468578552,
+  "E_drug_frozen_Eh": -115.524553492533,
+  "delta_Eint_SP_kcal_mol": -48.936,
+  "delta_Eads_kcal_mol": -32.435,
+  "final_pose_file": "calculations\\tnbc_recompute\\Lapatinib\\complex_opt.xyz",
+  "sha256": "e67ea4ace09451f819ee2836eb6e549a16c0b57858289233067f70762ee04d05",
+  "seconds": 1194.0
+}

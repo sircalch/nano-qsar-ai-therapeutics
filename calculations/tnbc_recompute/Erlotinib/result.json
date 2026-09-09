@@ -1,0 +1,19 @@
+{
+  "name": "Erlotinib",
+  "formal_charge": 0,
+  "smiles": "COCCOc1cc2ncnc(Nc3cccc(C#C)c3)c2cc1OCCOC",
+  "E_drug_Eh": -83.809949183962,
+  "drug_formula": "CHNO",
+  "n_drug": 52,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 3.02,
+  "E_complex_Eh": -234.047671883091,
+  "E_carrier_frozen_Eh": -150.205435298062,
+  "E_drug_frozen_Eh": -83.805339159592,
+  "delta_Eint_SP_kcal_mol": -23.153,
+  "delta_Eads_kcal_mol": -20.07,
+  "final_pose_file": "calculations\\tnbc_recompute\\Erlotinib\\complex_opt.xyz",
+  "sha256": "5daabab9d8726455dd9e9cac5f55bf1b06f1dff511c8897af62eaa7a4d3f6044",
+  "seconds": 595.1
+}

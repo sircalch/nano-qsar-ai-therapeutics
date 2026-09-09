@@ -1,0 +1,19 @@
+{
+  "name": "Palbociclib",
+  "formal_charge": 0,
+  "smiles": "CC(=O)c1c(C)c2cnc(Nc3ccc(N4CCNCC4)cn3)nc2n1C1CCCC1",
+  "E_drug_Eh": -88.661717983627,
+  "drug_formula": "CHNO",
+  "n_drug": 60,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 2.894,
+  "E_complex_Eh": -238.904890920171,
+  "E_carrier_frozen_Eh": -150.204893500338,
+  "E_drug_frozen_Eh": -88.651134805825,
+  "delta_Eint_SP_kcal_mol": -30.662,
+  "delta_Eads_kcal_mol": -23.49,
+  "final_pose_file": "calculations\\tnbc_recompute\\Palbociclib\\complex_opt.xyz",
+  "sha256": "b3f4113d7f32dda377f690b7a377fba69c7b7d6bf6498bb835e503c901ff3de2",
+  "seconds": 930.4
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Alpelisib",
+  "formal_charge": 0,
+  "smiles": "CC(C)(C#N)c1ccc(nc1)-c1nc(NC(=O)N2CCC[C@H]2C)sc1C",
+  "E_drug_Eh": -74.382572222871,
+  "drug_formula": "CHNOS",
+  "n_drug": 49,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 2.811,
+  "E_complex_Eh": -224.623775827317,
+  "E_carrier_frozen_Eh": -150.205235309446,
+  "E_drug_frozen_Eh": -74.37890909443,
+  "delta_Eint_SP_kcal_mol": -24.869,
+  "delta_Eads_kcal_mol": -22.254,
+  "final_pose_file": "calculations\\tnbc_recompute\\Alpelisib\\complex_opt.xyz",
+  "sha256": "4917a02941d5a785d8678187615ef26f1afb5540af7683fb96455ce9c9dc2cf7",
+  "seconds": 1056.1
+}

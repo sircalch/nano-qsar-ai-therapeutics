@@ -89,27 +89,31 @@ def make_master_fig3(base_dir, fig_dir):
 # FIGURE 6 MASTER: Real Vina Affinity Distributions & Adsorption Energetics
 # ==============================================================================
 def make_master_fig6(base_dir, fig_dir):
-    df_iso = pd.read_csv(os.path.join(base_dir, "data", "processed", "dataset_isolated_drugs.csv"))
-    df_bn = pd.read_csv(os.path.join(base_dir, "data", "processed", "dataset_drug_B36N36_pristine.csv"))
-    m = df_bn.merge(df_iso[["name", "Docking_Score_kcal_mol"]], on="name", how="inner")
+    # Single master table (real Vina 4UND + real GFN2-xTB delta_Eint_SP).
+    mt = pd.read_csv(os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv"))
+    name_col = "name" if "name" in mt.columns else ("Therapeutic Agent" if "Therapeutic Agent" in mt.columns else mt.columns[0])
+    df_iso = mt.dropna(subset=["vina_4UND_kcal_mol"])
+    m = mt.dropna(subset=["vina_4UND_kcal_mol", "delta_Eint_SP_kcal_mol"])
+    if "adsorption_mode" in m.columns:
+        m = m[m["adsorption_mode"] == "physisorption"]  # physisorption regime only for the coupling panel
 
     fig, axes = plt.subplots(1, 3, figsize=(16.5, 5.5), dpi=300)
 
-    # Panel A: real isolated PARP1 Vina score distribution
-    sns.histplot(df_iso["Docking_Score_kcal_mol"], bins=12, ax=axes[0], color="#1565C0", edgecolor="black")
-    axes[0].set_title(f"(a) Real AutoDock Vina scores on PARP1 (n={len(df_iso)})", fontsize=11, fontweight='bold')
+    # Panel A: real PARP1 Vina score distribution (4UND)
+    sns.histplot(df_iso["vina_4UND_kcal_mol"], bins=12, ax=axes[0], color="#1565C0", edgecolor="black")
+    axes[0].set_title(f"(a) Real AutoDock Vina scores on PARP1 4UND (n={len(df_iso)})", fontsize=11, fontweight='bold')
     axes[0].set_xlabel(r"Vina score (kcal/mol) - exploratory", fontsize=10.5)
 
     # Panel B: top-15 by real Vina
-    top15 = df_iso.sort_values(by="Docking_Score_kcal_mol").head(15)
-    sns.barplot(data=top15, x="Docking_Score_kcal_mol", y="name", ax=axes[1], palette="Blues_r", edgecolor="black")
+    top15 = df_iso.sort_values(by="vina_4UND_kcal_mol").head(15)
+    sns.barplot(data=top15, x="vina_4UND_kcal_mol", y=name_col, ax=axes[1], palette="Blues_r", edgecolor="black")
     axes[1].set_title("(b) Top-15 anti-TNBC agents by real Vina score", fontsize=11, fontweight='bold')
     axes[1].set_xlabel("Real Vina score (kcal/mol)", fontsize=10.5)
     axes[1].set_ylabel("")
 
-    # Panel C: isolated Vina vs real B36N36 interaction energy (overlap, weak neg corr)
-    x = m["Docking_Score_kcal_mol"].values
-    y = m["delta_Eint_B36N36_kcal_mol"].values
+    # Panel C: Vina vs real B36N36 physisorption interaction energy (weak neg corr)
+    x = m["vina_4UND_kcal_mol"].values
+    y = m["delta_Eint_SP_kcal_mol"].values
     axes[2].scatter(x, y, s=55, color="#2E7D32", edgecolor="black", alpha=0.85)
     r_val = np.corrcoef(x, y)[0, 1]
     axes[2].text(0.06, 0.90, f"Pearson $r = {r_val:.2f}$ (n={len(m)})", transform=axes[2].transAxes,

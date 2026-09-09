@@ -1,0 +1,19 @@
+{
+  "name": "Doxorubicin",
+  "formal_charge": 0,
+  "smiles": "COc1cccc2C(=O)c3c(O)c4c(c(O)c3C(=O)c12)C[C@@](O)(C(=O)CO)C[C@@H]4O[C@H]1C[C@H](N)[C@H](O)[C@H](C)O1",
+  "E_drug_Eh": -120.309851648129,
+  "drug_formula": "CHNO",
+  "n_drug": 68,
+  "status": "OK",
+  "best_orientation_deg": 180,
+  "min_contact_A": 2.73,
+  "E_complex_Eh": -270.555576352156,
+  "E_carrier_frozen_Eh": -150.204949169699,
+  "E_drug_frozen_Eh": -120.304854661016,
+  "delta_Eint_SP_kcal_mol": -28.723,
+  "delta_Eads_kcal_mol": -25.091,
+  "final_pose_file": "calculations\\tnbc_recompute\\Doxorubicin\\complex_opt.xyz",
+  "sha256": "234d826d8e705cd39134b258895fdce5a54bc06b2fce77e3904761cc1c351d37",
+  "seconds": 1107.2
+}

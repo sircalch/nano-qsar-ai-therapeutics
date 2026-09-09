@@ -1,0 +1,19 @@
+{
+  "name": "Osimertinib",
+  "formal_charge": 0,
+  "smiles": "C=CC(=O)Nc1cc(Nc2nccc(-c3cn(C)c4ccccc34)n2)c(OC)cc1N(C)CCN(C)C",
+  "E_drug_Eh": -105.423067777745,
+  "drug_formula": "CHNO",
+  "n_drug": 70,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 3.172,
+  "E_complex_Eh": -255.638927234868,
+  "E_carrier_frozen_Eh": -150.205695600317,
+  "E_drug_frozen_Eh": -105.423047258472,
+  "delta_Eint_SP_kcal_mol": -6.391,
+  "delta_Eads_kcal_mol": -6.351,
+  "final_pose_file": "calculations\\tnbc_recompute\\Osimertinib\\complex_opt.xyz",
+  "sha256": "45b9b225874aef347747b18fd3f585c473ac78de13bb5a3de233424a268708e2",
+  "seconds": 357.1
+}

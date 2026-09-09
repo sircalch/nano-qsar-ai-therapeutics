@@ -30,7 +30,7 @@ S1 = ("The nanocarrier is a closed hollow B36N36 cage (72 atoms, alternating B a
       "exploratory only.")
 REPO = "https://github.com/sircalch/nano-qsar-ai-therapeutics"
 ZEN = "https://doi.org/10.5281/zenodo.22187873"
-VINA_COLS = [("Docking_Score_kcal_mol", "PARP1 4UND Vina (kcal/mol, exploratory)")]
+VINA_COLS = [("vina_4UND_kcal_mol", "PARP1 4UND Vina (kcal/mol, exploratory)")]
 ENDPOINT = ("GFN2-xTB single-point interaction energy Delta_E_int,SP (kcal/mol) of each drug "
             "on the B36N36 nanocage cluster.")
 Q2_NOTE = ("Leak-free nested 5x5 CV on the real Delta_E_int,SP; see the manuscript for the "
@@ -79,6 +79,8 @@ def _formal_charge_from_smiles(smi):
 
 def _williams(df, feats, target):
     d = df.dropna(subset=feats + [target])
+    if "adsorption_mode" in d.columns and target == "delta_Eint_SP_kcal_mol":
+        d = d[d["adsorption_mode"] == "physisorption"]
     X = d[feats].values
     n, p = X.shape
     Xd = np.hstack([np.ones((n, 1)), X])
@@ -95,10 +97,6 @@ def generate_supporting_information():
     df = pd.read_csv(DATASET)
     # merge the isolated-drug PARP1 Vina score (the source used by the main
     # manuscript Table 1), so Table S1 and the manuscript agree
-    iso_csv = os.path.join(BASE, "data", "processed", "dataset_isolated_drugs.csv")
-    if os.path.exists(iso_csv) and "Docking_Score_kcal_mol" not in df.columns:
-        iso = pd.read_csv(iso_csv)[["name", "Docking_Score_kcal_mol"]]
-        df = df.merge(iso, on="name", how="left")
     doc = Document()
     for s in doc.sections:
         s.top_margin = s.bottom_margin = Inches(1.0)
@@ -125,12 +123,15 @@ def generate_supporting_information():
     _h(doc, f"Table S1: Full Curated Dataset (N={len(df)}) — Real Docking Scores, Quantum "
             f"Descriptors and GFN2-xTB Single-Point Interaction Energies.")
     hdr = ["Compound", "Class", "MW (g/mol)"] + [lab for _, lab in real_vcols] + \
-          ["E_HOMO (eV)", "omega (eV)", "Delta_E_int,SP (kcal/mol)"]
+          ["E_HOMO (eV)", "omega (eV)", "Delta_E_int,SP (kcal/mol)", "Regime"]
     rows = []
     for _, x in df.iterrows():
         row = [x["name"], str(x.get("drug_class", ""))[:26], f"{x['MolWt']:.1f}"]
-        row += [f"{x[c]:.2f}" for c, _ in real_vcols]
-        row += [f"{x['E_HOMO_eV']:.2f}", f"{x['Omega_eV']:.2f}", f"{x['delta_Eint_SP_kcal_mol']:.2f}"]
+        row += [f"{x[c]:.2f}" if pd.notna(x.get(c)) else "n/a" for c, _ in real_vcols]
+        de = x.get("delta_Eint_SP_kcal_mol")
+        row += [f"{x['E_HOMO_eV']:.2f}", f"{x['Omega_eV']:.2f}",
+                f"{de:.2f}" if pd.notna(de) else "not modelled",
+                str(x.get("adsorption_mode", ""))]
         rows.append(row)
     _table(doc, hdr, rows)
 

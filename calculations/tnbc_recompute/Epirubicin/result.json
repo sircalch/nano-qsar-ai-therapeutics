@@ -1,0 +1,19 @@
+{
+  "name": "Epirubicin",
+  "formal_charge": 0,
+  "smiles": "COc1cccc2C(=O)c3c(O)c4c(c(O)c3C(=O)c12)C[C@@](O)(C(=O)CO)C[C@@H]4O[C@H]1C[C@H](N)[C@@H](O)[C@H](C)O1",
+  "E_drug_Eh": -120.30594537198,
+  "drug_formula": "CHNO",
+  "n_drug": 68,
+  "status": "OK",
+  "best_orientation_deg": 0,
+  "min_contact_A": 1.615,
+  "E_complex_Eh": -270.57854726626,
+  "E_carrier_frozen_Eh": -150.190685819,
+  "E_drug_frozen_Eh": -120.30179782948,
+  "delta_Eint_SP_kcal_mol": -54.006,
+  "delta_Eads_kcal_mol": -41.957,
+  "final_pose_file": "calculations\\tnbc_recompute\\Epirubicin\\complex_opt.xyz",
+  "sha256": "a2105242c8c83b4452a3544eee18fa0aaaf06aac2a12d8d5fb9b38af647a620f",
+  "seconds": 1475.7
+}

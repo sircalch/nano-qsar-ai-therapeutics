@@ -57,6 +57,8 @@ def compute_williams_plot():
         if not os.path.exists(f_path):
             continue
         df_full = pd.read_csv(f_path).dropna(subset=desc_cols + [target_col])
+        if "adsorption_mode" in df_full.columns and target_col == "delta_Eint_SP_kcal_mol":
+            df_full = df_full[df_full["adsorption_mode"] == "physisorption"]  # physisorption QSPR only
 
         X = df_full[desc_cols].values
         y = df_full[target_col].values
