@@ -3,15 +3,17 @@ run_entire_study.py
 Master end-to-end pipeline for the TNBC / B36N36 nanocage study.
 Reproduces the real numbers and figures in the Beilstein manuscript.
 
-NOTE (2026-09-08): the shipped `delta_Eint_SP_kcal_mol` in
-data/processed/dataset_tnbc_bn_pristine.csv is a GFN2-xTB SINGLE POINT on an
-UNRELAXED geometry (drug offset 3.2 A above z_max of the cage, never optimised) -
-the same defect found and fixed for the Tau/borophene study. Properly relaxed
-values exist for only 8 of the 33 drugs (relaxed_adsorption_subset.csv,
-`delta_Eint_relaxed_kcal_mol`, which is 5-10x more negative). A full recompute
-(see borophene-alzheimer-tau-ai/recompute_tau_adsorption.py for the template) is
-still pending; until then the adsorption energetics in this paper should be read
-as an unrelaxed lower bound.
+NOTE (2026-09-08): the B36N36 adsorption dataset was fully recomputed with
+relaxed complexes by `recompute_tnbc_adsorption.py` (commit b80c25e). That step
+is GFN2-xTB heavy (~2 h, needs xtb on PATH) and its outputs
+(data/processed/dataset_tnbc_bn_pristine.csv, relaxed_adsorption_subset.csv,
+calculations/tnbc_recompute/*/result.json) are committed, so this master
+pipeline consumes them rather than regenerating them. To rebuild from scratch:
+    python recompute_tnbc_adsorption.py --nproc 5
+    python recompute_tnbc_adsorption.py --commit-datasets
+Result: 30 organic drugs modelled = 25 physisorb / 5 chemisorb; 3 Pt(II) agents
+not modelled. QSPR is non-predictive on both endpoints (Vina Q2_CV = 0.11,
+physisorption Q2_CV = 0.0).
 """
 import os
 import sys
@@ -43,7 +45,8 @@ def main():
         ("Residue-level contact analysis", "src/docking/analyze_real_interactions.py"),
         ("OECD applicability domain (Williams)", "src/ml_models/compute_oecd_applicability_domain.py"),
         ("Figure suite (fig 1-9)", "src/visualization/generate_all_q1_figures.py"),
-        ("3D geometry renders + Delta-rho (fig 3, 5, 6, 10)", "src/visualization/render_perfect_fig3_and_fig5.py"),
+        ("Master 3D + docking-coupling figures (fig 3, 6)", "src/visualization/generate_master_q1_figure_set.py"),
+        ("3D geometry renders + Delta-rho + adsorption landscape (fig 5, 10, 11)", "src/visualization/render_perfect_fig3_and_fig5.py"),
         ("Beilstein Word manuscript", "src/visualization/generate_beilstein_word_manuscript.py"),
         ("Supporting information", "src/visualization/generate_supporting_information.py"),
     ]

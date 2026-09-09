@@ -45,7 +45,7 @@ def make_fig1_methodology(base_dir, fig_dir):
     
     stages = [
         ("Phase 1: Library &\nnanocarrier curation", "#1A365D",
-         "- 35 anti-TNBC drugs\n  (PARP, topo, taxane,\n   kinase classes)\n- B36N36 nanocage\n  (pristine only)\n- B36N36-COOH: future\n  work (no real data)"),
+         "- 33 anti-TNBC drugs\n  (PARP, topo, taxane,\n   kinase classes)\n- B36N36 nanocage\n  (pristine only)\n- B36N36-COOH: future\n  work (no real data)"),
 
         ("Phase 2: Quantum\nchemistry (GFN2-xTB)", "#1B5E20",
          "- GFN2-xTB, gas phase\n  (xtb v6.7.1, D4)\n- Frontier orbitals\n  (HOMO / LUMO)\n- Conceptual-DFT indices\n  (eta, S, chi, omega)\n- Single-point interaction\n  energy on B36N36 (n=33)"),

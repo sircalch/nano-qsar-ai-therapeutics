@@ -124,8 +124,8 @@ def analyze_all_interactions():
     top_res = pd.Series(residue_counts).sort_values(ascending=False).head(15)
     fig, ax = plt.subplots(figsize=(10, 5), dpi=300)
     sns.barplot(x=top_res.values, y=top_res.index, palette="Blues_r", ax=ax)
-    ax.set_title("PARP1 Catalytic Domain Residue Interaction Frequency (35 Real Docked Drugs)", fontsize=12, fontweight='bold')
-    ax.set_xlabel("Total Heavy Atom Interaction Contacts across 35 Poses", fontsize=11)
+    ax.set_title(f"PARP1 Catalytic Domain Residue Interaction Frequency ({len(df_inter)} Real Docked Drugs)", fontsize=12, fontweight='bold')
+    ax.set_xlabel(f"Total Heavy Atom Interaction Contacts across {len(df_inter)} Poses", fontsize=11)
     ax.set_ylabel("PARP1 Amino Acid Residue", fontsize=11)
     
     fig_path = os.path.join(base_dir, "figures", "fig4_residue_contact_frequency.png")

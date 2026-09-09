@@ -56,7 +56,15 @@ def build_manuscript_word():
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     fig_dir = os.path.join(base_dir, "figures")
     out_docx = os.path.join(base_dir, "manuscript", "Beilstein_Manuscript_Monreal_Hernandez_et_al.docx")
-    
+
+    # Docking summary statistics, computed from the single reproducible run
+    # (run_real_vina_docking.py writes vina_4UND_kcal_mol into this table).
+    import pandas as _pd0
+    _vv = _pd0.read_csv(os.path.join(base_dir, "data", "processed",
+                                     "dataset_tnbc_bn_pristine.csv"))["vina_4UND_kcal_mol"].dropna()
+    VINA_MEAN, VINA_MIN, VINA_MAX, VINA_N = _vv.mean(), _vv.min(), _vv.max(), len(_vv)
+    VINA_RANGE = f"{VINA_MAX:.1f} to {VINA_MIN:.1f}"
+
     doc = Document()
     
     # Page setup: Standard A4 with 2.54 cm (1 in) margins
@@ -140,7 +148,7 @@ def build_manuscript_word():
         "33 anti-TNBC therapeutics. Frontier-orbital energies and conceptual-DFT reactivity indices (chemical hardness eta, softness S, "
         "electrophilicity omega) were read directly from the GFN2-xTB output. Docking against the human PARP1 catalytic domain "
         "(PDB ID: 4UND) is reported as an exploratory ranking only: self-redocking of the co-crystallized ligand reproduced the native "
-        "pose only within >4 Å heavy-atom RMSD, so Vina scores (mean -7.22 kcal/mol, range -10.2 to -3.9) are not used as a quantitative "
+        f"pose only within >4 Å heavy-atom RMSD, so Vina scores (mean {VINA_MEAN:.1f} kcal/mol, range {VINA_RANGE}) are not used as a quantitative "
         "endpoint. Each drug/B36N36 complex was built by offsetting the drug 3.2 Angstrom above the cage and relaxing it with GFN2-xTB "
         "(four orientations). Of the 30 organic drugs that could be modelled (the three square-planar Pt(II) agents fall outside the "
         "GFN2-xTB + RDKit build), 25 PHYSISORB on the pristine cage (closest contact 2.2-3.5 Angstrom, Delta_E_int,SP = -6 to -31 "
@@ -312,7 +320,7 @@ def build_manuscript_word():
         r_c3 = p_cap3.add_run("Figure 3. ")
         r_c3.font.bold = True
         r_c3.font.name = 'Arial'
-        p_cap3.add_run("Human PARP1 catalytic domain (PDB ID: 4UND) with a representative docked ligand. The most frequently contacted residues across the 35 poses are Glu688, Arg865, Thr866, Lys684, Thr867, Ser681, His909 and Ser911 (contact distance <= 3.8 A).")
+        p_cap3.add_run("Human PARP1 catalytic domain (PDB ID: 4UND) with a representative docked ligand. The most frequently contacted residues across the 30 docked drugs are Glu688, Arg865, Thr866, Lys684, Thr867, Ser681, His909 and Ser911 (contact distance <= 3.8 A).")
         
     add_heading_styled(doc, "2.3 3D Quantum Geometries and Intermolecular Interactions", level=2)
     doc.add_paragraph(
@@ -342,10 +350,10 @@ def build_manuscript_word():
         
     add_heading_styled(doc, "2.4 Statistical Docking Distributions and Residue Interactions", level=2)
     doc.add_paragraph(
-        "Residue contact analysis across the 35 docked therapeutics (Figure 4) identifies Glu688, Arg865, Thr866, Lys684, Thr867 and "
-        "Ser681 as the most frequently engaged residues within 3.8 Å. The isolated-drug Vina score and the real GFN2-xTB B36N36 "
-        "interaction energy are only weakly (and negatively) correlated across the 20-compound overlap (Pearson r = -0.21), i.e. strong "
-        "target binders are not systematically the strongest-adsorbing on the cage (Figure 6)."
+        "Residue contact analysis across the 30 docked drugs (Figure 4) identifies Glu688, Arg865, Thr866, Lys684, Thr867 and "
+        "Ser681 as the most frequently engaged residues within 3.8 Å. The PARP1 Vina score and the real GFN2-xTB B36N36 "
+        "physisorption interaction energy are only weakly correlated across the 25 physisorbers (Figure 6), i.e. strong "
+        "target binders are not systematically the strongest-adsorbing on the cage."
     )
     
     # EMBED FIGURE 4 & FIGURE 6
@@ -358,7 +366,7 @@ def build_manuscript_word():
         r_c4 = p_cap4.add_run("Figure 4. ")
         r_c4.font.bold = True
         r_c4.font.name = 'Arial'
-        p_cap4.add_run("PARP1 interaction profiles from the real docked poses: (a) total residue contacts vs. estimated hydrogen bonds per drug; (b) residue contact-frequency distribution across the 35 docked therapeutics.")
+        p_cap4.add_run("PARP1 interaction profiles from the real docked poses: (a) total residue contacts vs. estimated hydrogen bonds per drug; (b) residue contact-frequency distribution across the 30 docked drugs.")
         
     fig6_path = os.path.join(fig_dir, "fig6_docking_vina_statistical_profiles.png")
     if os.path.exists(fig6_path):
@@ -369,7 +377,7 @@ def build_manuscript_word():
         r_c6 = p_cap6.add_run("Figure 6. ")
         r_c6.font.bold = True
         r_c6.font.name = 'Arial'
-        p_cap6.add_run("Docking profiles: (a) distribution of AutoDock Vina scores on PARP1; (b) top-ranked therapeutics by score; (c) isolated-drug Vina score vs. real GFN2-xTB pristine-B36N36 interaction energy across the 20-compound overlap (weak negative correlation).")
+        p_cap6.add_run("Docking profiles from the single reproducible AutoDock Vina run on PARP1 4UND (n = 30): (a) score distribution; (b) top-ranked therapeutics by score; (c) Vina score vs. real GFN2-xTB pristine-B36N36 physisorption interaction energy across the 25 physisorbers (weak correlation).")
         
     add_heading_styled(doc, "2.5 Machine Learning Benchmarking and Explainable AI (SHAP)", level=2)
     doc.add_paragraph(
@@ -434,7 +442,7 @@ def build_manuscript_word():
         r_c9 = p_cap9.add_run("Figure 9. ")
         r_c9.font.bold = True
         r_c9.font.name = 'Arial'
-        p_cap9.add_run("Leak-free nested 5x5 cross-validation parity plots (real observed vs. out-of-fold predicted) for (a) Isolated drugs (real Vina) and (b) Drug + B36N36 Pristine (real GFN2-xTB). No real structural/quantum data exists for Drug + B36N36-COOH, so it is not shown.")
+        p_cap9.add_run("Leak-free nested 5x5 cross-validation parity plots (real observed vs. out-of-fold predicted) for (a) PARP1 Vina 4UND docking (n = 30) and (b) drug + pristine B36N36 physisorption interaction energy (n = 25). Both endpoints have near-zero Q2_CV.")
 
     fig10_path = os.path.join(fig_dir, "fig10_tnbc_charge_density_difference.png")
     if os.path.exists(fig10_path):
@@ -473,18 +481,31 @@ def build_manuscript_word():
 
     add_heading_styled(doc, "2.6 Explicit Analytical QSAR Mathematical Models", level=2)
     doc.add_paragraph(
-        "Using the top AI-ranked descriptors on the real observed data, compact, transparent, and exportable Multiple Linear Regression (MLR) "
-        "models were formulated. Model 1 is fit on the real isolated-drug Vina docking data. Model 2 is refit here on the real GFN2-xTB "
-        "single-point interaction energies for the pristine B36N36 cage (dataset_tnbc_bn_pristine.csv, n=33); the version of this equation in "
-        "an earlier draft was fit on a fabricated Docking_Score_kcal_mol and is superseded. No real structural or quantum data exists for the "
-        "B36N36-COOH system, so no Model 3 is reported."
+        "For completeness, ordinary-least-squares MLR equations on the four pre-specified descriptors (MolWt, MolMR, E_HOMO, omega) are "
+        "reported below, fit on the single master table (dataset_tnbc_bn_pristine.csv) -- Model 1 on the PARP1 Vina score (n = "
+        f"{VINA_N}) and Model 2 on the physisorption interaction energy (n = 25, chemisorbers excluded). Given the near-zero nested-CV "
+        "Q2 of both endpoints (Table 2), these are descriptive fits to the observed sample, not predictive models; the earlier draft's "
+        "equations were fit on fabricated docking scores and are superseded. No real data exists for a B36N36-COOH cage, so no Model 3 "
+        "is reported."
     )
 
+    def _ols(_target, _mask_phys):
+        import numpy as _np, pandas as _pd
+        _df = _pd.read_csv(os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv"))
+        _df = _df.dropna(subset=["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV", _target])
+        if _mask_phys:
+            _df = _df[_df["adsorption_mode"] == "physisorption"]
+        _X = _np.column_stack([_np.ones(len(_df)), _df[["MolWt", "MolMR", "E_HOMO_eV", "Omega_eV"]].values])
+        _b = _np.linalg.lstsq(_X, _df[_target].values, rcond=None)[0]
+        return _b, len(_df)
+
+    _b1, _n1 = _ols("vina_4UND_kcal_mol", False)
+    _b2, _n2 = _ols("delta_Eint_SP_kcal_mol", True)
     mlr_eqs = [
-        ("Model 1 (Isolated Therapeutics, real Vina, n=35):",
-         "Score_Isolated = +65.4718 - 0.3772(NOR) + 0.4849(AromRings) + 0.0627(WS) - 0.7022(LogS) + 0.0467(α) - 0.6372(Fraction_Csp3) - 13.6666(χ) + 5.5923(E_LUMO)"),
-        ("Model 2 (Drug + B36N36 Pristine, real GFN2-xTB ΔE_int,SP, n=33):",
-         "Score_B36N36 = -16.8827 - 0.0044(MolWt) + 0.0014(MolMR) - 1.7479(E_HOMO) - 0.0118(ω)"),
+        (f"Model 1 (PARP1 Vina 4UND, n={_n1}):",
+         f"Vina = {_b1[0]:+.4f} {_b1[1]:+.5f}(MolWt) {_b1[2]:+.5f}(MolMR) {_b1[3]:+.4f}(E_HOMO) {_b1[4]:+.4f}(omega)"),
+        (f"Model 2 (B36N36 physisorption Delta_E_int,SP, n={_n2}):",
+         f"dEint = {_b2[0]:+.4f} {_b2[1]:+.5f}(MolWt) {_b2[2]:+.5f}(MolMR) {_b2[3]:+.4f}(E_HOMO) {_b2[4]:+.4f}(omega)"),
     ]
     for m_title, m_eq in mlr_eqs:
         p_m = doc.add_paragraph()
@@ -507,7 +528,7 @@ def build_manuscript_word():
     )
 
     concl_points = [
-        "1. Exploratory docking: AutoDock Vina scores against the PARP1 catalytic domain (PDB 4UND) range from about -3.9 to -10.2 kcal/mol, but self-redocking of the co-crystallized ligand failed to reproduce the native pose within 2 A, so these scores are used only as a relative ranking and not as a quantitative endpoint.",
+        f"1. Exploratory docking: AutoDock Vina scores against the PARP1 catalytic domain (PDB 4UND) range from about {VINA_RANGE} kcal/mol (n = {VINA_N}), but self-redocking of the co-crystallized ligand failed to reproduce the native pose within 2 A, so these scores are used only as a relative ranking and not as a quantitative endpoint.",
         "2. Two adsorption regimes: after full GFN2-xTB relaxation of the 30 modelled complexes, 25 drugs physisorb on pristine B36N36 (Delta_E_int,SP = -6 to -31 kcal/mol, contact 2.2-3.5 A) and 5 - SN-38, epirubicin, topotecan, lapatinib, rucaparib - chemisorb, forming a covalent B-O/B-N bond (-43 to -186 kcal/mol). Pristine B36N36 is therefore not a purely physisorptive scaffold for the polyfunctional camptothecin/anthracycline chemotype. The three Pt(II) agents are outside the GFN2-xTB+RDKit build. A carboxylated B36N36-COOH derivative has no real data here.",
         "3. Honest ML baseline: on the single 30/33-compound master table, the leak-free nested 5x5 cross-validated RidgeCV surrogate is non-predictive - Q2_CV = 0.11 for the PARP1 docking score and 0.0 for the 25-point physisorption energy; the descriptor rankings are qualitative only. The model-free chemisorption/physisorption outcome is the robust result.",
         "4. Applicability domain: Williams-leverage analysis (OECD Principle 3) places the modelled compounds inside the domain for both endpoints; given the near-zero Q2, this is a formality.",
@@ -529,8 +550,9 @@ def build_manuscript_word():
         "inhibitors and ADC payloads (irinotecan, SN-38, topotecan, etoposide, exatecan), anthracyclines (doxorubicin, epirubicin, "
         "idarubicin), antimetabolites (gemcitabine, capecitabine, 5-fluorouracil, methotrexate, pemetrexed, cytarabine), microtubule "
         "agents (ixabepilone, eribulin, vinorelbine), kinase modulators (lapatinib, gefitinib, erlotinib, afatinib, bemcentinib, "
-        "alpelisib) and CDK4/6 inhibitors (palbociclib, ribociclib, abemaciclib). Of these, 35 completed docking and 33 have a converged "
-        "GFN2-xTB drug-cage complex; the analyses below use those real subsets."
+        "alpelisib) and CDK4/6 inhibitors (palbociclib, ribociclib, abemaciclib). The final curated cohort is 33 compounds; 30 organic "
+        "drugs completed both the AutoDock Vina docking and a converged GFN2-xTB drug-cage relaxation (single reproducible run each), and "
+        "the 3 square-planar Pt(II) agents are outside the GFN2-xTB+RDKit build. All analyses below use this single 30/33-compound table."
     )
 
     add_heading_styled(doc, "4.2 Quantum-chemical framework", level=2)

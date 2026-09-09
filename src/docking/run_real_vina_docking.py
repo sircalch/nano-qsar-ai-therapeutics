@@ -68,6 +68,11 @@ def prepare_ligand_pdbqt(name, smiles, out_dir):
     mol = Chem.MolFromSmiles(smiles)
     if mol is None:
         return None
+    # Keep only the largest covalent fragment (drops counter-ions / salts that
+    # otherwise make Meeko fail with "molecule has N fragments").
+    frags = Chem.GetMolFrags(mol, asMols=True, sanitizeFrags=True)
+    if len(frags) > 1:
+        mol = max(frags, key=lambda m: m.GetNumHeavyAtoms())
     mol = Chem.AddHs(mol)
     
     # Fast 3D Conformer generation
@@ -146,14 +151,21 @@ def run_docking():
     
     center = prepare_receptor_pdbqt(raw_pdb, receptor_pdbqt)
     
-    library_csv = os.path.join(base_dir, "data", "raw", "tnbc_drug_library.csv")
-    df = pd.read_csv(library_csv)
-    
+    # Single source of truth: the master table used by the manuscript
+    # (dataset_tnbc_bn_pristine.csv). Docking the exact same cohort here means
+    # Table 1 / Fig 6-8 / the applicability domain all trace back to THIS run.
+    master_csv = os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv")
+    df = pd.read_csv(master_csv).rename(columns={"drug_class": "class"})
+    # The 3 square-planar Pt(II) agents are outside the modelling scope (see the
+    # manuscript) and RDKit/Meeko cannot build them -- skip cleanly.
+    df = df[~df["name"].isin(["Cisplatin", "Carboplatin", "Oxaliplatin"])].reset_index(drop=True)
+    n_total = len(df)
+
     docking_results = []
     print(f"\n=======================================================", flush=True)
-    print(f"  Starting Real AutoDock Vina Execution on 42 Drugs", flush=True)
+    print(f"  Starting Real AutoDock Vina Execution on {n_total} Drugs (master cohort)", flush=True)
     print(f"=======================================================", flush=True)
-    
+
     for idx, row in df.iterrows():
         name = row['name']
         smiles = row['smiles']
@@ -161,7 +173,7 @@ def run_docking():
         
         lig_pdbqt = prepare_ligand_pdbqt(name, smiles, ligands_dir)
         if not lig_pdbqt:
-            print(f"[{idx+1:02d}/42] Skipping {name} (failed 3D prep)", flush=True)
+            print(f"[{idx+1:02d}/{n_total}] Skipping {name} (failed 3D prep)", flush=True)
             continue
             
         out_pose = os.path.join(poses_dir, f"{clean_name}_out.pdbqt")
@@ -184,11 +196,11 @@ def run_docking():
         
         try:
             with open(log_file, 'w') as log_f:
-                p = subprocess.run(cmd, stdout=log_f, stderr=subprocess.PIPE, text=True, timeout=180)
+                p = subprocess.run(cmd, stdout=log_f, stderr=subprocess.PIPE, text=True, timeout=900)
             
             affinity = parse_vina_output(out_pose)
             if affinity is not None:
-                print(f"[{idx+1:02d}/42] {name:<25} -> Real Vina Delta_G = {affinity:.2f} kcal/mol", flush=True)
+                print(f"[{idx+1:02d}/{n_total}] {name:<25} -> Real Vina Delta_G = {affinity:.2f} kcal/mol", flush=True)
                 docking_results.append({
                     "name": name,
                     "drug_class": row['class'],
@@ -198,15 +210,29 @@ def run_docking():
                     "Log_File": log_file
                 })
             else:
-                print(f"[{idx+1:02d}/42] {name:<25} -> Mode error", flush=True)
+                print(f"[{idx+1:02d}/{n_total}] {name:<25} -> Mode error", flush=True)
         except Exception as e:
             print(f"Error docking {name}: {e}", flush=True)
             
     res_df = pd.DataFrame(docking_results)
     summary_csv = os.path.join(base_dir, "results", "docking", "real_vina_docking_summary.csv")
     res_df.to_csv(summary_csv, index=False)
-    print(f"\nReal Docking Completed: {len(res_df)}/42 compounds successfully docked.", flush=True)
+    print(f"\nReal Docking Completed: {len(res_df)}/{n_total} compounds successfully docked.", flush=True)
     print(f"Results saved to: {summary_csv}", flush=True)
+
+    # --- Unify the docking source: write this run's scores straight into the
+    # master table as vina_4UND_kcal_mol, so every downstream consumer
+    # (Table 1, Fig 6-8, applicability domain, SI) reads one reproducible run.
+    master_csv = os.path.join(base_dir, "data", "processed", "dataset_tnbc_bn_pristine.csv")
+    mt = pd.read_csv(master_csv)
+    score = dict(zip(res_df["name"], res_df["Real_Vina_Docking_Score_kcal_mol"]))
+    mt["vina_4UND_kcal_mol"] = mt["name"].map(score)
+    mt.to_csv(master_csv, index=False)
+    miss = [n for n in mt["name"] if n not in score
+            and n not in ("Cisplatin", "Carboplatin", "Oxaliplatin")]
+    print(f"master table vina_4UND_kcal_mol updated from this run "
+          f"({mt['vina_4UND_kcal_mol'].notna().sum()}/{len(mt)} scored"
+          + (f"; still missing: {miss}" if miss else "") + ")", flush=True)
     return res_df
 
 if __name__ == "__main__":
