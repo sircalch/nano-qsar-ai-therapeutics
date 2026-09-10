@@ -1,0 +1,39 @@
+{
+  "title": "Explainable AI and Quantum-Guided QSAR/QSPR Modeling of Triple-Negative Breast Cancer Therapeutics Loading on 2D Nanomaterials",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "publication_date": "2026-09-10",
+  "version": "2.0.0",
+  "description": "<p>Fully reproducible computational pipeline and data archive for the study of the pristine inorganic boron nitride nanocage B36N36 as a loading scaffold for triple-negative breast cancer (TNBC) therapeutics. Includes: GFN2-xTB relaxed drug/cage adsorption energetics for 30 organic drugs, resolving two regimes (25 physisorb, 5 chemisorb via covalent B-O/B-N bonds; the 3 square-planar Pt(II) agents fall outside the GFN2-xTB + RDKit build); a single seeded AutoDock Vina v1.2.7 docking run against human PARP1 (PDB 4UND) written directly into the master table; a leak-free nested 5x5 cross-validated RidgeCV surrogate with OECD Principle 3 applicability domain; and an end-to-end master script (run_entire_study.py). Neither descriptor QSPR endpoint is predictive; the model-free chemisorption/physisorption outcome is the robust result. Every value in the manuscript is computed from this pipeline; no descriptor or energy is estimated from an empirical formula. v2.0.0 recomputes the adsorption set with relaxed complexes, unifies and seeds the docking source, and makes all manuscript statistics CSV-driven.</p>",
+  "keywords": [
+    "nano-QSAR", "QSPR", "boron nitride nanocage", "B36N36", "triple-negative breast cancer",
+    "PARP1", "PARP inhibitors", "GFN2-xTB", "chemisorption", "AutoDock Vina",
+    "molecular docking", "explainable AI", "SHAP", "OECD validation",
+    "2D nanomaterials", "drug delivery", "reproducible research"
+  ],
+  "creators": [
+    {
+      "name": "Monreal Hernández, Andrés",
+      "orcid": "0009-0009-1207-8597",
+      "affiliation": "Universidad Estatal de Sonora, Hermosillo, Sonora, Mexico"
+    },
+    {
+      "name": "Franco Amaya, Sara Lizbeth",
+      "orcid": "0009-0005-0272-0241",
+      "affiliation": "Doctorado en Nanotecnología, Universidad de Sonora, Hermosillo, Sonora, Mexico"
+    },
+    {
+      "name": "Martínez Osorio, Carlos Ivanhoe",
+      "orcid": "0009-0003-7872-4965",
+      "affiliation": "Doctorado en Ciencia de Materiales, Universidad de Sonora, Hermosillo, Sonora, Mexico"
+    }
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/sircalch/nano-qsar-ai-therapeutics",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
