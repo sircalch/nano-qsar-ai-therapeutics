@@ -1,6 +1,7 @@
 # Explainable AI and Quantum-Guided QSAR/QSPR Modeling of Triple-Negative Breast Cancer Therapeutics Loading on 2D Nanomaterials
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22187873.svg)](https://doi.org/10.5281/zenodo.22187873)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/sircalch/nano-qsar-ai-therapeutics/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-teal.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![AutoDock Vina](https://img.shields.io/badge/Docking-AutoDock%20Vina-orange.svg)](https://github.com/ccsb-scripps/AutoDock-Vina)
@@ -67,6 +68,22 @@ python run_entire_study.py
 
 ---
 
+## 🗓️ v2.0.0 (2026-09-10)
+
+- **Adsorption recomputed with relaxed complexes**: of 30 modelled organic
+  drugs, 25 physisorb and 5 chemisorb on B36N36 (covalent B-O/B-N); the three
+  square-planar Pt(II) agents fall outside the GFN2-xTB + RDKit build.
+- **Docking made reproducible**: `run_real_vina_docking.py` docks the exact
+  30-drug master cohort against human PARP1 (PDB 4UND) with a fixed seed and
+  writes `vina_4UND_kcal_mol` straight into `dataset_tnbc_bn_pristine.csv`.
+- Neither descriptor QSPR endpoint is predictive (Vina Q2_CV = -0.33,
+  physisorption 0.00); the model-free chemisorption/physisorption outcome is the
+  robust result.
+- `run_entire_study.py` verified end-to-end (10/10 steps); every manuscript
+  statistic is computed from the pipeline, none from an empirical formula.
+
+---
+
 ## 📜 Citation
 
 ```bibtex
@@ -75,6 +92,7 @@ python run_entire_study.py
   author={Monreal Hern{\'a}ndez, Andr{\'e}s and Franco Amaya, Sara Lizbeth and Mart{\'i}nez Osorio, Carlos Ivanhoe},
   journal={Beilstein Journal of Nanotechnology / Submitted},
   year={2026},
+  version={2.0.0},
   doi={10.5281/zenodo.22187873},
   url={https://github.com/sircalch/nano-qsar-ai-therapeutics}
 }
