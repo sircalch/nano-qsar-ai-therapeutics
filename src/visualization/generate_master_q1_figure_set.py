@@ -131,6 +131,11 @@ def make_master_fig6(base_dir, fig_dir):
     print(f"Generated Master Figure 6: {out_file}")
 
 def generate_master_suite():
+    try:
+        import graphical_abstract; graphical_abstract.build()
+        print('Generated graphical abstract: figures/fig1_graphical_abstract.png')
+    except Exception as _e:
+        print('[warn] graphical abstract:', _e)
     base_dir, fig_dir = get_dirs()
     print("Building master Q1 figure suite...")
     from render_3d_real_parp1_surfaces import render_3d_views

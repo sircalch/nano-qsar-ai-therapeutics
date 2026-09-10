@@ -306,14 +306,15 @@ def build_complete_submission_folder():
         shutil.copyfile(src_si, dst_si)
 
     # 3. Graphical Abstract
-    src_ga = os.path.join(base_dir, "figures", "fig1_workflow_methodology.png")
+    src_ga = os.path.join(base_dir, "figures", "fig1_graphical_abstract.png")
     dst_ga = os.path.join(sub_dir, "04_Graphical_Abstract.png")
     if os.path.exists(src_ga):
         shutil.copyfile(src_ga, dst_ga)
-        
+
     # 4. Copy High-Resolution Figures
     fig_mappings = [
-        ("fig1_workflow_methodology.png", "Figure_1_Graphical_Abstract.png"),
+        ("fig1_graphical_abstract.png", "Figure_1_Graphical_Abstract.png"),
+        ("fig1_workflow_methodology.png", "Figure_1b_Workflow.png"),
         ("fig2_quantum_cdft_architecture.png", "Figure_2_Quantum_CDFT.png"),
         ("fig3_3d_parp1_docking_surfaces.png", "Figure_3_PARP1_3D_Docking.png"),
         ("fig4_interaction_residue_fingerprints.png", "Figure_4_Interaction_Fingerprints.png"),
