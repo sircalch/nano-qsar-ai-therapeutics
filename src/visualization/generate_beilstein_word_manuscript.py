@@ -636,8 +636,8 @@ def build_manuscript_word():
     add_heading_styled(doc, "Data Availability", level=1)
     doc.add_paragraph(
         "All code, the curated dataset, the real GFN2-xTB and AutoDock Vina outputs, the leak-free cross-validation predictions and the "
-        "figure/manuscript generators are in the public repository https://github.com/sircalch/nano-qsar-ai-therapeutics. The full pipeline "
-        "reproduces every value and figure.")
+        "figure/manuscript generators are in the public repository https://github.com/sircalch/nano-qsar-ai-therapeutics and the Zenodo deposit "
+        "10.5281/zenodo.22187873. The full pipeline reproduces every value and figure.")
     import sys as _bsys, os as _bos
     _bsys.path.insert(0, _bos.path.dirname(_bos.path.abspath(__file__)))
     import _backmatter
