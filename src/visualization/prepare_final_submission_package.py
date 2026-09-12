@@ -211,6 +211,71 @@ def create_cover_letter_md(sub_dir):
     print("Generated TNBC Molecular Diversity Cover Letter")
 
 
+def create_cover_letter_jmm(sub_dir):
+    """Journal of Molecular Modeling (Springer) edition, 2026-09-12.
+
+    Fourth and last in the Q3/no-APC retargeting series -- see
+    [[feedback_prioritize_q3_no_apc_journals]]. This is the weakest of the 4
+    papers (Q2_CV near zero for both endpoints, redocking RMSD > 4 Å), so the
+    honest framing here leans hardest on reproducibility and transparency
+    rather than predictive claims.
+    """
+    doc = Document()
+    for s in doc.sections:
+        s.top_margin = s.bottom_margin = Inches(1.0)
+        s.left_margin = s.right_margin = Inches(1.0)
+    fo = doc.styles['Normal'].font
+    fo.name = 'Times New Roman'; fo.size = Pt(11); fo.color.rgb = RGBColor(33, 33, 33)
+
+    doc.add_paragraph("Andrés Monreal Hernández, Ph.D.\nUniversidad Estatal de Sonora, Hermosillo, Sonora, Mexico\n"
+                      "Email: andres.monreal@ues.mx | ORCID: 0009-0009-1207-8597").runs[0].font.bold = True
+    doc.add_paragraph("To: The Editor-in-Chief, Journal of Molecular Modeling (Springer Nature)")
+    doc.add_paragraph("Subject: Submission of Original Research Article for Peer Review").runs[0].font.bold = True
+    doc.add_paragraph("Dear Editor,")
+    doc.add_paragraph(
+        "On behalf of my co-authors (Sara Lizbeth Franco Amaya, Carlos Ivanhoe Martínez Osorio, and myself), "
+        "I am pleased to submit our original research manuscript for consideration as a Full Research Article "
+        "in the Journal of Molecular Modeling:"
+    )
+    r = doc.add_paragraph().add_run(
+        "“Explainable AI and Quantum-Guided QSAR/QSPR Modeling of Triple-Negative Breast Cancer Therapeutics "
+        "Conjugated to Functionalized Boron Nitride Nanocages”"
+    )
+    r.font.bold = True; r.font.color.rgb = RGBColor(13, 71, 161)
+    doc.add_paragraph(
+        "The study integrates GFN2-xTB quantum-chemical adsorption modeling of 33 anti-TNBC therapeutics on the "
+        "pristine inorganic boron nitride nanocage B36N36, AutoDock Vina docking against the human PARP1 "
+        "catalytic domain (PDB ID: 4UND), and an explainable leak-free nested cross-validated surrogate -- "
+        "squarely within the journal's scope in computational and theoretical chemistry."
+    )
+    doc.add_paragraph("Key points, all traceable to the deposited pipeline:").runs[0].font.bold = True
+    for h in [
+        "GFN2-xTB single-point interaction energies for all 33 therapeutics on the B36N36 cage, computed from "
+        "the xtb pipeline; frontier-orbital and conceptual-DFT indices are taken directly from the output, not "
+        "from an empirical formula.",
+        "Redocking against the human PARP1 crystal structure (PDB ID: 4UND) did NOT reproduce the native ligand "
+        "pose (heavy-atom RMSD > 4 Å); the reported Vina scores are therefore treated as exploratory and are "
+        "not used as a quantitative endpoint.",
+        "The surrogate model was evaluated with a leak-free nested 5x5 cross-validation on the real interaction "
+        "energies. Predictive performance is low (Q2_CV near zero for both endpoints); we present the model and "
+        "its feature-importance ranking as an honest exploratory baseline, not a validated predictor -- the "
+        "chemisorption/physisorption dichotomy is the robust, model-free finding.",
+        "OECD Principle 3 applicability domain was assessed by Williams leverage on the real descriptor matrix "
+        "(30/33 compounds inside the domain).",
+        "Fully automated open-source pipeline with the complete real dataset (Zenodo DOI 10.5281/zenodo.22187873), "
+        "reproducing every value and figure in the manuscript.",
+    ]:
+        p = doc.add_paragraph(h); p.paragraph_format.left_indent = Inches(0.3)
+    doc.add_paragraph(
+        "The manuscript is original, not under consideration elsewhere, and all authors approve the submission "
+        "and declare no competing interests."
+    )
+    doc.add_paragraph("Sincerely,\nAndrés Monreal Hernández, Ph.D. (Corresponding Author)\nUniversidad Estatal de Sonora, Mexico")
+    out_docx = os.path.join(sub_dir, "01_Cover_Letter_JMM.docx")
+    doc.save(out_docx)
+    print(f"Generated TNBC Journal of Molecular Modeling Cover Letter: {out_docx}")
+
+
 def create_suggested_reviewers(sub_dir):
     rev_path = os.path.join(sub_dir, "06_Suggested_Reviewers.txt")
     rev_text = """SUGGESTED PEER REVIEWERS (Beilstein Journal of Nanotechnology / Elsevier)
@@ -293,7 +358,14 @@ def build_complete_submission_folder():
     # 1. Cover Letter
     create_cover_letter(sub_dir)
     create_cover_letter_md(sub_dir)
-    
+    create_cover_letter_jmm(sub_dir)
+
+    # 1b. JMM manuscript (post-processes the canonical Beilstein body: structured
+    # Context/Methods abstract + section reorder) -- run it here so the bundle
+    # always picks up a fresh copy.
+    import generate_tnbc_jmm_manuscript
+    generate_tnbc_jmm_manuscript.generate_tnbc_jmm_manuscript()
+
     # 2. Main Manuscript Word
     src_ms = os.path.join(base_dir, "manuscript", "Beilstein_Manuscript_Monreal_Hernandez_et_al.docx")
     dst_ms = os.path.join(sub_dir, "02_Main_Manuscript_Monreal_Hernandez_et_al.docx")
