@@ -34,7 +34,7 @@ base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from docx import Document
-from docx.shared import Pt
+from docx.shared import Pt, RGBColor
 
 import generate_beilstein_word_manuscript as full_gen
 
@@ -104,8 +104,27 @@ def generate_tnbc_jmm_manuscript():
         raise RuntimeError("Could not find the inline 'Abstract:' paragraph in the TNBC manuscript.")
 
     abstract_para = doc.paragraphs[abs_para_idx]
+    keywords_para = doc.paragraphs[abs_para_idx + 1]
+    if "Keywords" not in keywords_para.text:
+        raise RuntimeError("Unexpected structure: paragraph after the inline Abstract is not Keywords.")
     original_abstract = "".join(r.text for r in abstract_para.runs[1:])  # skip the "Abstract: " label run
     context_text = _build_condensed_context(original_abstract)
+
+    # TNBC's canonical body has no separate "Abstract" HEADING at all (unlike
+    # KRAS/GBM/Tau) -- the "Abstract:" label was just a bold run inside the one
+    # paragraph we are about to delete. Without adding a heading here, deleting
+    # that paragraph would leave the Context/Methods text floating right after
+    # the affiliations with no section label announcing it. Add one, styled to
+    # match this doc's other level-1 headings (Arial 14pt bold, deep blue).
+    p_abs_heading = abstract_para.insert_paragraph_before()
+    p_abs_heading.style = doc.styles["Heading 1"]
+    p_abs_heading.paragraph_format.space_before = Pt(14)
+    p_abs_heading.paragraph_format.space_after = Pt(6)
+    r_abs_heading = p_abs_heading.add_run("Abstract")
+    r_abs_heading.font.name = "Arial"
+    r_abs_heading.font.size = Pt(14)
+    r_abs_heading.font.bold = True
+    r_abs_heading.font.color.rgb = RGBColor(13, 71, 161)
 
     p_context = abstract_para.insert_paragraph_before()
     p_context.paragraph_format.space_after = abstract_para.paragraph_format.space_after
@@ -122,6 +141,16 @@ def generate_tnbc_jmm_manuscript():
     p_methods.add_run(JMM_METHODS)
 
     abstract_para._element.getparent().remove(abstract_para._element)
+
+    # --- Trim keywords to JMM's 4-6 limit (original has 10) ---
+    for run in list(keywords_para.runs):
+        run.text = ""
+    keywords_para.runs[0].text = "Keywords: "
+    keywords_para.runs[0].font.bold = True
+    keywords_para.add_run(
+        "Boron Nitride Nanocage; B36N36; Triple-Negative Breast Cancer; "
+        "PARP1; Molecular Docking; QSAR/QSPR."
+    )
 
     # ---------------------------------------------------------------
     # 2) Move "4. Experimental" (+ its subsections) to right after Introduction
