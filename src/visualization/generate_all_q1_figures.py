@@ -374,13 +374,18 @@ def make_fig7_parity_benchmark(base_dir, fig_dir):
         axes[i].set_title(f"({chr(97+i)}) {title}", fontsize=11.5, fontweight='bold')
         axes[i].legend(loc='lower right', fontsize=9)
 
-    plt.suptitle("Figure 7. Leak-Free Nested CV Parity: Observed vs. Out-of-Fold Predicted (real data only)",
+    # NOTE: renumbered 2026-09-14 -- this image (despite its "fig7_..." filename)
+    # is embedded as "Figure 9" in the current manuscript
+    # (generate_beilstein_word_manuscript.py), not "Figure 7" as an earlier
+    # draft numbering had it. The baked-in title previously said "Figure 7",
+    # visibly mismatched from the manuscript text calling it "Figure 9".
+    plt.suptitle("Figure 9. Leak-Free Nested CV Parity: Observed vs. Out-of-Fold Predicted (real data only)",
                  fontsize=13.5, fontweight='bold', y=0.98, color="#0D47A1")
     plt.tight_layout()
     out_file = os.path.join(fig_dir, "fig7_parity_models_evaluation.png")
     plt.savefig(out_file, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"Generated Figure 7: {out_file}")
+    print(f"Generated Figure 9: {out_file}")
 
 def generate_all():
     base_dir, fig_dir = get_paths()
