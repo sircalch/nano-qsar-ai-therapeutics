@@ -22,8 +22,8 @@ GBM/Tau JMM variants:
          2. Experimental            (was "4.", subsections 4.1-4.4 -> 2.1-2.4)
          3. Results and Discussion  (was "2.", subsections 2.1-2.6 -> 3.1-3.6)
          4. Summary                 (was "3. Conclusions")
-     The two in-text cross-references ("Section 2.1", "Section 2.2") are
-     fixed to "Section 3.1" / "Section 3.2".
+     The two in-text cross-references ("Section 2.2", "Section 2.3") are
+     fixed to "Section 3.2" / "Section 3.3".
 """
 
 import os
@@ -201,13 +201,13 @@ def generate_tnbc_jmm_manuscript():
     _, concl_head = _find_heading(doc, text_exact="3. Conclusions")
     concl_head.runs[0].text = "4. Summary"
 
-    # Fix in-text cross-references (old Results 2.1/2.2 are now Results 3.1/3.2)
+    # Fix in-text cross-references (old Results 2.2/2.3 are now Results 3.2/3.3)
     for p in doc.paragraphs:
         for r in p.runs:
             if "Section 2.2" in r.text:
                 r.text = r.text.replace("Section 2.2", "Section 3.2")
-            if "Section 2.1" in r.text:
-                r.text = r.text.replace("Section 2.1", "Section 3.1")
+            if "Section 2.3" in r.text:
+                r.text = r.text.replace("Section 2.3", "Section 3.3")
 
     out_dir = os.path.join(base_dir, "manuscript", "submission_ready")
     os.makedirs(out_dir, exist_ok=True)

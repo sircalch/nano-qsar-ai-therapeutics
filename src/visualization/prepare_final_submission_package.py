@@ -353,6 +353,11 @@ def build_complete_submission_folder():
     base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     sub_dir = os.path.join(base_dir, "manuscript", "submission_ready")
     fig_dest_dir = os.path.join(sub_dir, "05_Figures_300DPI")
+    # Rebuild from scratch each run so stale/renamed figure exports (e.g. an
+    # old Figure_N that no longer corresponds to a current fig_mappings entry)
+    # never linger alongside the current set.
+    if os.path.isdir(fig_dest_dir):
+        shutil.rmtree(fig_dest_dir)
     os.makedirs(fig_dest_dir, exist_ok=True)
     
     # 1. Cover Letter
@@ -392,9 +397,10 @@ def build_complete_submission_folder():
         ("fig4_interaction_residue_fingerprints.png", "Figure_4_Interaction_Fingerprints.png"),
         ("fig5_quantum_ground_state_geometries.png", "Figure_5_Quantum_3D_Geometries.png"),
         ("fig6_docking_vina_statistical_profiles.png", "Figure_6_Docking_Distributions.png"),
-        ("fig5_descriptor_correlation_matrix.png", "Figure_7_Descriptor_Correlation_Matrix.png"),
         ("fig8_williams_applicability_domain.png", "Figure_8_OECD_Williams_Plot.png"),
-        ("fig7_parity_models_evaluation.png", "Figure_9_Parity_Plots.png")
+        ("fig7_parity_models_evaluation.png", "Figure_9_Parity_Plots.png"),
+        ("fig10_tnbc_charge_density_difference.png", "Figure_10_Charge_Density_Difference.png"),
+        ("fig11_tnbc_adsorption_landscape.png", "Figure_11_Adsorption_Landscape.png")
     ]
     for src_f, dst_f in fig_mappings:
         src_p = os.path.join(base_dir, "figures", src_f)

@@ -289,7 +289,7 @@ def build_manuscript_word():
         "adsorption regime. The three square-planar Pt(II) agents (cisplatin, carboplatin, oxaliplatin) are not included: RDKit/MMFF has "
         "no Pt parameters, so a from-SMILES 3D build collapses and the subsequent GFN2-xTB energy is not meaningful. B36N36 interaction "
         "energy does not track PARP1 affinity: the strongest cage binders are the polyfunctional camptothecins and anthracyclines, which "
-        "chemisorb (Section 2.1 / Figure 11), not the highest-scoring PARP inhibitors."
+        "chemisorb (Section 2.3 / Figure 11), not the highest-scoring PARP inhibitors."
     )
 
     doc.add_paragraph().add_run("Table 1. AutoDock Vina v1.2.7 scores on human PARP1 (PDB ID: 4UND) and relaxed GFN2-xTB interaction energies on pristine B36N36 for the 30 modelled organic drugs (real data only; 3 Pt(II) agents outside GFN2-xTB+RDKit scope are omitted).").font.bold = True

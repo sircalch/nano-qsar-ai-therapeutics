@@ -1,15 +1,25 @@
 """
 generate_all_q1_figures.py
-Generates the COMPLETE, ULTRA-HIGH-RESOLUTION (300+ DPI) Scientific Figure Suite
-for a top-tier Q1 journal publication (e.g. Beilstein J. Nanotechnol., J. Chem. Inf. Model.):
+Generates a suite of ULTRA-HIGH-RESOLUTION (300+ DPI) auxiliary figure assets
+for a top-tier Q1 journal publication (e.g. Beilstein J. Nanotechnol.).
 
-- Figure 1: Scientific Methodology & Architecture Flowchart (Graphical Abstract)
-- Figure 2: 3D Nanomaterial Cages, Quantum Frontier Orbitals & HSAB Reactivity
-- Figure 3: 3D PARP1 Receptor Surface (Hydrophobic/Electrostatic) & Spatial Binding Sites
-- Figure 4: 2D/3D Molecular Interaction Fingerprints & Residue Contact Heatmap
-- Figure 5: Complete 20-Descriptor Correlation Heatmap & Statistical Docking Distributions
-- Figure 6: Explainable AI (SHAP) Importance Rankings & Feature Dependency Plots
-- Figure 7: Parity Plots & Multi-Algorithm Benchmarking (ExtraTrees, XGBoost, MLR)
+NOTE: the numbering below (fig1..fig7) is this script's own internal naming and
+does NOT correspond 1:1 to the final manuscript's in-text Figure 1-11 numbers
+(the manuscript body embeds fig1_workflow_methodology.png, fig2_..., fig3_3d_
+parp1_docking_surfaces.png, fig4_..., fig5_quantum_ground_state_geometries.png,
+fig6_..., fig7_parity_models_evaluation.png, fig8_..., fig9 (=fig7_parity_
+models_evaluation.png reused), fig10_tnbc_charge_density_difference.png and
+fig11_tnbc_adsorption_landscape.png -- see generate_beilstein_word_manuscript.py
+for the authoritative figure-to-caption mapping). This script produces:
+
+- fig1: Scientific Methodology & Architecture Flowchart (Graphical Abstract)
+- fig2: 3D Nanomaterial Cage, Quantum Frontier Orbitals & HSAB Reactivity
+- fig3: AutoDock Vina Statistical Docking Distributions
+- fig4: 2D/3D Molecular Interaction Fingerprints & Residue Contact Heatmap
+- fig5: 20-Descriptor Correlation Heatmap (auxiliary; NOT currently cited
+  in-text in the final manuscript -- kept only as a supplementary asset)
+- fig6: Explainable AI (SHAP) Importance Rankings & Feature Dependency Plots
+- fig7: Parity Plots & Nested-CV RidgeCV Benchmarking
 """
 
 import os
