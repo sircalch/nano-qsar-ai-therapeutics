@@ -555,7 +555,7 @@ def build_manuscript_word():
         f"1. Exploratory docking: AutoDock Vina scores against the PARP1 catalytic domain (PDB 4UND) range from about {VINA_RANGE} kcal/mol (n = {VINA_N}), but self-redocking of the co-crystallized ligand failed to reproduce the native pose within 2 A, so these scores are used only as a relative ranking and not as a quantitative endpoint.",
         "2. Two adsorption regimes: after full GFN2-xTB relaxation of the 30 modelled complexes, 25 drugs physisorb on pristine B36N36 (Delta_E_int,SP = -6 to -31 kcal/mol, contact 2.2-3.5 A) and 5 - SN-38, epirubicin, topotecan, lapatinib, rucaparib - chemisorb, forming a covalent B-O/B-N bond (-43 to -186 kcal/mol). Pristine B36N36 is therefore not a purely physisorptive scaffold for the polyfunctional camptothecin/anthracycline chemotype. The three Pt(II) agents are outside the GFN2-xTB+RDKit build. A carboxylated B36N36-COOH derivative has no real data here.",
         f"3. Honest ML baseline: on the single 30/33-compound master table, the leak-free nested 5x5 cross-validated RidgeCV surrogate is non-predictive - Q2_CV = {Q2_VINA_S} for the PARP1 docking score and {Q2_PHYS_S} for the {N_PHYS}-point physisorption energy; the descriptor rankings are qualitative only. The model-free chemisorption/physisorption outcome is the robust result.",
-        "4. Applicability domain: Williams-leverage analysis (OECD Principle 3) places the modelled compounds inside the domain for both endpoints; given the near-zero Q2, this is a formality.",
+        "4. Applicability domain: Williams-leverage analysis (OECD Principle 3, Figure 8) places 25/25 compounds inside the domain for the physisorption endpoint and 29/30 for the PARP1 docking endpoint (cobimetinib exceeds the warning leverage h*); given the near-zero Q2, this is a formality.",
         "5. Outlook: inorganic B36N36 is attractive on solubility and biocompatibility grounds, but for the reactive chemotype adsorption is effectively irreversible; a passivated / functionalised cage and a validated model are left as future work."
     ]
     for cp in concl_points:
@@ -642,7 +642,7 @@ def build_manuscript_word():
     _bsys.path.insert(0, _bos.path.dirname(_bos.path.abspath(__file__)))
     import _backmatter
     _backmatter.append(doc, add_heading_styled,
-                       "TNBC_B36N36_Supporting_Information.docx",
+                       "03_Supporting_Information_Monreal_Hernandez_et_al.docx",
                        "curated dataset (N = 33), formal charges at pH 7.4, the OECD Principles 1-5 checklist and per-residue PARP1 contact frequencies")
 
     # ==============================================================================
