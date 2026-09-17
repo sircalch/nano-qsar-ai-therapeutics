@@ -66,8 +66,9 @@ def build_manuscript_word():
     VINA_RANGE = f"{VINA_MAX:.1f} to {VINA_MIN:.1f}"
 
     # Leak-free nested 5x5 Ridge CV Q2 for both endpoints, computed here so the
-    # text, Table 2 and Figure 7 can never drift apart (same protocol as
-    # generate_all_q1_figures.make_fig7_parity_benchmark).
+    # text, Table 2 and Figure 8 (parity plot) can never drift apart (same
+    # protocol as generate_all_q1_figures.make_fig7_parity_benchmark; the
+    # figure's own function/file name predates a later renumbering fix).
     def _q2cv(_target, _phys_only):
         import numpy as _np, pandas as _pd
         from sklearn.pipeline import Pipeline as _P
@@ -289,7 +290,7 @@ def build_manuscript_word():
         "adsorption regime. The three square-planar Pt(II) agents (cisplatin, carboplatin, oxaliplatin) are not included: RDKit/MMFF has "
         "no Pt parameters, so a from-SMILES 3D build collapses and the subsequent GFN2-xTB energy is not meaningful. B36N36 interaction "
         "energy does not track PARP1 affinity: the strongest cage binders are the polyfunctional camptothecins and anthracyclines, which "
-        "chemisorb (Section 2.3 / Figure 11), not the highest-scoring PARP inhibitors."
+        "chemisorb (Section 2.3 / Figure 10), not the highest-scoring PARP inhibitors."
     )
 
     doc.add_paragraph().add_run("Table 1. AutoDock Vina v1.2.7 scores on human PARP1 (PDB ID: 4UND) and relaxed GFN2-xTB interaction energies on pristine B36N36 for the 30 modelled organic drugs (real data only; 3 Pt(II) agents outside GFN2-xTB+RDKit scope are omitted).").font.bold = True
@@ -348,7 +349,7 @@ def build_manuscript_word():
         
     add_heading_styled(doc, "2.3 3D Quantum Geometries and Intermolecular Interactions", level=2)
     doc.add_paragraph(
-        "After full GFN2-xTB relaxation, the 30 modelled drug/B36N36 complexes fall into two regimes (Figure 5, Figure 11). "
+        "After full GFN2-xTB relaxation, the 30 modelled drug/B36N36 complexes fall into two regimes (Figure 5, Figure 10). "
         "Twenty-five drugs PHYSISORB - they sit 2.2-3.5 Angstrom from the cage with Delta_E_int,SP = -6 to -31 kcal/mol (Olaparib "
         "-17.1, Talazoparib -24.1) - and five CHEMISORB: SN-38 (-186), epirubicin (-54), topotecan (-51), lapatinib (-49) and "
         "rucaparib (-43), each forming a covalent B-O or B-N bond (closest contact 1.37-1.72 Angstrom) through an accessible phenol, "
@@ -410,7 +411,7 @@ def build_manuscript_word():
         f"only; alpha by inner RidgeCV), reported as out-of-fold predictions. The model is non-predictive: Q2_CV = {Q2_VINA_S} for the PARP1 Vina "
         f"docking score (n = {VINA_N}) and Q2_CV = {Q2_PHYS_S} for the {N_PHYS}-point physisorption interaction energy. The chemisorbers are excluded from the "
         "physisorption QSPR because covalent bond strength and dispersion are different physics. Descriptor-based prediction of either "
-        "quantity on this small, chemically narrow cohort therefore fails; the model-free chemisorption/physisorption outcome (Figure 11) "
+        "quantity on this small, chemically narrow cohort therefore fails; the model-free chemisorption/physisorption outcome (Figure 10) "
         "is the robust result. The exploratory ExtraTrees ranking indicates molecular weight and molar refractivity as leading descriptors "
         "and is reported qualitatively only."
     )
@@ -452,7 +453,7 @@ def build_manuscript_word():
         doc.add_picture(fig8_path, width=Inches(6.0))
         p_cap8 = doc.add_paragraph()
         p_cap8.paragraph_format.space_after = Pt(12)
-        r_c8 = p_cap8.add_run("Figure 8. ")
+        r_c8 = p_cap8.add_run("Figure 7. ")
         r_c8.font.bold = True
         r_c8.font.name = 'Arial'
         p_cap8.add_run("OECD Principle 3 Williams plots for the two real-data endpoints (PARP1 Vina docking, n=30; drug + pristine B36N36 physisorption interaction energy, n=25): out-of-fold standardized residuals vs. hat leverage with +/-3sigma boundaries and the h* warning limit.")
@@ -463,7 +464,7 @@ def build_manuscript_word():
         doc.add_picture(fig9_path, width=Inches(6.0))
         p_cap9 = doc.add_paragraph()
         p_cap9.paragraph_format.space_after = Pt(12)
-        r_c9 = p_cap9.add_run("Figure 9. ")
+        r_c9 = p_cap9.add_run("Figure 8. ")
         r_c9.font.bold = True
         r_c9.font.name = 'Arial'
         p_cap9.add_run("Leak-free nested 5x5 cross-validation parity plots (real observed vs. out-of-fold predicted) for (a) PARP1 Vina 4UND docking (n = 30) and (b) drug + pristine B36N36 physisorption interaction energy (n = 25). Both endpoints have near-zero Q2_CV.")
@@ -473,17 +474,17 @@ def build_manuscript_word():
         doc.add_paragraph(
             "To visualise the electronic reorganisation on adsorption, the charge-density difference "
             "Delta_rho = rho(complex) - rho(carrier) - rho(drug) was evaluated from the real GFN2-xTB densities of the "
-            "Olaparib / B36N36 relaxed complex, all three fragments at the bound geometry on a common grid (Figure 10). "
+            "Olaparib / B36N36 relaxed complex, all three fragments at the bound geometry on a common grid (Figure 9). "
             "Olaparib is one of the physisorbers (contact 3.1 Angstrom, Delta_E_int,SP = -17.1 kcal/mol): the accumulation (yellow) and "
             "depletion (blue) lobes are confined to the drug carbonyl / amide region facing the cage, with the B36N36 framework "
-            "essentially unperturbed - no new bond, in contrast to the chemisorbers of Figure 11. The Delta_rho cube and the script "
+            "essentially unperturbed - no new bond, in contrast to the chemisorbers of Figure 10. The Delta_rho cube and the script "
             "that regenerates it from the fragment geometries are provided in results/quantum/drho/."
         )
         doc.add_paragraph().alignment = WD_ALIGN_PARAGRAPH.CENTER
         doc.add_picture(fig10_path, width=Inches(5.4))
         p_cap10 = doc.add_paragraph()
         p_cap10.paragraph_format.space_after = Pt(12)
-        r_c10 = p_cap10.add_run("Figure 10. ")
+        r_c10 = p_cap10.add_run("Figure 9. ")
         r_c10.font.bold = True
         r_c10.font.name = 'Arial'
         p_cap10.add_run("Charge-density difference (real GFN2-xTB densities) for the Olaparib / B36N36 nanocage physisorption "
@@ -495,7 +496,7 @@ def build_manuscript_word():
         doc.add_picture(fig11_path, width=Inches(5.6))
         p_cap11 = doc.add_paragraph()
         p_cap11.paragraph_format.space_after = Pt(12)
-        r_c11 = p_cap11.add_run("Figure 11. ")
+        r_c11 = p_cap11.add_run("Figure 10. ")
         r_c11.font.bold = True
         r_c11.font.name = 'Arial'
         p_cap11.add_run("GFN2-xTB adsorption landscape of the 30 modelled anti-TNBC drugs on pristine B36N36 - closest "
@@ -555,7 +556,7 @@ def build_manuscript_word():
         f"1. Exploratory docking: AutoDock Vina scores against the PARP1 catalytic domain (PDB 4UND) range from about {VINA_RANGE} kcal/mol (n = {VINA_N}), but self-redocking of the co-crystallized ligand failed to reproduce the native pose within 2 A, so these scores are used only as a relative ranking and not as a quantitative endpoint.",
         "2. Two adsorption regimes: after full GFN2-xTB relaxation of the 30 modelled complexes, 25 drugs physisorb on pristine B36N36 (Delta_E_int,SP = -6 to -31 kcal/mol, contact 2.2-3.5 A) and 5 - SN-38, epirubicin, topotecan, lapatinib, rucaparib - chemisorb, forming a covalent B-O/B-N bond (-43 to -186 kcal/mol). Pristine B36N36 is therefore not a purely physisorptive scaffold for the polyfunctional camptothecin/anthracycline chemotype. The three Pt(II) agents are outside the GFN2-xTB+RDKit build. A carboxylated B36N36-COOH derivative has no real data here.",
         f"3. Honest ML baseline: on the single 30/33-compound master table, the leak-free nested 5x5 cross-validated RidgeCV surrogate is non-predictive - Q2_CV = {Q2_VINA_S} for the PARP1 docking score and {Q2_PHYS_S} for the {N_PHYS}-point physisorption energy; the descriptor rankings are qualitative only. The model-free chemisorption/physisorption outcome is the robust result.",
-        "4. Applicability domain: Williams-leverage analysis (OECD Principle 3, Figure 8) places 25/25 compounds inside the domain for the physisorption endpoint and 29/30 for the PARP1 docking endpoint (cobimetinib exceeds the warning leverage h*); given the near-zero Q2, this is a formality.",
+        "4. Applicability domain: Williams-leverage analysis (OECD Principle 3, Figure 7) places 25/25 compounds inside the domain for the physisorption endpoint and 29/30 for the PARP1 docking endpoint (cobimetinib exceeds the warning leverage h*); given the near-zero Q2, this is a formality.",
         "5. Outlook: inorganic B36N36 is attractive on solubility and biocompatibility grounds, but for the reactive chemotype adsorption is effectively irreversible; a passivated / functionalised cage and a validated model are left as future work."
     ]
     for cp in concl_points:
@@ -570,11 +571,12 @@ def build_manuscript_word():
     add_heading_styled(doc, "4.1 Curated Anti-TNBC Therapeutic Library", level=2)
     doc.add_paragraph(
         "A library of anti-TNBC therapeutic agents with established clinical activity or ongoing clinical trials was curated from DrugBank "
-        "and PubChem, spanning PARP1 inhibitors (olaparib, talazoparib, rucaparib, niraparib, veliparib, pamiparib), topoisomerase "
-        "inhibitors and ADC payloads (irinotecan, SN-38, topotecan, etoposide, exatecan), anthracyclines (doxorubicin, epirubicin, "
-        "idarubicin), antimetabolites (gemcitabine, capecitabine, 5-fluorouracil, methotrexate, pemetrexed, cytarabine), microtubule "
-        "agents (ixabepilone, eribulin, vinorelbine), kinase modulators (lapatinib, gefitinib, erlotinib, afatinib, bemcentinib, "
-        "alpelisib) and CDK4/6 inhibitors (palbociclib, ribociclib, abemaciclib). The final curated cohort is 33 compounds; 30 organic "
+        "and PubChem, spanning PARP1 inhibitors (olaparib, talazoparib, rucaparib, niraparib, veliparib, pamiparib), platinum agents "
+        "(cisplatin, carboplatin, oxaliplatin), topoisomerase I/II inhibitors (SN-38, exatecan, topotecan, etoposide), anthracyclines "
+        "(doxorubicin, epirubicin), taxanes (paclitaxel, docetaxel, cabazitaxel), a microtubule inhibitor (eribulin), EGFR/HER2 "
+        "tyrosine-kinase inhibitors (lapatinib, erlotinib, gefitinib, osimertinib), MEK inhibitors (cobimetinib, trametinib, "
+        "selumetinib), AKT inhibitors (capivasertib, ipatasertib), a PI3Kalpha inhibitor (alpelisib), an mTOR inhibitor (everolimus) "
+        "and CDK4/6 inhibitors (palbociclib, ribociclib, abemaciclib). The final curated cohort is 33 compounds; 30 organic "
         "drugs completed both the AutoDock Vina docking and a converged GFN2-xTB drug-cage relaxation (single reproducible run each), and "
         "the 3 square-planar Pt(II) agents are outside the GFN2-xTB+RDKit build. All analyses below use this single 30/33-compound table."
     )
