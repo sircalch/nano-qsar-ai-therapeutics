@@ -21,7 +21,8 @@ _DEFAULT_FUNDING = ("This work was supported by Universidad Estatal de Sonora an
 
 
 def append(doc, add_heading, si_file, si_contents, funding=None,
-           already_has_conflict=False, already_has_ack=False):
+           already_has_conflict=False, already_has_ack=False, authors=None):
+    authors = authors if authors is not None else _AUTHORS
     add_heading(doc, "Supporting Information", level=1)
     p = doc.add_paragraph()
     p.add_run("Supporting Information File 1: ").bold = True
@@ -45,19 +46,25 @@ def append(doc, add_heading, si_file, si_contents, funding=None,
         doc.add_paragraph(funding or _DEFAULT_FUNDING)
 
     add_heading(doc, "Author Contributions", level=1)
-    doc.add_paragraph(
-        "Andrés Monreal Hernández: conceptualization, methodology, software, "
-        "formal analysis, investigation, data curation, visualization, "
-        "writing – original draft. Sara Lizbeth Franco Amaya: validation, "
-        "writing – review and editing. Carlos Ivanhoe Martínez Osorio: "
-        "supervision, writing – review and editing. All authors read and "
-        "approved the final manuscript.")
+    if len(authors) == 1:
+        doc.add_paragraph(
+            f"{authors[0][0]}: conceptualization, methodology, software, formal "
+            "analysis, investigation, data curation, visualization, writing – "
+            "original draft, writing – review and editing.")
+    else:
+        doc.add_paragraph(
+            "Andrés Monreal Hernández: conceptualization, methodology, software, "
+            "formal analysis, investigation, data curation, visualization, "
+            "writing – original draft. Sara Lizbeth Franco Amaya: validation, "
+            "writing – review and editing. Carlos Ivanhoe Martínez Osorio: "
+            "supervision, writing – review and editing. All authors read and "
+            "approved the final manuscript.")
 
     if not already_has_conflict:
         add_heading(doc, "Conflict of Interest", level=1)
         doc.add_paragraph("The authors declare no competing financial or non-financial interest.")
 
     add_heading(doc, "ORCID iDs", level=1)
-    for name, orcid in _AUTHORS:
+    for name, orcid in authors:
         if orcid:
             doc.add_paragraph(f"{name} – https://orcid.org/{orcid}")

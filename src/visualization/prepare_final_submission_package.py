@@ -63,8 +63,7 @@ def create_cover_letter(sub_dir):
     doc.add_paragraph("Dear Editor-in-Chief,")
     
     doc.add_paragraph(
-        "On behalf of my co-authors (Sara Lizbeth Franco Amaya, Carlos Ivanhoe Martínez Osorio, and myself), "
-        "I am pleased to submit our original research manuscript titled:"
+        "I am pleased to submit my original research manuscript titled:"
     )
     
     p_t = doc.add_paragraph()
@@ -149,7 +148,7 @@ def create_cover_letter(sub_dir):
 
 **Subject:** Submission of Original Research Article  
 **Title:** *“Explainable AI and Quantum-Guided QSAR/QSPR Modeling of Triple-Negative Breast Cancer Therapeutics Conjugated to Functionalized Boron Nitride Nanocages”*  
-**Authors:** Andrés Monreal Hernández (Corresponding Author), Sara Lizbeth Franco Amaya, and Carlos Ivanhoe Martínez Osorio  
+**Author:** Andrés Monreal Hernández (Corresponding Author)  
 
 ---
 
@@ -233,8 +232,7 @@ def create_cover_letter_jmm(sub_dir):
     doc.add_paragraph("Subject: Submission of Original Research Article for Peer Review").runs[0].font.bold = True
     doc.add_paragraph("Dear Editor,")
     doc.add_paragraph(
-        "On behalf of my co-authors (Sara Lizbeth Franco Amaya, Carlos Ivanhoe Martínez Osorio, and myself), "
-        "I am pleased to submit our original research manuscript for consideration as a Full Research Article "
+        "I am pleased to submit my original research manuscript for consideration as a Full Research Article "
         "in the Journal of Molecular Modeling:"
     )
     r = doc.add_paragraph().add_run(
@@ -335,8 +333,6 @@ def create_submission_checklist(sub_dir):
 5. **Step 2 - Title & Abstract:** Paste the Title and Abstract from `02_Main_Manuscript`.
 6. **Step 3 - Authors & Affiliations:**
    - Andrés Monreal Hernández (Corresponding Author, UES, ORCID: 0009-0009-1207-8597)
-   - Sara Lizbeth Franco Amaya (UNISON, ORCID: 0009-0005-0272-0241)
-   - Carlos Ivanhoe Martínez Osorio (UNISON, ORCID: 0009-0003-7872-4965)
 7. **Step 4 - Upload Files:**
    - Primary Manuscript File: `02_Main_Manuscript_Monreal_Hernandez_et_al.docx`
    - Cover Letter: `01_Cover_Letter_Beilstein.docx`

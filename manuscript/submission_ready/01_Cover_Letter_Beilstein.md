@@ -8,7 +8,7 @@
 
 **Subject:** Submission of Original Research Article  
 **Title:** *“Explainable AI and Quantum-Guided QSAR/QSPR Modeling of Triple-Negative Breast Cancer Therapeutics Conjugated to Functionalized Boron Nitride Nanocages”*  
-**Authors:** Andrés Monreal Hernández (Corresponding Author), Sara Lizbeth Franco Amaya, and Carlos Ivanhoe Martínez Osorio  
+**Author:** Andrés Monreal Hernández (Corresponding Author)  
 
 ---
 

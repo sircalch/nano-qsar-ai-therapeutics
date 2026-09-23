@@ -16,8 +16,6 @@
 5. **Step 2 - Title & Abstract:** Paste the Title and Abstract from `02_Main_Manuscript`.
 6. **Step 3 - Authors & Affiliations:**
    - Andrés Monreal Hernández (Corresponding Author, UES, ORCID: 0009-0009-1207-8597)
-   - Sara Lizbeth Franco Amaya (UNISON, ORCID: 0009-0005-0272-0241)
-   - Carlos Ivanhoe Martínez Osorio (UNISON, ORCID: 0009-0003-7872-4965)
 7. **Step 4 - Upload Files:**
    - Primary Manuscript File: `02_Main_Manuscript_Monreal_Hernandez_et_al.docx`
    - Cover Letter: `01_Cover_Letter_Beilstein.docx`

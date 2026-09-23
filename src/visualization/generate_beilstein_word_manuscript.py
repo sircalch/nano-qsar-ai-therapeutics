@@ -126,23 +126,15 @@ def build_manuscript_word():
     
     r1 = p_auth.add_run("Andrés Monreal Hernández")
     r1.font.bold = True
-    p_auth.add_run("1,*, ")
-    r2 = p_auth.add_run("Sara Lizbeth Franco Amaya")
-    r2.font.bold = True
-    p_auth.add_run("2, and ")
-    r3 = p_auth.add_run("Carlos Ivanhoe Martínez Osorio")
-    r3.font.bold = True
-    p_auth.add_run("3")
-    
+    p_auth.add_run("1,*")
+
     # Affiliations
     p_aff = doc.add_paragraph()
     p_aff.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p_aff.paragraph_format.space_after = Pt(18)
-    
+
     aff_text = (
         "1 Universidad Estatal de Sonora, Hermosillo, Sonora, Mexico. ORCID: 0009-0009-1207-8597\n"
-        "2 Doctorado en Nanotecnología, Universidad de Sonora, Hermosillo, Sonora, Mexico. ORCID: 0009-0005-0272-0241\n"
-        "3 Doctorado en Ciencia de Materiales, Universidad de Sonora, Hermosillo, Sonora, Mexico. ORCID: 0009-0003-7872-4965\n"
         "* Corresponding author email: andres.monreal@ues.mx"
     )
     r_aff = p_aff.add_run(aff_text)
@@ -645,7 +637,8 @@ def build_manuscript_word():
     import _backmatter
     _backmatter.append(doc, add_heading_styled,
                        "03_Supporting_Information_Monreal_Hernandez_et_al.docx",
-                       "curated dataset (N = 33), formal charges at pH 7.4, the OECD Principles 1-5 checklist and per-residue PARP1 contact frequencies")
+                       "curated dataset (N = 33), formal charges at pH 7.4, the OECD Principles 1-5 checklist and per-residue PARP1 contact frequencies",
+                       authors=[("Andrés Monreal Hernández", "0009-0009-1207-8597")])
 
     # ==============================================================================
     # 5. REFERENCES (45 REAL, VERIFIED CITATIONS WITH DOIS)

@@ -140,17 +140,15 @@ def build_full_tnbc_manuscript():
     
     p_authors = doc.add_paragraph()
     p_authors.paragraph_format.space_after = Pt(4)
-    r_auth = p_authors.add_run("Andrés Monreal Hernández1*, Sara Lizbeth Franco Amaya2, and Carlos Ivanhoe Martínez Osorio3")
+    r_auth = p_authors.add_run("Andrés Monreal Hernández1*")
     r_auth.font.bold = True
     r_auth.font.size = Pt(11.0)
-    
+
     p_aff = doc.add_paragraph()
     p_aff.paragraph_format.space_after = Pt(12)
     p_aff.paragraph_format.line_spacing = 1.10
     r_aff = p_aff.add_run(
         "1 Universidad Estatal de Sonora, Ley Federal del Trabajo S/N, Col. Apolo, C.P. 83100, Hermosillo, Sonora, Mexico.\n"
-        "2 Posgrado en Nanotecnología, Departamento de Física, Universidad de Sonora, Blvd. Luis Encinas y Rosales, C.P. 83000, Hermosillo, Sonora, Mexico.\n"
-        "3 Posgrado en Ciencia de Materiales, Departamento de Investigación en Polímeros y Materiales, Universidad de Sonora, C.P. 83000, Hermosillo, Sonora, Mexico.\n"
         "*Corresponding Author: andres.monreal@ues.mx"
     )
     r_aff.font.size = Pt(9.5)

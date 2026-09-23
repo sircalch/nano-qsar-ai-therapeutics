@@ -106,7 +106,7 @@ def generate_supporting_information():
 
     r = doc.add_paragraph().add_run(TITLE)
     r.font.size = Pt(14); r.font.bold = True; r.font.color.rgb = RGBColor(0, 77, 64)
-    doc.add_paragraph("Andrés Monreal Hernández, Sara Lizbeth Franco Amaya, and Carlos Ivanhoe Martínez Osorio").runs[0].font.italic = True
+    doc.add_paragraph("Andrés Monreal Hernández").runs[0].font.italic = True
 
     _h(doc, "Section S1: B36N36 Nanocage Cluster Model")
     doc.add_paragraph(S1)
