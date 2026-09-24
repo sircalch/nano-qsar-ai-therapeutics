@@ -1,0 +1,48 @@
+"""
+references.py - reference list (Springer numbered style) keyed by short ids.
+Numbers are assigned in order of first citation by build_manuscript.py;
+every DOI is checked against Crossref by check_references.py.
+"""
+
+REFS = {
+    "giaquinto2022": "Giaquinto AN, Sung H, Miller KD, Kramer JL, Newman LA, Minihan A, Jemal A, Siegel RL (2022) Breast cancer statistics, 2022. CA Cancer J Clin 72:524–541. https://doi.org/10.3322/caac.21754",
+    "foulkes2010": "Foulkes WD, Smith IE, Reis-Filho JS (2010) Triple-negative breast cancer. N Engl J Med 363:1938–1948. https://doi.org/10.1056/NEJMra1001389",
+    "dent2007": "Dent R, Trudeau M, Pritchard KI, Hanna WM, Kahn HK, Sawka CA, Lickley LA, Rawlinson E, Sun P, Narod SA (2007) Triple-negative breast cancer: clinical features and patterns of recurrence. Clin Cancer Res 13:4429–4434. https://doi.org/10.1158/1078-0432.CCR-06-3045",
+    "lehmann2011": "Lehmann BD, Bauer JA, Chen X, Sanders ME, Chakravarthy AB, Shyr Y, Pietenpol JA (2011) Identification of human triple-negative breast cancer subtypes and preclinical models for selection of targeted therapies. J Clin Invest 121:2750–2767. https://doi.org/10.1172/JCI45014",
+    "bianchini2016": "Bianchini G, Balko JM, Mayer IA, Sanders ME, Gianni L (2016) Triple-negative breast cancer: challenges and opportunities of a heterogeneous disease. Nat Rev Clin Oncol 13:674–690. https://doi.org/10.1038/nrclinonc.2016.66",
+    "lord2017": "Lord CJ, Ashworth A (2017) PARP inhibitors: synthetic lethality in the clinic. Science 355:1152–1158. https://doi.org/10.1126/science.aam7344",
+    "pommier2016": "Pommier Y, O'Connor MJ, de Bono J (2016) Laying a trap to kill cancer cells: PARP inhibitors and their mechanisms of action. Sci Transl Med 8:362ps17. https://doi.org/10.1126/scitranslmed.aaf9246",
+    "mateo2019": "Mateo J, Lord CJ, Serra V, Tutt A, Balmaña J, Castroviejo-Bermejo M, Cruz C, Oaknin A, Kaye SB, de Bono JS (2019) A decade of clinical development of PARP inhibitors in perspective. Ann Oncol 30:1437–1447. https://doi.org/10.1093/annonc/mdz192",
+    "robson2017": "Robson M, Im SA, Senkus E, Xu B, Domchek SM, Masuda N, Delaloge S, Li W, Tung N, Armstrong A et al (2017) Olaparib for metastatic breast cancer in patients with a germline BRCA mutation. N Engl J Med 377:523–533. https://doi.org/10.1056/NEJMoa1706450",
+    "litton2018": "Litton JK, Rugo HS, Ettl J, Hurvitz SA, Gonçalves A, Lee KH, Fehrenbacher L, Yerushalmi R, Mina LA, Martin M et al (2018) Talazoparib in patients with advanced breast cancer and a germline BRCA mutation. N Engl J Med 379:753–763. https://doi.org/10.1056/NEJMoa1802905",
+    "golberg2010": "Golberg D, Bando Y, Huang Y, Terao T, Mitome M, Tang C, Zhi C (2010) Boron nitride nanotubes and nanosheets. ACS Nano 4:2979–2993. https://doi.org/10.1021/nn1006495",
+    "weng2016": "Weng Q, Wang X, Wang X, Bando Y, Golberg D (2016) Functionalized hexagonal boron nitride nanomaterials: emerging properties and applications. Chem Soc Rev 45:3989–4012. https://doi.org/10.1039/C5CS00869G",
+    "merlo2018": "Merlo A, Mokkapati VRSS, Pandit S, Mijakovic I (2018) Boron nitride nanomaterials: biocompatibility and bio-applications. Biomater Sci 6:2298–2311. https://doi.org/10.1039/C8BM00516H",
+    "chen2009": "Chen X, Wu P, Rousseas M, Okawa D, Gartner Z, Zettl A, Bertozzi CR (2009) Boron nitride nanotubes are noncytotoxic and can be functionalized for interaction with proteins and cells. J Am Chem Soc 131:890–891. https://doi.org/10.1021/ja807334b",
+    "genchi2015": "Genchi GG, Ciofani G (2015) Bioapplications of boron nitride nanotubes. Nanomedicine 10:3315–3319. https://doi.org/10.2217/nnm.15.148",
+    "gholami2023": "Gholami A, Shakerzadeh E, Chigo Anota E (2023) Exploring the potential use of pristine and metal-encapsulated B_{36}N_{36} fullerenes in delivery of β-lapachone anticancer drug: DFT approach. Polyhedron 232:116295. https://doi.org/10.1016/j.poly.2023.116295",
+    "strout2000": "Strout DL (2000) Structure and stability of boron nitrides: isomers of B_{12}N_{12}. J Phys Chem A 104:3364–3366. https://doi.org/10.1021/jp994129a",
+    "fowler1999": "Fowler PW, Rogers KM, Seifert G, Terrones M, Terrones H (1999) Pentagonal rings and nitrogen excess in fullerene-based BN cages and nanotube caps. Chem Phys Lett 299:359–367. https://doi.org/10.1016/S0009-2614(98)01265-2",
+    "bannwarth2019": "Bannwarth C, Ehlert S, Grimme S (2019) GFN2-xTB — an accurate and broadly parametrized self-consistent tight-binding quantum chemical method with multipole electrostatics and density-dependent dispersion contributions. J Chem Theory Comput 15:1652–1671. https://doi.org/10.1021/acs.jctc.8b01176",
+    "bannwarth2021": "Bannwarth C, Caldeweyher E, Ehlert S, Hansen A, Pracht P, Seibert J, Spicher S, Grimme S (2021) Extended tight-binding quantum chemistry methods. WIREs Comput Mol Sci 11:e1493. https://doi.org/10.1002/wcms.1493",
+    "caldeweyher2019": "Caldeweyher E, Ehlert S, Hansen A, Neugebauer H, Spicher S, Bannwarth C, Grimme S (2019) A generally applicable atomic-charge dependent London dispersion correction. J Chem Phys 150:154122. https://doi.org/10.1063/1.5090222",
+    "parr1999": "Parr RG, Szentpály Lv, Liu S (1999) Electrophilicity index. J Am Chem Soc 121:1922–1924. https://doi.org/10.1021/ja983494x",
+    "geerlings2003": "Geerlings P, De Proft F, Langenaeker W (2003) Conceptual density functional theory. Chem Rev 103:1793–1874. https://doi.org/10.1021/cr990029p",
+    "pearson1988": "Pearson RG (1988) Absolute electronegativity and hardness: application to inorganic chemistry. Inorg Chem 27:734–740. https://doi.org/10.1021/ic00277a030",
+    "karelson1996": "Karelson M, Lobanov VS, Katritzky AR (1996) Quantum-chemical descriptors in QSAR/QSPR studies. Chem Rev 96:1027–1044. https://doi.org/10.1021/cr950202r",
+    "trott2010": "Trott O, Olson AJ (2010) AutoDock Vina: improving the speed and accuracy of docking with a new scoring function, efficient optimization, and multithreading. J Comput Chem 31:455–461. https://doi.org/10.1002/jcc.21334",
+    "eberhardt2021": "Eberhardt J, Santos-Martins D, Tillack AF, Forli S (2021) AutoDock Vina 1.2.0: new docking methods, expanded force field, and Python bindings. J Chem Inf Model 61:3891–3898. https://doi.org/10.1021/acs.jcim.1c00203",
+    "eastman2017": "Eastman P, Swails J, Chodera JD, McGibbon RT, Zhao Y, Beauchamp KA, Wang LP, Simmonett AC, Harrigan MP, Stern CD et al (2017) OpenMM 7: rapid development of high performance algorithms for molecular dynamics. PLoS Comput Biol 13:e1005659. https://doi.org/10.1371/journal.pcbi.1005659",
+    "berman2000": "Berman HM, Westbrook J, Feng Z, Gilliland G, Bhat TN, Weissig H, Shindyalov IN, Bourne PE (2000) The Protein Data Bank. Nucleic Acids Res 28:235–242. https://doi.org/10.1093/nar/28.1.235",
+    "kim2021_pubchem": "Kim S, Chen J, Cheng T, Gindulyte A, He J, He S, Li Q, Shoemaker BA, Thiessen PA, Yu B et al (2021) PubChem in 2021: new data content and improved web interfaces. Nucleic Acids Res 49:D1388–D1395. https://doi.org/10.1093/nar/gkaa971",
+    "rdkit": "Landrum G et al (2024) RDKit: open-source cheminformatics, version 2024.03. https://www.rdkit.org. https://doi.org/10.5281/zenodo.591637",
+    "wang2020_etkdg": "Wang S, Witek J, Landrum GA, Riniker S (2020) Improving conformer generation for small rings and macrocycles based on distance geometry and experimental torsional-angle preferences. J Chem Inf Model 60:2044–2058. https://doi.org/10.1021/acs.jcim.0c00025",
+    "halgren1996": "Halgren TA (1996) Merck molecular force field. I. Basis, form, scope, parameterization, and performance of MMFF94. J Comput Chem 17:490–519. https://doi.org/10.1002/(SICI)1096-987X(199604)17:5/6<490::AID-JCC1>3.0.CO;2-P",
+    "pedregosa2011": "Pedregosa F, Varoquaux G, Gramfort A, Michel V, Thirion B, Grisel O, Blondel M, Prettenhofer P, Weiss R, Dubourg V et al (2011) Scikit-learn: machine learning in Python. J Mach Learn Res 12:2825–2830",
+    "cawley2010": "Cawley GC, Talbot NLC (2010) On over-fitting in model selection and subsequent selection bias in performance evaluation. J Mach Learn Res 11:2079–2107",
+    "oecd2007": "OECD (2007) Guidance document on the validation of (quantitative) structure-activity relationship [(Q)SAR] models. OECD Series on Testing and Assessment, No. 69. OECD Publishing, Paris. https://doi.org/10.1787/9789264085442-en",
+    "gramatica2007": "Gramatica P (2007) Principles of QSAR models validation: internal and external. QSAR Comb Sci 26:694–701. https://doi.org/10.1002/qsar.200610151",
+    "tropsha2010": "Tropsha A (2010) Best practices for QSAR model development, validation, and exploitation. Mol Inform 29:476–488. https://doi.org/10.1002/minf.201000061",
+    "rucker2007": "Rücker C, Rücker G, Meringer M (2007) y-Randomization and its variants in QSPR/QSAR. J Chem Inf Model 47:2345–2357. https://doi.org/10.1021/ci700157b",
+    "hopkins2014": "Hopkins AL, Keserü GM, Leeson PD, Rees DC, Reynolds CH (2014) The role of ligand efficiency metrics in drug discovery. Nat Rev Drug Discov 13:105–121. https://doi.org/10.1038/nrd4163",
+}

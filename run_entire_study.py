@@ -1,62 +1,52 @@
 """
 run_entire_study.py
-Master end-to-end pipeline for the TNBC / B36N36 nanocage study.
-Reproduces the real numbers and figures in the Beilstein manuscript.
+Reproduces every number, table and figure of the TNBC / B36N36 article from the
+raw inputs (PubChem structures, PDB 4UND).
 
-NOTE (2026-09-08): the B36N36 adsorption dataset was fully recomputed with
-relaxed complexes by `recompute_tnbc_adsorption.py` (commit b80c25e). That step
-is GFN2-xTB heavy (~2 h, needs xtb on PATH) and its outputs
-(data/processed/dataset_tnbc_bn_pristine.csv, relaxed_adsorption_subset.csv,
-calculations/tnbc_recompute/*/result.json) are committed, so this master
-pipeline consumes them rather than regenerating them. To rebuild from scratch:
-    python recompute_tnbc_adsorption.py --nproc 5
-    python recompute_tnbc_adsorption.py --commit-datasets
-Result: 30 organic drugs modelled = 25 physisorb / 5 chemisorb; 3 Pt(II) agents
-not modelled. QSPR is non-predictive on both endpoints (Vina Q2_CV = 0.11,
-physisorption Q2_CV = 0.0).
+Steps (each resumable; the quantum and docking steps take hours on a desktop):
+  1. compound identities from PubChem (InChIKey check)
+  2. valid B36N36 cage: build, relax, confirm minimum
+  3. GFN2-xTB adsorption of the 30 organic drugs (+ isolated-drug descriptors)
+  4. docking: receptor preparation, two redocking controls, 30 drugs
+  5. dataset assembly, complex-integrity check and adsorption regime
+  6. residue contacts, QSPR, figures, manuscript, supporting information
 """
-import os
+import subprocess
 import sys
 import time
+from pathlib import Path
 
-BASE = os.path.dirname(os.path.abspath(__file__))
+BASE = Path(__file__).resolve().parent
+PY = sys.executable
+NAMES = "data/processed/docked_drugs.csv"
 
-
-def run_step(n, total, title, rel_path, args=""):
-    script = os.path.join(BASE, rel_path)
-    print(f"\n{'='*70}\n  [Step {n}/{total}] {title}\n{'='*70}")
-    t0 = time.time()
-    ret = os.system(f'python "{script}" {args}')
-    if ret != 0:
-        print(f"[ERROR] Step {n}: {title} (exit {ret})")
-        return False
-    print(f"[OK] Step {n} in {time.time()-t0:.1f}s")
-    return True
+STEPS = [
+    ("Compound identities (PubChem)", ["src/descriptors/fix_structures_from_pubchem.py"]),
+    ("B36N36 cage", ["src/quantum/build_b36n36_cage.py"]),
+    ("GFN2-xTB adsorption", ["recompute_tnbc_adsorption.py"]),
+    ("AutoDock Vina docking (PDB 4UND)", ["src/docking/run_vina_docking.py"]),
+    ("Dataset assembly", ["recompute_tnbc_adsorption.py", "--commit-datasets"]),
+    ("Complex integrity and regime", ["src/quantum/integrity_check.py"]),
+    ("Residue contacts", ["src/docking/contacts.py", "data/raw/4UND_A_H.pdb", "results/docking/real_poses",
+                          NAMES, "results/docking/residue_contacts.csv"]),
+    ("QSPR", ["src/ml_models/qspr_nested_cv.py"]),
+    ("Figures", ["src/figures/make_figures.py"]),
+    ("Manuscript", ["src/manuscript/build_manuscript.py"]),
+    ("Supporting information", ["src/manuscript/build_si.py"]),
+]
 
 
 def main():
-    print("=" * 70)
-    print("  TNBC / B36N36 NANOCAGE : MASTER REPRODUCIBILITY PIPELINE")
-    print("=" * 70)
-    steps = [
-        ("Library curation & canonicalization", "src/descriptors/curate_dataset.py"),
-        ("RDKit + GFN2-xTB descriptors", "src/descriptors/compute_descriptors.py"),
-        ("Real AutoDock Vina docking (PARP1, PDB 4UND)", "src/docking/run_real_vina_docking.py"),
-        ("Residue-level contact analysis", "src/docking/analyze_real_interactions.py"),
-        ("OECD applicability domain (Williams)", "src/ml_models/compute_oecd_applicability_domain.py"),
-        ("Figure suite (fig 1-9)", "src/visualization/generate_all_q1_figures.py"),
-        ("Master 3D + docking-coupling figures (fig 3, 6)", "src/visualization/generate_master_q1_figure_set.py"),
-        ("3D geometry renders + Delta-rho + adsorption landscape (fig 5, 10, 11)", "src/visualization/render_perfect_fig3_and_fig5.py"),
-        ("Beilstein Word manuscript", "src/visualization/generate_beilstein_word_manuscript.py"),
-        ("Supporting information", "src/visualization/generate_supporting_information.py"),
-    ]
-    for i, (title, path) in enumerate(steps, 1):
-        if not run_step(i, len(steps), title, path):
-            sys.exit(1)
-    print("\n" + "=" * 70)
-    print(">>> PIPELINE COMPLETE <<<")
-    print("  manuscript/Beilstein_Manuscript_Monreal_Hernandez_et_al.docx")
-    print("=" * 70)
+    for i, (title, cmd) in enumerate(STEPS, 1):
+        print(f"\n{'=' * 70}\n  [{i}/{len(STEPS)}] {title}\n{'=' * 70}", flush=True)
+        if cmd[0].endswith("contacts.py"):
+            import pandas as pd
+            d = pd.read_csv(BASE / "data/processed/dataset_tnbc_bn_pristine.csv")
+            d[d.vina_4UND_kcal_mol.notna()][["name"]].to_csv(BASE / NAMES, index=False)
+        t0 = time.time()
+        if subprocess.run([PY, *cmd], cwd=BASE).returncode:
+            sys.exit(f"step failed: {title}")
+        print(f"  done in {time.time() - t0:.0f} s", flush=True)
 
 
 if __name__ == "__main__":

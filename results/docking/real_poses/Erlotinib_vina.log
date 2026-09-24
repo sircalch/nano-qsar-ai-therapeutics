@@ -18,13 +18,13 @@ AutoDock Vina v1.2.7
 #################################################################
 
 Scoring function : vina
-Rigid receptor: C:\Users\Andre\Proyectos doctorado\nano-qsar-ai-papers\nano-qsar-ai-therapeutics\data\raw\4UND_receptor.pdbqt
-Ligand: C:\Users\Andre\Proyectos doctorado\nano-qsar-ai-papers\nano-qsar-ai-therapeutics\data\raw\ligands_pdbqt\Erlotinib.pdbqt
-Grid center: X 12.6307 Y 55.4499 Z 206.738
+Rigid receptor: C:\Users\Andre\Proyectos doctorado\nano-qsar-ai-papers\nano-qsar-ai-therapeutics\data\raw\4UND_A_receptor.pdbqt
+Ligand: C:\Users\Andre\Proyectos doctorado\nano-qsar-ai-papers\nano-qsar-ai-therapeutics\data\raw\ligands_pdbqt\Erlotinib_c0.pdbqt
+Grid center: X 1.146 Y 63.743 Z 188.035
 Grid size  : X 22 Y 22 Z 22
 Grid space : 0.375
-Exhaustiveness: 8
-CPU: 0
+Exhaustiveness: 16
+CPU: 4
 Verbosity: 1
 
 Computing Vina grid ... done.
@@ -36,12 +36,12 @@ Performing docking (random seed: 42) ...
 mode |   affinity | dist from best mode
      | (kcal/mol) | rmsd l.b.| rmsd u.b.
 -----+------------+----------+----------
-   1       -6.307          0          0
-   2       -6.218      6.623       12.6
-   3       -6.178      1.519      2.361
-   4       -6.033      2.327      6.868
-   5       -6.011      5.894      11.53
-   6        -5.98      6.248      12.14
-   7       -5.977      6.296      9.705
-   8       -5.927      5.665       11.5
-   9       -5.909       1.92      2.859
+   1       -9.255          0          0
+   2       -8.962     0.7711      1.711
+   3       -8.953      2.561      4.583
+   4       -8.917      2.239       4.12
+   5        -8.72      1.975      2.637
+   6       -8.589      1.578      2.437
+   7       -8.457      1.252      2.604
+   8        -8.41      2.758      4.463
+   9       -8.162      2.343      4.348

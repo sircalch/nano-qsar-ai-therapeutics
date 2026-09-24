@@ -84,6 +84,17 @@ def xtb_energy(out_text):
     return e
 
 
+def xtb_frontier(out_text):
+    """HOMO/LUMO orbital energies (eV) from the last orbital table of an xtb run."""
+    homo = lumo = None
+    for l in out_text.splitlines():
+        if "(HOMO)" in l:
+            homo = float(l.split()[-2])
+        elif "(LUMO)" in l:
+            lumo = float(l.split()[-2])
+    return homo, lumo
+
+
 def xtb_converged(out_text):
     return ("GEOMETRY OPTIMIZATION CONVERGED" in out_text
             and "FAILED TO CONVERGE GEOMETRY OPTIMIZATION" not in out_text)
@@ -189,15 +200,18 @@ def process(args):
         if not dopt.exists():
             dopt = wd / "xtbopt.xyz"
         del_el, del_xyz = read_xyz(dopt)
-        e_drug = xtb_energy(run_xtb([str(dopt), "--sp", "--gfn", "2", "--chrg",
-                            str(q), "--uhf", "0", "--namespace", "dsp"], wd, 300))
+        dsp_txt = run_xtb([str(dopt), "--sp", "--gfn", "2", "--chrg",
+                           str(q), "--uhf", "0", "--namespace", "dsp"], wd, 300)
+        e_drug = xtb_energy(dsp_txt)
+        rec["E_HOMO_eV"], rec["E_LUMO_eV"] = xtb_frontier(dsp_txt)
         write_xyz(wd / "drug_opt.xyz", del_el, del_xyz, f"{name} GFN2 opt")
         rec["E_drug_Eh"] = e_drug
         rec["drug_formula"] = "".join(sorted(set(del_el)))
         rec["n_drug"] = len(del_el)
 
         carr_el, carr_xyz = read_xyz(BASE / "calculations" / "tnbc" / "B36N36_optimized.xyz")
-        e_carr = -150.205739  # GFN2 opt, matches B36N36_optimized.xyz / B36N36_opt.out
+        # GFN2 opt energy of the valid GP(1,1) cage (src/quantum/build_b36n36_cage.py)
+        e_carr = json.loads((BASE / "calculations" / "tnbc" / "B36N36_energy.json").read_text())["E_Eh"]
 
         # 2-3. orientations (a second gap=2.6 pass if all of gap=3.2 desorb)
         best = None
@@ -237,7 +251,7 @@ def process(args):
         # 4. SP decomposition at complex geometry
         fel, fxyz = read_xyz(best["path"])
         nd = rec["n_drug"]
-        write_xyz(wd / "complex_opt.xyz", fel, fxyz, f"{name}/B40H15 GFN2 opt")
+        write_xyz(wd / "complex_opt.xyz", fel, fxyz, f"{name}/B36N36 GFN2 opt")
         e_complex = xtb_energy(run_xtb([str(wd / "complex_opt.xyz"), "--sp",
                     "--gfn", "2", "--chrg", str(q), "--uhf", "0",
                     "--namespace", "csp"], wd, 300))
@@ -274,6 +288,8 @@ def main():
         smi = SMILES_FIX.get(r["name"], r["smiles"])
         jobs.append((r["name"], smi, int(r["formal_charge"])))
 
+    # Pt(II) agents are not modelled (see PT_EXCLUDE below) - don't spend xtb time on them
+    jobs = [j for j in jobs if j[0] not in {"Cisplatin", "Carboplatin", "Oxaliplatin"}]
     only = sys.argv[1:] and sys.argv[1] != "--commit-datasets"
     if only:
         want = set(sys.argv[1:])
@@ -309,6 +325,8 @@ def main():
             print(f"NOT committing: only {len(ok)}/{len(need)} non-Pt drugs OK", flush=True)
             return
         df2 = df.copy()
+        for col in ("adsorption_mode", "carrier_formula"):
+            df2[col] = df2[col].astype(object)
         for i, r in df2.iterrows():
             n = r["name"]
             if n in PT_EXCLUDE:
@@ -318,6 +336,15 @@ def main():
                 df2.at[i, "adsorption_mode"] = "not modelled (Pt(II) square-planar, outside GFN2-xTB+RDKit scope)"
             else:
                 o = ok[n]
+                homo, lumo = o["E_HOMO_eV"], o["E_LUMO_eV"]
+                eta = (lumo - homo) / 2
+                mu = (homo + lumo) / 2
+                df2.at[i, "E_HOMO_eV"] = round(homo, 4)
+                df2.at[i, "E_LUMO_eV"] = round(lumo, 4)
+                df2.at[i, "Gap_eV"] = round(lumo - homo, 4)
+                df2.at[i, "Eta_eV"] = round(eta, 4)
+                df2.at[i, "Mu_eV"] = round(mu, 4)
+                df2.at[i, "Omega_eV"] = round(mu ** 2 / (2 * eta), 4)
                 df2.at[i, "E_drug_Eh"] = o["E_drug_Eh"]
                 df2.at[i, "delta_Eint_SP_kcal_mol"] = o["delta_Eint_SP_kcal_mol"]
                 df2.at[i, "min_contact_A"] = o["min_contact_A"]

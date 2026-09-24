@@ -1,0 +1,46 @@
+"""build_cover_letter.py - cover letter for Journal of Molecular Modeling (Word)."""
+import sys
+from datetime import date
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+import docx_kit as k  # noqa: E402
+from build_manuscript import AFFIL, AUTHOR, EMAIL, ORCID, load, stats  # noqa: E402
+
+OUT = HERE.parents[1] / "manuscript" / "submission"
+
+
+def main():
+    d = load()
+    s = stats(d)
+    doc = k.new_document()
+    for t in (AUTHOR, AFFIL, EMAIL, "", date.today().strftime("%d %B %Y"), "",
+              "The Editor-in-Chief", "Journal of Molecular Modeling", ""):
+        k.para(doc, t, align="left", space_after=0)
+    k.para(doc, "Dear Editor,", align="left")
+    k.para(doc,
+           "I submit the manuscript \"Physisorption and dative-bond chemisorption of anti-TNBC drugs on a "
+           "B_{36}N_{36} fullerene-like cage: validated PARP1 docking, GFN2-xTB adsorption and QSPR analysis\" "
+           "for consideration as an Original Paper in the Journal of Molecular Modeling.")
+    k.para(doc,
+           f"The study models {s['n']} drugs used against triple-negative breast cancer on a chemically valid "
+           f"B_{{36}}N_{{36}} cage at the GFN2-xTB level and finds two binding regimes: {s['n_phys']} drugs "
+           f"physisorb and {s['n_chem']} chemisorb through B–O or B–N dative bonds, with the bonding of every "
+           "complex checked explicitly. Docking into PARP1 uses a protocol validated by two redocking controls "
+           f"(RMSD {s['r_xtal']:.2f} and {s['r_smi']:.2f} Å). Descriptor-based QSPR models are evaluated with "
+           "nested cross-validation and Y-scrambling and are reported as non-predictive, a negative result that "
+           "we consider informative for carrier screening.")
+    k.para(doc,
+           "All structures, relaxed geometries, docking poses and the complete pipeline that regenerates every "
+           "number and figure are openly available. The manuscript is original, has not been published and is "
+           "not under consideration elsewhere. The author declares no competing interests.")
+    k.para(doc, "Sincerely,", align="left", space_after=0)
+    k.para(doc, f"{AUTHOR} (ORCID {ORCID})", align="left")
+    out = OUT / "Cover_Letter_JMM.docx"
+    doc.save(out)
+    print(f"wrote {out}")
+
+
+if __name__ == "__main__":
+    main()

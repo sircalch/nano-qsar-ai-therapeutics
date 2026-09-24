@@ -1,0 +1,14 @@
+{
+  "E_Eh": -152.604822435674,
+  "HOMO_LUMO_gap_eV": 4.301786240532,
+  "bond_census": {
+    "BN": 108
+  },
+  "topology": "octahedral GP(1,1) leapfrog of truncated octahedron",
+  "rings": {
+    "4": 6,
+    "6": 32
+  },
+  "HOMO_eV": -10.3847,
+  "LUMO_eV": -6.0829
+}
