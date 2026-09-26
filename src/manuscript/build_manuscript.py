@@ -64,6 +64,11 @@ def f2(x):
     return f"{x:.2f}".replace("-", "−")
 
 
+def dn(name):
+    """Generic drug names in lower case inside a sentence; codes (SN-38) unchanged."""
+    return name[0].lower() + name[1:] if name[0].isupper() and name[1:2].islower() else name
+
+
 def family(cls):
     return "PARP inhibitor" if cls == "PARP Inhibitor" else "cytotoxic agent" if cls in CYTO \
         else "kinase/pathway inhibitor"
@@ -210,7 +215,22 @@ def stats(d):
     freq = ct.groupby("residue").name.nunique().sort_values(ascending=False)
     rho, prho = spearmanr(m.vina_4UND_kcal_mol, m.delta_Eint_SP_kcal_mol)
     kw = kruskal(*[g.vina_4UND_kcal_mol for _, g in m.groupby("family")])
+    cage_bn, dcar = [], []
+    E0 = d["cage"]["E_Eh"]
+    for nm in m.name:
+        f = BASE / "calculations" / "tnbc_recompute" / nm.replace(" ", "_").replace("-", "_") / "frag_carrier.xyz"
+        L = f.read_text().splitlines()
+        nat = int(L[0])
+        el = [x.split()[0] for x in L[2:2 + nat]]
+        xyz = np.array([[float(v) for v in x.split()[1:4]] for x in L[2:2 + nat]])
+        dd = np.linalg.norm(xyz[:, None] - xyz[None], axis=2)
+        cage_bn.append(sum(1 for i in range(nat) for j in range(i + 1, nat)
+                           if el[i] != el[j] and dd[i, j] < 1.15 * (0.84 + 0.71)))
+        import json as _j
+        rj = _j.loads((f.parent / "result.json").read_text())
+        dcar.append((rj["E_carrier_frozen_Eh"] - E0) * 627.509)
     return dict(
+        cage_bn_min=min(cage_bn), cage_bn_max=max(cage_bn), dcar_min=min(dcar), dcar_max=max(dcar),
         n=len(m), n_chem=len(ch), n_phys=len(ph), bonds=bonds, ch=ch, ph=ph, ch_ok=ch_ok, reacted=reacted,
         r_xtal=rd.loc["self-redock, crystal conformation", "rmsd_heavy_atom_A"],
         r_smi=rd.loc["production protocol, from SMILES", "rmsd_heavy_atom_A"],
@@ -250,6 +270,28 @@ def abstract(doc, d, c):
 def results(doc, d, c):
     s, m, qv, qa = stats(d), d["m"], d["q_vina"], d["q_dEint"]
     k.heading(doc, "Results and discussion")
+    k.para(doc, "The workflow is summarised in Fig. 1. All quantities are computed; none is fitted to "
+                "experimental data.", indent=True)
+
+    k.heading(doc, "Electronic descriptors of the drugs", 2)
+    cage = d["cage"]
+    below = [dn(x) for x in m[m.E_HOMO_eV < cage["HOMO_eV"]].name]
+    above = [dn(x) for x in m[m.E_LUMO_eV > cage["LUMO_eV"]].name]
+    soft = [dn(x) for x in m.nsmallest(2, "Eta_eV").name]
+    assert set(m.nsmallest(2, "Eta_eV").name) == set(m.nlargest(2, "Omega_eV").name)
+    k.para(doc,
+           f"All drug LUMOs lie below the LUMO of the cage ({f2(cage['LUMO_eV'])} eV)"
+           + ("" if not above else f" except those of {', '.join(above)}") +
+           f", and all HOMOs lie above the cage HOMO ({f2(cage['HOMO_eV'])} eV) except those of "
+           f"{', '.join(below[:-1])} and {below[-1]} (Fig. 2a): the frontier levels of the drugs fall largely "
+           f"inside the wide gap of the cage. The anthracyclines {soft[0]} and {soft[1]} are the softest and most electrophilic "
+           "molecules of the set (Fig. 2b).",
+           indent=True)
+    k.figure(doc, FIG / "Fig2.png", 2,
+             "GFN2-xTB frontier orbitals of the relaxed drugs. **a** HOMO (circles) and LUMO (squares) of each "
+             "drug, sorted by gap and coloured by family; dashed lines, HOMO and LUMO of the B_{36}N_{36} cage. "
+             "**b** Chemical hardness η versus electrophilicity ω")
+
     k.heading(doc, "Validated docking into the PARP1 nicotinamide pocket", 2)
     top_res = ", ".join(s["freq"].index[:6])
     k.para(doc,
@@ -261,8 +303,8 @@ def results(doc, d, c):
            f"pose. Across the {s['n']} drugs, the most frequently contacted residues were {top_res} (Fig. 3b), the "
            "nicotinamide-site residues that anchor clinical PARP inhibitors. Scores ranged from "
            f"{f1(s['vina_min'])} to {f1(s['vina_max'])} kcal mol^{{−1}} (Table 1, Fig. 4a). The two best-scoring "
-           f"drugs were the approved PARP inhibitors {s['top'].name.iloc[0].lower()} "
-           f"({f1(s['top'].vina_4UND_kcal_mol.iloc[0])}) and {s['top'].name.iloc[1].lower()} "
+           f"drugs were the approved PARP inhibitors {dn(s['top'].name.iloc[0])} "
+           f"({f1(s['top'].vina_4UND_kcal_mol.iloc[0])}) and {dn(s['top'].name.iloc[1])} "
            f"({f1(s['top'].vina_4UND_kcal_mol.iloc[1])} kcal mol^{{−1}}), a useful plausibility check, although "
            f"the three families did not differ significantly (Kruskal–Wallis *p* = {s['kw'].pvalue:.2f}).",
            indent=True)
@@ -273,22 +315,10 @@ def results(doc, d, c):
              f"dashed. **b** Fraction of the {s['n']} docked drugs contacting each residue (heavy atoms within "
              "4.0 Å); dark bars, polar contacts (N/O within 3.5 Å)")
 
-    k.heading(doc, "Electronic descriptors of the drugs", 2)
-    cage = d["cage"]
-    below = m[m.E_HOMO_eV < cage["HOMO_eV"]].name.str.lower().tolist()
-    above = m[m.E_LUMO_eV > cage["LUMO_eV"]].name.str.lower().tolist()
-    soft = m.nsmallest(2, "Eta_eV").name.str.lower().tolist()
-    k.para(doc,
-           f"All drug LUMOs lie below the LUMO of the cage ({f2(cage['LUMO_eV'])} eV)"
-           + ("" if not above else f" except those of {', '.join(above)}") +
-           f", and all HOMOs lie above the cage HOMO ({f2(cage['HOMO_eV'])} eV) except those of "
-           f"{', '.join(below[:-1])} and {below[-1]} (Fig. 2a): the frontier levels of the drugs fall largely "
-           f"inside the wide gap of the cage. The anthracyclines {soft[0]} and {soft[1]} are the softest and most electrophilic "
-           "molecules of the set (Fig. 2b).", indent=True)
-    k.figure(doc, FIG / "Fig2.png", 2,
-             "GFN2-xTB frontier orbitals of the relaxed drugs. **a** HOMO (circles) and LUMO (squares) of each "
-             "drug, sorted by gap and coloured by family; dashed lines, HOMO and LUMO of the B_{36}N_{36} cage. "
-             "**b** Chemical hardness η versus electrophilicity ω")
+    k.figure(doc, FIG / "Fig4.png", 4,
+             "**a** Vina scores of the drugs in PARP1, coloured by family. **b** Vina score versus −Δ*E*_{int} on "
+             "B_{36}N_{36}; open symbols, chemisorbed drugs")
+
 
     k.heading(doc, "Physisorption and dative-bond chemisorption on B_{36}N_{36}", 2)
     b = s["bonds"]
@@ -297,7 +327,9 @@ def results(doc, d, c):
            f"relaxation from four orientations, {s['n_phys']} drugs remained physisorbed, with interaction "
            f"energies of {f1(s['ph'].delta_Eint_SP_kcal_mol.max())} to {f1(s['ph'].delta_Eint_SP_kcal_mol.min())} "
            f"kcal mol^{{−1}} and closest contacts of {f2(s['ph'].min_contact_A.min())}–"
-           f"{f2(s['ph'].min_contact_A.max())} Å, whereas {s['n_chem']} formed a bond to a cage boron atom: "
+           f"{f2(s['ph'].min_contact_A.max())} Å (the shortest, {dn(s['ph'].nsmallest(1, 'min_contact_A').name.iloc[0])}, "
+           "lies just above the B–O bonding threshold of 1.73 Å), whereas "
+           f"{s['n_chem']} formed a bond to a cage boron atom: "
            f"{b.get('O-B', 0)} B–O and {b.get('N-B', 0)} B–N dative bonds of "
            f"{f2(s['ch'].min_contact_A.min())}–{f2(s['ch'].min_contact_A.max())} Å (Fig. 6a, Table 1). Carbonyl "
            "or hydroxyl oxygens and nitrogen lone pairs of the drugs act as the Lewis bases, as expected for "
@@ -308,7 +340,10 @@ def results(doc, d, c):
            f"({f1(s['ch_ok'].delta_Eads_kcal_mol.mean())} versus {f1(s['ph'].delta_Eads_kcal_mol.mean())} "
            "kcal mol^{−1}), because it also counts the deformation that the dative bond imposes on the drug and "
            "on the cage. All three families "
-           "contain both regimes (Fig. 6b).", indent=True)
+           "contain both regimes (Fig. 6b). The cage stays intact throughout: in every complex it keeps its "
+           f"{s['cage_bn_min']} B–N bonds and forms no B–B or N–N bond, and its energy never falls below that of "
+           f"the isolated cage (from {f1(s['dcar_min'])} to {f1(s['dcar_max'])} kcal mol^{{−1}} above it, the "
+           "cost of its distortion).", indent=True)
     if len(s["reacted"]):
         r = s["reacted"].iloc[0]
         k.para(doc,
@@ -331,12 +366,8 @@ def results(doc, d, c):
            f"{f2(s['rho'])}, *p* = {f2(s['prho'])}; Fig. 4b): a drug's affinity for the target says nothing about "
            "how strongly the carrier holds it. For delivery this is favourable, because the two properties can "
            "be selected independently; for example, "
-           f"{s['top'].name.iloc[0].lower()} combines the best docking score with weak physisorption, which "
+           f"{dn(s['top'].name.iloc[0])} combines the best docking score with weak physisorption, which "
            "would favour release.", indent=True)
-    k.figure(doc, FIG / "Fig4.png", 4,
-             "**a** Vina scores of the drugs in PARP1, coloured by family. **b** Vina score versus −Δ*E*_{int} on "
-             "B_{36}N_{36}; open symbols, chemisorbed drugs")
-
     k.heading(doc, "QSPR models", 2)
     k.para(doc,
            f"Neither endpoint could be predicted from the four pre-selected descriptors. For the docking score "
@@ -346,9 +377,9 @@ def results(doc, d, c):
            f"(*p* = {qv['Y_scrambling']['p']:.2f} and {qa['Y_scrambling']['p']:.2f}; Fig. 7, Table 2). The "
            "adsorption result is chemically reasonable: whether a drug chemisorbs depends on whether one of "
            "its Lewis-basic groups can reach a boron atom in a favourable geometry, a local structural feature "
-           "that global descriptors such as molecular weight or electrophilicity do not encode. All but one "
-           f"drug ({', '.join(qv['AD']['outside'])}) lie inside the applicability domain, so the failure is not "
-           "an extrapolation effect. These negative results are reported as such; they indicate that "
+           "that global descriptors such as molecular weight or electrophilicity do not encode. In both models "
+           f"all drugs except {', '.join(dn(x) for x in sorted(set(qv['AD']['outside']) | set(qa['AD']['outside'])))} "
+           "lie inside the applicability domain, so the failure is not an extrapolation effect. These negative results are reported as such; they indicate that "
            "screening B_{36}N_{36} carriers requires explicit adsorption calculations rather than descriptor "
            "surrogates.", indent=True)
     k.figure(doc, FIG / "Fig7.png", 7,
@@ -378,7 +409,7 @@ def results(doc, d, c):
             ["Endpoint", "*n*", "*Q*^{2}_{CV}", "RMSE", "MAE", "*Q*^{2} (perm.)", "*p*", "In AD"], rows,
             align="lccccccc", font=8.5,
             note="RMSE and MAE in kcal mol^{−1}; *Q*^{2} (perm.), mean over 1,000 Y-permutations passed through "
-                 "the same nested procedure; *p*, fraction of permutations reaching the model's *Q*^{2}_{CV}; "
+                 "the same nested procedure; *p* = (1 + number of permutations reaching the model's *Q*^{2}_{CV})/1,001; "
                  "In AD, drugs inside the applicability domain.")
 
 
