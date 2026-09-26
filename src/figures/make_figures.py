@@ -225,7 +225,8 @@ def fig4(d):
     ax.set_ylabel("−Δ$E_{int}$, B$_{36}$N$_{36}$ (kcal mol$^{-1}$)")
     K.light_grid(ax)
     S.panel(ax, "b", x=-0.2)
-    family_legend(fig, y=-0.02)
+    fig.subplots_adjust(bottom=0.16)
+    family_legend(fig, y=0.0)
     S.save(fig, FIG, "Fig4")
 
 
@@ -290,8 +291,11 @@ def fig7(d):
         K.williams(axs[row, 1], oof.leverage.values, oof.std_residual.values, q["AD"]["h_star"], col,
                    names=oof.name.values)
         K.scrambling(axs[row, 2], perm.Q2_perm.values, q["Q2_CV"], col)
-        for ax, l in zip(axs[row], "abc" if row == 0 else "def"):
-            S.panel(ax, l, x=-0.3)
+    fig.canvas.draw()
+    for row, letters in ((0, "abc"), (1, "def")):
+        top = max(ax.get_position().y1 for ax in axs[row])
+        for ax, l in zip(axs[row], letters):
+            fig.text(ax.get_position().x0 - 0.03, top + 0.03, l, fontsize=9, fontweight="bold", va="bottom")
     S.save(fig, FIG, "Fig7")
 
 

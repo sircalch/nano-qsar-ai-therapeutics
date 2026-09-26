@@ -103,8 +103,21 @@ def williams(ax, h, r, h_star, color, names=None):
 def scrambling(ax, perm, q2, color):
     ax.hist(perm, bins=30, color=S.FAINT, edgecolor="white", lw=0.4)
     ax.axvline(q2, color=color, lw=1.4)
-    ax.text(q2, ax.get_ylim()[1] * 0.95, f"  model\n  $Q^2_{{CV}}$ = {q2:.2f}", color=color,
-            fontsize=6.3, va="top", ha="left" if q2 < np.percentile(perm, 90) else "right")
+    lo, hi = ax.get_xlim()
+    if np.percentile(perm, 5) <= q2 <= np.percentile(perm, 95):      # inside the null distribution
+        ax.text(0.03, 0.96, f"model\n$Q^2_{{CV}}$ = {q2:.2f}", transform=ax.transAxes, color=color,
+                fontsize=6.3, va="top", ha="left")
+        ax.set_xlabel("$Q^2_{CV}$ with permuted target")
+        ax.set_ylabel("Permutations")
+        return
+    below = q2 < np.median(perm)
+    if below:
+        ax.set_xlim(min(lo, q2 - 0.35), hi)
+        txt, ha = f"model  \n$Q^2_{{CV}}$ = {q2:.2f}  ", "right"
+    else:
+        ax.set_xlim(lo, max(hi, q2 + 0.45))
+        txt, ha = f"  model\n  $Q^2_{{CV}}$ = {q2:.2f}", "left"
+    ax.text(q2, ax.get_ylim()[1] * 0.95, txt, color=color, fontsize=6.3, va="top", ha=ha)
     ax.set_xlabel("$Q^2_{CV}$ with permuted target")
     ax.set_ylabel("Permutations")
 
