@@ -30,8 +30,20 @@ def label_points(ax, x, y, labels, fontsize=5.8, color=None, offsets=None, arrow
                              ha="left", va="bottom", zorder=6,
                              path_effects=[pe.withStroke(linewidth=1.8, foreground="white")]))
     if adjust_text and texts:
-        adjust_text(texts, x=list(x), y=list(y), ax=ax, expand=(1.15, 1.3),
-                    arrowprops=dict(arrowstyle="-", color=S.MUTED, lw=0.4) if arrows else None)
+        adjust_text(texts, x=list(x), y=list(y), ax=ax, expand=(1.15, 1.3))
+    if arrows:
+        # leader lines as annotations: they are anchored to the data point and are
+        # redrawn with the final layout, so they always end at their point
+        out = []
+        for t, xi, yi in zip(texts, x, y):
+            tx, ty = t.get_position()
+            lab = ax.annotate(t.get_text(), xy=(xi, yi), xytext=(tx, ty), fontsize=t.get_fontsize(),
+                              color=t.get_color(), ha=t.get_ha(), va=t.get_va(), zorder=6,
+                              path_effects=[pe.withStroke(linewidth=1.8, foreground="white")],
+                              arrowprops=dict(arrowstyle="-", color=S.MUTED, lw=0.5, shrinkA=1.5, shrinkB=3))
+            t.remove()
+            out.append(lab)
+        texts = out
     return texts
 
 
@@ -175,6 +187,25 @@ def contact_map(ax, matrix, drugs, residues, cmap_color, vmax=None):
         s.set_visible(False)
 
 
+def column_labels(ax, x, y, names, x_text, color=None, fontsize=7, min_gap=0.075):
+    """Labels stacked in a column at x_text (data units), in the order of their points,
+    at least min_gap apart (axes fraction), each joined to its point by a leader line.
+    Deterministic, so labels can never overlap each other."""
+    ax.figure.canvas.draw()
+    to_ax = ax.transAxes.inverted()
+    pts = [to_ax.transform(ax.transData.transform((xi, yi))) for xi, yi in zip(x, y)]
+    order = np.argsort([-p[1] for p in pts])
+    ys, prev = {}, None
+    for k in order:
+        yk = pts[k][1] if prev is None else min(pts[k][1], prev - min_gap)
+        ys[k], prev = yk, yk
+    xt = to_ax.transform(ax.transData.transform((x_text, 1.0)))[0]
+    for k in order:
+        ax.annotate(names[k], xy=(x[k], y[k]), xycoords="data", xytext=(xt, ys[k]), textcoords="axes fraction",
+                    fontsize=fontsize, color=color or S.INK, va="center", ha="left", zorder=6,
+                    arrowprops=dict(arrowstyle="-", color=S.MUTED, lw=0.5, shrinkA=1.5, shrinkB=3))
+
+
 # ------------------------------------------------------------------ adsorption
 def landscape(ax, contact, energy, chem_mask, names=None, label="chem", max_labels=8, ylog=True):
     """Closest drug-carrier contact vs -dE_int, covalent-contact band shaded.
@@ -191,7 +222,7 @@ def landscape(ax, contact, energy, chem_mask, names=None, label="chem", max_labe
     if ylog:
         ax.set_yscale("log")
         lo, hi = e.min() * 0.8, e.max() * 1.25
-        ticks = [t for t in (1, 2, 5, 10, 20, 50, 100, 200, 500) if lo <= t <= hi]
+        ticks = [t for t in (1, 2, 3, 5, 10, 20, 30, 50, 75, 100, 150, 200, 300, 500) if lo <= t <= hi]
         ax.set_ylim(lo, hi)
         ax.yaxis.set_major_locator(FixedLocator(ticks))
         ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
@@ -202,8 +233,8 @@ def landscape(ax, contact, energy, chem_mask, names=None, label="chem", max_labe
         mask = chem_mask if label == "chem" else np.ones_like(chem_mask)
         idx = np.where(mask)[0]
         idx = idx[np.argsort(-e[idx])][:max_labels]
-        label_points(ax, x[idx], e[idx], np.asarray(names)[idx], fontsize=5.5,
-                     color=S.CHEM if label == "chem" else S.INK)
+        column_labels(ax, x[idx], e[idx], np.asarray(names)[idx], x_text=1.98,
+                      color=S.CHEM if label == "chem" else S.INK)
     ax.legend(handles=[Line2D([], [], marker="o", ls="", mfc=S.PHYS, mec="white", ms=4.5, label="physisorption"),
                        Line2D([], [], marker="o", ls="", mfc=S.CHEM, mec="white", ms=4.5, label="chemisorption")],
               loc="upper right", frameon=False, borderaxespad=0.1)

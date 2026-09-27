@@ -221,6 +221,11 @@ def molecule(struct: str, out_png: str, size=(1400, 1150), carbon=(0.42, 0.45, 0
     """Ball-and-stick render of a drug/cage complex or an isolated cage."""
     body = f"""
     cmd.load({_q(struct)}, 'm')
+    # BN cage: PyMOL's distance bonding would draw the B...B / N...N contacts across the
+    # four-membered rings (~1.86 A) as bonds; a BN cage has only B-N bonds
+    cmd.select('_cage', 'bymolecule (m and elem B)')
+    cmd.unbond('_cage and elem B', '_cage and elem B')
+    cmd.unbond('_cage and elem N', '_cage and elem N')
     cmd.hide('everything')
     util.cbaw('m')
     cmd.set_color('cC', {list(carbon)}); cmd.color('cC', 'm and elem C')

@@ -94,7 +94,8 @@ def fig1(d):
     cage, _ = render("cage", R.molecule, str(CALC / "tnbc" / "B36N36_optimized.xyz"), tilt=15,
                      size=(1100, 1100), orient_on_carrier=False)
     pocket, _ = pocket_render()
-    olap, _ = render("olaparib_complex", R.molecule, str(complex_path("Olaparib")), tilt=80, size=(1300, 1100))
+    olap, _ = render("olaparib_complex_side", R.molecule, str(complex_path("Olaparib")), tilt=0, size=(1300, 1100),
+                     orient_on_carrier=False, buffer=1.0)          # principal axis = cage-drug axis: contact visible
     mol2d = REN / "olaparib_2d.png"
     if not mol2d.exists():
         from rdkit import Chem
@@ -113,11 +114,11 @@ def fig1(d):
     rd = d["redock"].set_index("control")
     nchem = int((m.adsorption_mode == "chemisorption").sum())
     stages = [
-        ("Drug set", [f"{len(m)} anti-TNBC drugs", "3 families", "PubChem structures"]),
-        ("PARP1 docking", ["PDB 4UND, chain A", "Vina 1.2.7",
-                           f"redock RMSD {rd.rmsd_heavy_atom_A.min():.1f}–{rd.rmsd_heavy_atom_A.max():.1f} Å"]),
-        ("B$_{36}$N$_{36}$ cage", ["GP(1,1) BN fullerene", "108 B–N bonds", "GFN2-xTB minimum"]),
-        ("Adsorption", ["4 relaxed poses per drug", "Δ$E_{int}$, Δ$E_{ads}$", "bond-integrity check"]),
+        ("Drug set", [f"{len(m)} anti-TNBC drugs", "3 families", "from PubChem"]),
+        ("PARP1 docking", ["PDB 4UND", "Vina 1.2.7",
+                           f"redock {rd.rmsd_heavy_atom_A.min():.1f}–{rd.rmsd_heavy_atom_A.max():.1f} Å"]),
+        ("B$_{36}$N$_{36}$ cage", ["BN fullerene", "108 B–N bonds", "GFN2-xTB"]),
+        ("Adsorption", ["4 poses per drug", "Δ$E_{int}$, Δ$E_{ads}$", "bond check"]),
         ("QSPR", ["4 descriptors, ridge", "nested 5×5 CV", "Y-scrambling, AD"]),
     ]
     fig = plt.figure(figsize=(S.DOUBLE, 58 * S.MM))
@@ -182,7 +183,7 @@ def fig3(d):
     ax.imshow(mpimg.imread(png))
     ax.set_axis_off()
     S.panel(ax, "a", x=0.02, y=0.97)
-    K.legend_row(fig, [("line", "#b3b8bf", "crystal talazoparib (2YQ)"),
+    K.legend_row(fig, [("line", "#b3b8bf", "crystal talazoparib (PDB 4UND)"),
                        ("line", "#e88c29", f"redock, crystal conf. ({rd.loc['self-redock, crystal conformation', 'rmsd_heavy_atom_A']:.2f} Å)"),
                        ("line", "#339e99", f"production protocol ({rd.loc['production protocol, from SMILES', 'rmsd_heavy_atom_A']:.2f} Å)")],
                    y=0.0, fontsize=6)
@@ -241,7 +242,8 @@ def fig5(d):
                      size=(1100, 1100), orient_on_carrier=False)
     items = [(cage, "B$_{36}$N$_{36}$ (GP(1,1), 108 B–N)", f"HOMO–LUMO gap {d['cage']['HOMO_LUMO_gap_eV']:.2f} eV")]
     for nm in ("Olaparib", phys, chem):
-        png, _ = render(f"cplx_{nm}", R.molecule, str(complex_path(nm)), tilt=80, size=(1300, 1100))
+        png, _ = render(f"cplx_{nm}_side", R.molecule, str(complex_path(nm)), tilt=0, size=(1300, 1100),
+                        orient_on_carrier=False, buffer=1.0)      # principal axis = cage-drug axis
         r = m.set_index("name").loc[nm]
         items.append((png, f"{nm} ({r.adsorption_mode})", f"Δ$E_{{int}}$ = {r.delta_Eint_SP_kcal_mol:.1f} kcal mol$^{{-1}}$"))
     items = items[:1] + [it for i, it in enumerate(items[1:]) if it[1] not in [x[1] for x in items[1:i + 1]]]
