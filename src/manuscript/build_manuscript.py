@@ -28,6 +28,8 @@ AFFIL = "Universidad Estatal de Sonora, Ley Federal del Trabajo S/N, Col. Apolo,
 EMAIL = "andres.monreal@ues.mx"
 ORCID = "0009-0009-1207-8597"
 REPO = "https://github.com/sircalch/nano-qsar-ai-therapeutics"
+TITLE = ("Physisorption and dative-bond chemisorption of anti-TNBC drugs on a B_{36}N_{36} fullerene-like cage: "
+         "validated PARP1 docking, GFN2-xTB adsorption and QSPR analysis")
 CYTO = {"Taxane", "Microtubule Inhibitor", "Anthracycline", "Topoisomerase I Inhibitor",
         "Topoisomerase II Inhibitor", "Platinum Agent"}
 
@@ -92,8 +94,7 @@ def load():
 
 
 def front(doc):
-    k.para(doc, "**Physisorption and dative-bond chemisorption of anti-TNBC drugs on a B_{36}N_{36} "
-                "fullerene-like cage: validated PARP1 docking, GFN2-xTB adsorption and QSPR analysis**",
+    k.para(doc, f"**{TITLE}**",
            align="left", size=15, space_after=12)
     k.para(doc, f"{AUTHOR}^{{*}}", align="left", space_after=2)
     k.para(doc, AFFIL, align="left", size=10, space_after=2)
@@ -139,7 +140,7 @@ def methods(doc, d, c):
     k.para(doc,
            f"The cohort comprises {n_all} drugs used or investigated in TNBC. Every structure was "
            "retrieved from PubChem by name " + c("kim2021_pubchem") + " and its identity verified by "
-           "InChIKey (Table S1). The three platinum(II) agents were not modelled, because RDKit/MMFF cannot "
+           "InChIKey (Online Resource 1, Table S1). The three platinum(II) agents were not modelled, because RDKit/MMFF cannot "
            "build square-planar Pt(II) complexes reliably and GFN2-xTB is not validated for them, leaving "
            f"{len(m)} organic drugs: {fam.get('PARP inhibitor', 0)} PARP inhibitors, "
            f"{fam.get('cytotoxic agent', 0)} cytotoxic agents and {fam.get('kinase/pathway inhibitor', 0)} "
@@ -252,16 +253,17 @@ def abstract(doc, d, c):
                f"B–O or B–N dative bonds ({f1(s['ch_ok'].delta_Eint_SP_kcal_mol.max())} to "
                f"{f1(s['ch_ok'].delta_Eint_SP_kcal_mol.min())} kcal mol^{{−1}}); doxorubicin reacts with the cage. "
                "A docking protocol that reproduces the crystallographic talazoparib pose in PARP1 "
-               f"(RMSD {f2(s['r_xtal'])} and {f2(s['r_smi'])} Å) ranks olaparib and talazoparib first. Neither the "
+               f"(root-mean-square deviation {f2(s['r_xtal'])} and {f2(s['r_smi'])} Å) ranks olaparib and talazoparib first. Neither the "
                "docking score nor the cage interaction energy can be predicted from four pre-selected descriptors "
                f"(*Q*^{{2}}_{{CV}} = {f2(qv['Q2_CV'])} and {f2(qa['Q2_CV'])}), and the two endpoints are "
                f"uncorrelated (Spearman ρ = {f2(s['rho'])}).")
     k.labelled(doc, "Methods",
-               "Structures were taken from PubChem. A valid B_{36}N_{36} cage (octahedral GP(1,1), 108 B–N bonds) "
+               "Structures were taken from PubChem. A valid B_{36}N_{36} cage (octahedral, 108 B–N bonds) "
                "was relaxed with GFN2-xTB and confirmed as a minimum. Each drug was adsorbed from four relaxed "
                "orientations with GFN2-xTB (xtb 6.7.1); the regime was assigned from drug–cage bond formation. "
                "Drugs were docked into PARP1 (PDB 4UND, chain A) with AutoDock Vina 1.2.7 after PDBFixer/Meeko "
-               "preparation, validated by two redocking controls. Ridge QSPR models were assessed by nested 5×5 "
+               "preparation, validated by two redocking controls. Ridge quantitative structure–property relationship "
+               "(QSPR) models were assessed by nested 5×5 "
                "cross-validation, 1,000-fold Y-scrambling and a leverage applicability domain.")
     k.para(doc, "**Keywords** Boron nitride nanocage · B_{36}N_{36} · PARP1 · Triple-negative breast cancer · "
                 "GFN2-xTB · Molecular docking", align="left")
@@ -437,13 +439,14 @@ def build(doc, d, c):
              "validation of the B_{36}N_{36} cage; GFN2-xTB adsorption from four orientations with bond-integrity "
              "check; QSPR models under nested cross-validation")
     methods(doc, d, c)
+    k.heading(doc, "Use of AI tools", 2)
+    k.placeholder(doc, "[AUTHOR TO COMPLETE BEFORE SUBMISSION: statement on the use of AI tools in this work, as required by the journal (Springer policy: use of large language models beyond copy editing must be documented in the Methods).]")
     results(doc, d, c)
     conclusions(doc, d, c)
-    declarations(doc)
 
 
 def declarations(doc):
-    k.heading(doc, "Declarations")
+    k.heading(doc, "Statements and Declarations")
     for label, text in (
         ("Author contribution", f"{AUTHOR} conceived the study, performed all calculations and analyses, "
                                 "and wrote the manuscript."),
@@ -470,6 +473,7 @@ def main():
     front(doc)
     build(doc, d, c)
     k.references(doc, c.list())
+    declarations(doc)
     out = OUT / "Manuscript_TNBC_B36N36_JMM.docx"
     doc.save(out)
     print(f"wrote {out}")

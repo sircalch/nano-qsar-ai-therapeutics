@@ -13,7 +13,7 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import docx_kit as k  # noqa: E402
-from build_manuscript import AUTHOR, load  # noqa: E402
+from build_manuscript import AFFIL, AUTHOR, EMAIL, TITLE, load  # noqa: E402
 
 BASE = HERE.parents[1]
 OUT = BASE / "manuscript" / "submission"
@@ -26,11 +26,7 @@ def num(x, nd=2):
 def main():
     d = load()
     doc = k.new_document()
-    k.para(doc, "**Supporting Information**", align="left", size=15, space_after=4)
-    k.para(doc, "Physisorption and dative-bond chemisorption of anti-TNBC drugs on a B_{36}N_{36} "
-                "fullerene-like cage: validated PARP1 docking, GFN2-xTB adsorption and QSPR analysis",
-           align="left", size=11, space_after=4)
-    k.para(doc, AUTHOR, align="left", size=10, space_after=14)
+    k.si_header(doc, TITLE, "Journal of Molecular Modeling", AUTHOR, AFFIL, EMAIL)
 
     a = d["audit"]
     rows = [[r.name, str(r.pubchem_cid), r.pubchem_formula,
