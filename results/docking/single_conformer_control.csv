@@ -1,0 +1,2 @@
+control,affinity_kcal_mol,rmsd_heavy_atom_A,pose_file
+"from SMILES, lowest-energy conformer only",-12.189,1.267,results/docking/real_poses/single_conformer/2YQ_single_out.pdbqt

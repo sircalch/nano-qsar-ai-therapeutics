@@ -30,7 +30,7 @@ def main():
            "complex checked explicitly. Docking into PARP1 uses a protocol validated by two redocking controls "
            f"(RMSD {s['r_xtal']:.2f} and {s['r_smi']:.2f} Å). Descriptor-based QSPR models are evaluated with "
            "nested cross-validation and Y-scrambling and are reported as non-predictive, a negative result that "
-           "we consider informative for carrier screening.")
+           "I consider informative for carrier screening.")
     k.para(doc,
            "Related work. Supporting files of an earlier version of this study were deposited on Zenodo "
            "(https://doi.org/10.5281/zenodo.22700597); that version was superseded when the study was rebuilt from its raw "

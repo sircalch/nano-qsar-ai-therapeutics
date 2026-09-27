@@ -251,7 +251,8 @@ def abstract(doc, d, c):
                f"a B_{{36}}N_{{36}} cage (Δ*E*_{{int}} {f1(s['ph'].delta_Eint_SP_kcal_mol.max())} to "
                f"{f1(s['ph'].delta_Eint_SP_kcal_mol.min())} kcal mol^{{−1}}) and {s['n_chem']} chemisorb through "
                f"B–O or B–N dative bonds ({f1(s['ch_ok'].delta_Eint_SP_kcal_mol.max())} to "
-               f"{f1(s['ch_ok'].delta_Eint_SP_kcal_mol.min())} kcal mol^{{−1}}); doxorubicin reacts with the cage. "
+               f"{f1(s['ch_ok'].delta_Eint_SP_kcal_mol.min())} kcal mol^{{−1}}, doxorubicin excluded), and doxorubicin "
+               "reacts with the cage. "
                "A docking protocol that reproduces the crystallographic talazoparib pose in PARP1 "
                f"(root-mean-square deviation {f2(s['r_xtal'])} and {f2(s['r_smi'])} Å) ranks olaparib and talazoparib first. Neither the "
                "docking score nor the cage interaction energy can be predicted from four pre-selected descriptors "
@@ -300,9 +301,7 @@ def results(doc, d, c):
            f"Self-redocking of talazoparib from its crystal conformation reproduced the deposited pose with a "
            f"heavy-atom RMSD of {f2(s['r_xtal'])} Å ({f1(s['s_xtal'])} kcal mol^{{−1}}), and the same ligand "
            f"rebuilt from SMILES through the production protocol reached {f2(s['r_smi'])} Å (Fig. 3a; Table S2), both "
-           "within the usual 2 Å criterion. The ring-conformer ensemble was necessary: a single ETKDG conformer "
-           "of talazoparib, whose partially saturated ring Vina cannot flex, docked 6.7 Å away from the crystal "
-           f"pose. Across the {s['n']} drugs, the most frequently contacted residues were {top_res} (Fig. 3b), the "
+           f"within the usual 2 Å criterion. Across the {s['n']} drugs, the most frequently contacted residues were {top_res} (Fig. 3b), the "
            "nicotinamide-site residues that anchor clinical PARP inhibitors. Scores ranged from "
            f"{f1(s['vina_min'])} to {f1(s['vina_max'])} kcal mol^{{−1}} (Table 1, Fig. 4a; per-drug values in Table S3). The two best-scoring "
            f"drugs were the approved PARP inhibitors {dn(s['top'].name.iloc[0])} "
@@ -335,8 +334,8 @@ def results(doc, d, c):
            f"{b.get('O-B', 0)} B–O and {b.get('N-B', 0)} B–N dative bonds of "
            f"{f2(s['ch'].min_contact_A.min())}–{f2(s['ch'].min_contact_A.max())} Å (Fig. 6a, Table 1). Carbonyl "
            "or hydroxyl oxygens and nitrogen lone pairs of the drugs act as the Lewis bases, as expected for "
-           "the electron-deficient boron sites of BN cages. Chemisorption strengthens the interaction by a factor "
-           f"of about {s['ch_ok'].delta_Eint_SP_kcal_mol.mean() / s['ph'].delta_Eint_SP_kcal_mol.mean():.1f} (mean {f1(s['ch_ok'].delta_Eint_SP_kcal_mol.mean())} versus "
+           "the electron-deficient boron sites of BN cages. Excluding doxorubicin, the chemisorbed drugs bind "
+           f"about {s['ch_ok'].delta_Eint_SP_kcal_mol.mean() / s['ph'].delta_Eint_SP_kcal_mol.mean():.1f} times more strongly than the physisorbed ones (mean {f1(s['ch_ok'].delta_Eint_SP_kcal_mol.mean())} versus "
            f"{f1(s['ph'].delta_Eint_SP_kcal_mol.mean())} kcal mol^{{−1}}), while the adsorption energy, which "
            "includes the strain of both partners, is less different "
            f"({f1(s['ch_ok'].delta_Eads_kcal_mol.mean())} versus {f1(s['ph'].delta_Eads_kcal_mol.mean())} "
@@ -365,9 +364,9 @@ def results(doc, d, c):
     k.heading(doc, "Docking and adsorption are independent", 2)
     k.para(doc,
            f"The PARP1 docking score and the cage interaction energy are uncorrelated (Spearman ρ = "
-           f"{f2(s['rho'])}, *p* = {f2(s['prho'])}; Fig. 4b): a drug's affinity for the target says nothing about "
-           "how strongly the carrier holds it. For delivery this is favourable, because the two properties can "
-           "be selected independently; for example, "
+           f"{f2(s['rho'])}, *p* = {f2(s['prho'])}; Fig. 4b): in this set, how well a drug scores in the target carries no "
+           "information about how strongly the carrier holds it. For delivery this is favourable, because the two "
+           "properties can be selected independently; for example, "
            f"{dn(s['top'].name.iloc[0])} combines the best docking score with weak physisorption, which "
            "would favour release.", indent=True)
     k.heading(doc, "QSPR models", 2)
@@ -381,9 +380,9 @@ def results(doc, d, c):
            "its Lewis-basic groups can reach a boron atom in a favourable geometry, a local structural feature "
            "that global descriptors such as molecular weight or electrophilicity do not encode. In both models "
            f"all drugs except {', '.join(dn(x) for x in sorted(set(qv['AD']['outside']) | set(qa['AD']['outside'])))} "
-           "lie inside the applicability domain, so the failure is not an extrapolation effect. These negative results are reported as such; they indicate that "
-           "screening B_{36}N_{36} carriers requires explicit adsorption calculations rather than descriptor "
-           "surrogates.", indent=True)
+           "lie inside the applicability domain, so the failure is not an extrapolation effect. These negative results are reported as such; they indicate that, "
+           "at least with global descriptors of this kind, screening B_{36}N_{36} carriers requires explicit "
+           "adsorption calculations.", indent=True)
     k.figure(doc, FIG / "Fig7.png", 7,
              "QSPR models, nested 5×5 cross-validation. Top row, Vina score on PARP1; bottom row, Δ*E*_{int} "
              "on B_{36}N_{36}. **a**, **d** Out-of-fold predictions (dashed, identity; shaded, ±10% of the "
@@ -423,10 +422,10 @@ def conclusions(doc, d, c):
            f"through B–O or B–N dative bonds and {s['n_phys']} physisorb; one, doxorubicin, reacts with the "
            "cage. The regime, not the therapeutic class, dominates the strength of binding. A docking protocol "
            "validated on the crystallographic talazoparib pose places the drugs in the PARP1 nicotinamide pocket "
-           "and ranks the approved PARP inhibitors first, and target affinity is independent of carrier "
+           "and ranks the approved PARP inhibitors first, and the docking score is uncorrelated with carrier "
            f"binding. Descriptor-based QSPR models fail for both endpoints (*Q*^{{2}}_{{CV}} ≈ {f2(qv['Q2_CV'])} "
-           f"and {f2(qa['Q2_CV'])}), so B_{{36}}N_{{36}} loading must be assessed by explicit adsorption "
-           "calculations. The study is limited to gas-phase GFN2-xTB energies on a single cage and to "
+           f"and {f2(qa['Q2_CV'])}), so with such descriptors B_{{36}}N_{{36}} loading has to be assessed by "
+           "explicit adsorption calculations. The study is limited to gas-phase GFN2-xTB energies on a single cage and to "
            "rigid-receptor docking; solvation, higher-level energies for the chemisorbed complexes and "
            "release kinetics are the natural next steps.", indent=True)
 
