@@ -32,6 +32,13 @@ def main():
            "nested cross-validation and Y-scrambling and are reported as non-predictive, a negative result that "
            "we consider informative for carrier screening.")
     k.para(doc,
+           "Related work. Supporting files of an earlier version of this study were deposited on Zenodo "
+           "(https://doi.org/10.5281/zenodo.22700597); that version was superseded when the study was rebuilt from its raw "
+           "inputs, and the results reported here replace it. A methods paper by the author, in preparation for "
+           "the Journal of Chemical Information and Modeling, uses this study as one of four case studies of "
+           "errors found and corrected during such rebuilds, and cites some of its summary numbers; the study "
+           "is reported in full only in this manuscript.")
+    k.para(doc,
            "All structures, relaxed geometries, docking poses and the complete pipeline that regenerates every "
            "number and figure are openly available. The manuscript is original, has not been published and is "
            "not under consideration elsewhere. The author declares no competing interests.")

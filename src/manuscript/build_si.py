@@ -36,22 +36,22 @@ def main():
                         "of this dataset already matched PubChem."),
             ["Compound", "PubChem CID", "Formula", "Earlier structure correct"], rows, align="lllc", font=8)
 
+    rd = d["redock"].reset_index()
+    rows = [[r.control, num(r.affinity_kcal_mol), num(r.rmsd_heavy_atom_A), r.docking_status.split(" ")[0]]
+            for r in rd.itertuples()]
+    k.table(doc, ("S2", "Redocking controls for talazoparib (ligand 2YQ) in PARP1 chain A (PDB 4UND). RMSD: "
+                        "symmetry-corrected heavy-atom RMSD to the crystal pose, no re-alignment."),
+            ["Control", "Vina (kcal mol^{−1})", "RMSD (Å)", "Status"], rows, align="lccc")
+
     m = d["m"].sort_values("delta_Eint_SP_kcal_mol")
     rows = [[r.name, r.family, num(r.vina_4UND_kcal_mol), num(r.delta_Eint_SP_kcal_mol, 1),
              num(r.delta_Eads_kcal_mol, 1), num(r.min_contact_A), r.adsorption_mode,
              "yes" if r.drug_intact else "no"] for r in m.itertuples()]
-    k.table(doc, ("S2", "Per-drug results. Vina score on PARP1 (PDB 4UND); GFN2-xTB interaction and adsorption "
+    k.table(doc, ("S3", "Per-drug results. Vina score on PARP1 (PDB 4UND); GFN2-xTB interaction and adsorption "
                         "energies on B_{36}N_{36} (kcal mol^{−1}); closest drug–cage heavy-atom contact (Å); "
                         "adsorption regime; whether the drug kept its own bonding in the complex."),
             ["Drug", "Family", "Vina", "Δ*E*_{int}", "Δ*E*_{ads}", "Contact", "Regime", "Intact"],
             rows, align="llcccclc", font=7.5)
-
-    rd = d["redock"].reset_index()
-    rows = [[r.control, num(r.affinity_kcal_mol), num(r.rmsd_heavy_atom_A), r.docking_status.split(" ")[0]]
-            for r in rd.itertuples()]
-    k.table(doc, ("S3", "Redocking controls for talazoparib (2YQ) in PARP1 chain A (PDB 4UND). RMSD: "
-                        "symmetry-corrected heavy-atom RMSD to the crystal pose, no re-alignment."),
-            ["Control", "Vina (kcal mol^{−1})", "RMSD (Å)", "Status"], rows, align="lccc")
 
     rows = []
     for tag, label in (("vina", "Vina score, PARP1"), ("dEint", "Δ*E*_{int}, B_{36}N_{36}")):
