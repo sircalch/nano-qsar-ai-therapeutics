@@ -1,10 +1,10 @@
 """
-build_manuscript.py - Journal of Molecular Modeling submission (Word) for the
+build_manuscript.py - Structural Chemistry submission (Word) for the
 TNBC / B36N36 study. Every number in the text, tables and captions is read
 from the result files written by the pipeline.
 
 usage: python src/manuscript/build_manuscript.py
-writes manuscript/submission/Manuscript_TNBC_B36N36_JMM.docx
+writes manuscript/submission/Manuscript_TNBC_B36N36_StructChem.docx
 """
 import json
 import sys
@@ -243,29 +243,26 @@ def stats(d):
 def abstract(doc, d, c):
     s, qv, qa = stats(d), d["q_vina"], d["q_dEint"]
     k.heading(doc, "Abstract")
-    k.labelled(doc, "Context",
-               "Triple-negative breast cancer (TNBC) lacks the receptors that guide targeted therapy, and "
-               "carrier-based delivery is one route to improve the drugs used against it. Boron nitride cages are "
-               "chemically robust candidate carriers whose Lewis-acidic boron sites can bind drugs either by "
-               f"dispersion or by dative bonds. For {s['n']} anti-TNBC drugs we find that {s['n_phys']} physisorb on "
-               f"a B_{{36}}N_{{36}} cage (Δ*E*_{{int}} {f1(s['ph'].delta_Eint_SP_kcal_mol.max())} to "
-               f"{f1(s['ph'].delta_Eint_SP_kcal_mol.min())} kcal mol^{{−1}}) and {s['n_chem']} chemisorb through "
-               f"B–O or B–N dative bonds ({f1(s['ch_ok'].delta_Eint_SP_kcal_mol.max())} to "
-               f"{f1(s['ch_ok'].delta_Eint_SP_kcal_mol.min())} kcal mol^{{−1}}, doxorubicin excluded), and doxorubicin "
-               "reacts with the cage. "
-               "A docking protocol that reproduces the crystallographic talazoparib pose in PARP1 "
-               f"(root-mean-square deviation {f2(s['r_xtal'])} and {f2(s['r_smi'])} Å) ranks olaparib and talazoparib first. Neither the "
-               "docking score nor the cage interaction energy can be predicted from four pre-selected descriptors "
-               f"(*Q*^{{2}}_{{CV}} = {f2(qv['Q2_CV'])} and {f2(qa['Q2_CV'])}), and the two endpoints are "
-               f"uncorrelated (Spearman ρ = {f2(s['rho'])}).")
-    k.labelled(doc, "Methods",
-               "Structures were taken from PubChem. A valid B_{36}N_{36} cage (octahedral, 108 B–N bonds) "
-               "was relaxed with GFN2-xTB and confirmed as a minimum. Each drug was adsorbed from four relaxed "
-               "orientations with GFN2-xTB (xtb 6.7.1); the regime was assigned from drug–cage bond formation. "
-               "Drugs were docked into PARP1 (PDB 4UND, chain A) with AutoDock Vina 1.2.7 after PDBFixer/Meeko "
-               "preparation, validated by two redocking controls. Ridge quantitative structure–property relationship "
-               "(QSPR) models were assessed by nested 5×5 "
-               "cross-validation, 1,000-fold Y-scrambling and a leverage applicability domain.")
+    # Structural Chemistry: one unstructured abstract of 150-250 words
+    k.para(doc,
+           "Triple-negative breast cancer (TNBC) lacks the receptors that guide targeted therapy, and "
+           "carrier-based delivery is one route to improve the drugs used against it. Boron nitride cages are "
+           "chemically robust candidate carriers whose Lewis-acidic boron sites can bind drugs either by "
+           "dispersion or by dative bonds. A valid B_{36}N_{36} cage (octahedral, 108 B–N bonds) was relaxed with "
+           "GFN2-xTB, each drug was adsorbed from four relaxed orientations, and the regime was assigned from "
+           "drug–cage bond formation. "
+           f"For {s['n']} anti-TNBC drugs, {s['n_phys']} physisorb "
+           f"(Δ*E*_{{int}} {f1(s['ph'].delta_Eint_SP_kcal_mol.max())} to "
+           f"{f1(s['ph'].delta_Eint_SP_kcal_mol.min())} kcal mol^{{−1}}) and {s['n_chem']} chemisorb through "
+           f"B–O or B–N dative bonds ({f1(s['ch_ok'].delta_Eint_SP_kcal_mol.max())} to "
+           f"{f1(s['ch_ok'].delta_Eint_SP_kcal_mol.min())} kcal mol^{{−1}}, doxorubicin excluded), and doxorubicin "
+           "reacts with the cage. Docking into PARP1 (PDB 4UND) with AutoDock Vina 1.2.7, validated by two "
+           "redocking controls that reproduce the crystallographic talazoparib pose (root-mean-square deviation "
+           f"{f2(s['r_xtal'])} and {f2(s['r_smi'])} Å), ranks olaparib and talazoparib first. Neither the docking "
+           "score nor the cage interaction energy can be predicted from four pre-selected descriptors by ridge "
+           "quantitative structure–property relationship (QSPR) models under nested cross-validation and "
+           f"Y-scrambling (*Q*^{{2}}_{{CV}} = {f2(qv['Q2_CV'])} and {f2(qa['Q2_CV'])}), and the two endpoints "
+           f"are uncorrelated (Spearman ρ = {f2(s['rho'])}).", indent=False)
     k.para(doc, "**Keywords** Boron nitride nanocage · B_{36}N_{36} · PARP1 · Triple-negative breast cancer · "
                 "GFN2-xTB · Molecular docking", align="left")
 
@@ -473,7 +470,7 @@ def main():
     build(doc, d, c)
     k.references(doc, c.list())
     declarations(doc)
-    out = OUT / "Manuscript_TNBC_B36N36_JMM.docx"
+    out = OUT / "Manuscript_TNBC_B36N36_StructChem.docx"
     doc.save(out)
     print(f"wrote {out}")
 

@@ -26,7 +26,7 @@ def num(x, nd=2):
 def main():
     d = load()
     doc = k.new_document()
-    k.si_header(doc, TITLE, "Journal of Molecular Modeling", AUTHOR, AFFIL, EMAIL)
+    k.si_header(doc, TITLE, "Structural Chemistry", AUTHOR, AFFIL, EMAIL)
 
     a = d["audit"]
     rows = [[r.name, str(r.pubchem_cid), r.pubchem_formula,

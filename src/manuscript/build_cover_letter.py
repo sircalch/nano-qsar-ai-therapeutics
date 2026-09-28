@@ -1,4 +1,4 @@
-"""build_cover_letter.py - cover letter for Journal of Molecular Modeling (Word)."""
+"""build_cover_letter.py - cover letter for Structural Chemistry (Word)."""
 import sys
 from datetime import date
 from pathlib import Path
@@ -16,13 +16,13 @@ def main():
     s = stats(d)
     doc = k.new_document()
     for t in (AUTHOR, AFFIL, EMAIL, "", date.today().strftime("%d %B %Y"), "",
-              "The Editor-in-Chief", "Journal of Molecular Modeling", ""):
+              "The Editor-in-Chief", "Structural Chemistry", ""):
         k.para(doc, t, align="left", space_after=0)
     k.para(doc, "Dear Editor,", align="left")
     k.para(doc,
            "I submit the manuscript \"Physisorption and dative-bond chemisorption of anti-TNBC drugs on a "
            "B_{36}N_{36} fullerene-like cage: validated PARP1 docking, GFN2-xTB adsorption and QSPR analysis\" "
-           "for consideration as an Original Paper in the Journal of Molecular Modeling.")
+           "for consideration as a Research article in Structural Chemistry.")
     k.para(doc,
            f"The study models {s['n']} drugs used against triple-negative breast cancer on a chemically valid "
            f"B_{{36}}N_{{36}} cage at the GFN2-xTB level and finds two binding regimes: {s['n_phys']} drugs "
@@ -34,8 +34,8 @@ def main():
     k.para(doc,
            "Related work. Supporting files of an earlier version of this study were deposited on Zenodo "
            "(https://doi.org/10.5281/zenodo.22700597); that version was superseded when the study was rebuilt from its raw "
-           "inputs, and the results reported here replace it. A methods paper by the author, in preparation for "
-           "the Journal of Chemical Information and Modeling, uses this study as one of four case studies of "
+           "inputs, and the results reported here replace it. A methods paper by the author, in preparation, "
+           "uses this study as one of four case studies of "
            "errors found and corrected during such rebuilds, and cites some of its summary numbers; the study "
            "is reported in full only in this manuscript.")
     k.para(doc,
@@ -44,7 +44,7 @@ def main():
            "not under consideration elsewhere. The author declares no competing interests.")
     k.para(doc, "Sincerely,", align="left", space_after=0)
     k.para(doc, f"{AUTHOR} (ORCID {ORCID})", align="left")
-    out = OUT / "Cover_Letter_JMM.docx"
+    out = OUT / "Cover_Letter_StructChem.docx"
     doc.save(out)
     print(f"wrote {out}")
 
