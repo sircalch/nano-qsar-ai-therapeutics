@@ -11,6 +11,9 @@ from build_manuscript import AFFIL, AUTHOR, EMAIL, ORCID, load, stats  # noqa: E
 OUT = HERE.parents[1] / "manuscript" / "submission"
 
 
+# status of the companion methods paper; submit it first, then build this letter
+METHODS_STATUS = "submitted to the Journal of Computational Biophysics and Chemistry"
+
 def main():
     d = load()
     s = stats(d)
@@ -34,7 +37,7 @@ def main():
     k.para(doc,
            "Related work. Supporting files of an earlier version of this study were deposited on Zenodo "
            "(https://doi.org/10.5281/zenodo.22700597); that version was superseded when the study was rebuilt from its raw "
-           "inputs, and the results reported here replace it. A methods paper by the author, in preparation, "
+           "inputs, and the results reported here replace it. A methods paper by the author, " + METHODS_STATUS + ", "
            "uses this study as one of four case studies of "
            "errors found and corrected during such rebuilds, and cites some of its summary numbers; the study "
            "is reported in full only in this manuscript.")
